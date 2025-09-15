@@ -196,3 +196,5 @@ export interface GameAlyticsConfig {
   appVersion?: string;
   debug?: boolean;
 }
+
+export type EventType = string;

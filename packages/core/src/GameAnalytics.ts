@@ -89,11 +89,14 @@ export class GameAnalytics {
     this.trackSessionStart();
     
     this.isInitialized = true;
-    this.log('GameAnalytics initialized', {
-      userId: this.config.userId,
-      sessionId: this.config.sessionId,
-      deviceId: this.config.deviceId
-    });
+    this.log('GameAnalytics initialized');
+    if (this.config.debug) {
+      this.log('Config details', 'debug', {
+        userId: this.config.userId,
+        sessionId: this.config.sessionId,
+        deviceId: this.config.deviceId
+      });
+    }
   }
   
   /**
@@ -179,7 +182,7 @@ export class GameAnalytics {
         ...context,
         platform: this.getPlatform(),
       },
-    });
+    } as any);
   }
   
   /**
@@ -208,7 +211,7 @@ export class GameAnalytics {
       store,
       receipt,
       is_restored: isRestored,
-    });
+    } as any);
   }
   
   /**

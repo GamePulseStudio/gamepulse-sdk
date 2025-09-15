@@ -5,7 +5,13 @@ import {
   GameAlyticsInterface,
   GameAlyticsConfig,
   EventType,
-  EventCategory
+  EventCategory,
+  UserEvents,
+  GameplayEvents,
+  EconomyEvents,
+  ProgressionEvents,
+  AdEvents,
+  IAPEvents
 } from './types';
 
 class EventBuilderImpl implements EventBuilder {
@@ -26,7 +32,7 @@ class EventBuilderImpl implements EventBuilder {
   }
 
   async track(): Promise<void> {
-    await GameAlytics.getInstance().trackEvent({
+    await (GameAlytics.getInstance() as any).trackEvent({
       type: this.isCustom ? 'CUSTOM' : 'SYSTEM',
       value: this.eventType,
       category: this.eventCategory,
@@ -37,7 +43,7 @@ class EventBuilderImpl implements EventBuilder {
 
 export class GameAlytics implements GameAlyticsInterface {
   private static instance: GameAlytics;
-  private config: GameAlyticsConfig;
+  private config!: GameAlyticsConfig;
   private isInitialized = false;
   private userId: string | null = null;
   private sessionId: string | null = null;
@@ -83,7 +89,7 @@ export class GameAlytics implements GameAlyticsInterface {
     }
   }
 
-  public event(type: EventType, category: EventCategory): EventBuilder {
+  public event(type: string, category: string): EventBuilder {
     this.ensureInitialized();
     return new EventBuilderImpl(type, category, false);
   }
@@ -97,7 +103,7 @@ export class GameAlytics implements GameAlyticsInterface {
     this.ensureInitialized();
     this.sessionId = this.generateUUID();
     
-    await this.event(EventType.SESSION_START, EventCategory.USER)
+    await this.event(UserEvents.SESSION_START, 'user')
       .setProperties({})
       .track();
   }
@@ -109,7 +115,7 @@ export class GameAlytics implements GameAlyticsInterface {
       return;
     }
     
-    await this.event(EventType.SESSION_END, EventCategory.USER)
+    await this.event(UserEvents.SESSION_END, 'user')
       .setProperties({})
       .track();
       
@@ -119,6 +125,36 @@ export class GameAlytics implements GameAlyticsInterface {
   public identify(userId: string): void {
     this.ensureInitialized();
     this.userId = userId;
+  }
+
+  public userEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'user', false);
+  }
+
+  public gameplayEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'gameplay', false);
+  }
+
+  public economyEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'economy', false);
+  }
+
+  public progressionEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'progression', false);
+  }
+
+  public adEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'ad', false);
+  }
+
+  public iapEvent(eventType: string): EventBuilder {
+    this.ensureInitialized();
+    return new EventBuilderImpl(eventType, 'iap', false);
   }
 
   public getDeviceInfo() {
@@ -132,7 +168,7 @@ export class GameAlytics implements GameAlyticsInterface {
     };
   }
 
-  protected async trackEvent(payload: Omit<EventPayload, keyof ReturnType<GameAlytics['getDeviceInfo']> | 'timezone' | 'localDateTime' | 'userId' | 'anonymousId' | 'sessionId'>) {
+  public async trackEvent(payload: Omit<EventPayload, keyof ReturnType<GameAlytics['getDeviceInfo']> | 'timezone' | 'localDateTime' | 'userId' | 'anonymousId' | 'sessionId'>) {
     const deviceInfo = this.getDeviceInfo();
     const now = new Date();
     
