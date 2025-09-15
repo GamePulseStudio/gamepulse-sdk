@@ -62,16 +62,8 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/gamealytics/gamealytics-sdk"
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
-        }
-    }
+    // JitPack automatically publishes from GitHub releases
+    // No explicit repository configuration needed
 }
 
 // Signing removed for GitHub Packages - not required
