@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   
   # Documentation
-  spec.documentation_url = "https://docs.gamealytics.com"
+  spec.documentation_url = "https://github.com/gamealytics/gamealytics-sdk/tree/main/packages/ios"
   
   # Social media
   spec.social_media_url = "https://twitter.com/gamealytics"

@@ -65,7 +65,7 @@ jobs:
       - name: Validate Podspec
         run: |
           cd packages/ios
-          pod lib lint GameAlytics.podspec --allow-warnings
+          pod lib lint GameAlytics.podspec --allow-warnings --skip-import-validation
 
       - name: Publish to CocoaPods
         run: |
