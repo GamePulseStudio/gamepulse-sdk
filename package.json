@@ -1,0 +1,46 @@
+{
+  "name": "@gamealytics/sdk-monorepo",
+  "version": "2.0.0",
+  "description": "GameAlytics SDK - Cross-platform analytics for game developers",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "eslint packages/*/src/**/*.{js,ts}",
+    "format": "prettier --write packages/*/src/**/*.{js,ts,json,md}",
+    "format:check": "prettier --check packages/*/src/**/*.{js,ts,json,md}",
+    "clean": "npm run clean --workspaces",
+    "release": "changeset publish",
+    "version": "changeset version"
+  },
+  "devDependencies": {
+    "lerna": "^7.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/gamealytics-sdk.git"
+  },
+  "keywords": [
+    "game",
+    "analytics",
+    "sdk",
+    "unity",
+    "unreal",
+    "mobile",
+    "web",
+    "gaming"
+  ],
+  "author": "GameAlytics Team",
+  "license": "MIT"
+}

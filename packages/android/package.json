@@ -1,0 +1,29 @@
+{
+  "name": "@gameanalytics/android",
+  "version": "0.1.0",
+  "description": "Android SDK for GameAlytics",
+  "main": "index.js",
+  "scripts": {
+    "build": "./gradlew assembleRelease",
+    "test": "./gradlew test",
+    "publish": "./gradlew publishReleasePublicationToSonatypeRepository",
+    "clean": "./gradlew clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/gamealytics-sdk.git",
+    "directory": "packages/android"
+  },
+  "keywords": [
+    "android",
+    "game",
+    "analytics",
+    "sdk",
+    "gameanalytics"
+  ],
+  "author": "GameAlytics Team",
+  "license": "MIT",
+  "dependencies": {
+    "@gameanalytics/core": "^0.1.0"
+  }
+}

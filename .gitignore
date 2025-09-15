@@ -1,0 +1,244 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+lib/
+*.tgz
+*.tar.gz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js build output
+.next/
+
+# Android specific
+packages/android/build/
+packages/android/.gradle/
+packages/android/local.properties
+packages/android/gradle.properties.local
+*.keystore
+*.jks
+
+# iOS specific
+packages/ios/build/
+packages/ios/DerivedData/
+packages/ios/.build/
+packages/ios/Pods/
+packages/ios/Podfile.lock
+packages/ios/*.xcworkspace/xcuserdata/
+packages/ios/*.xcodeproj/xcuserdata/
+
+# Unity specific
+packages/unity/Library/
+packages/unity/Temp/
+packages/unity/Obj/
+packages/unity/Build/
+packages/unity/Builds/
+packages/unity/Logs/
+packages/unity/UserSettings/
+packages/unity/*.tmp
+packages/unity/*.user
+packages/unity/*.userprefs
+packages/unity/*.pidb
+packages/unity/*.booproj
+packages/unity/*.svd
+packages/unity/*.pdb
+packages/unity/*.mdb
+packages/unity/*.opendb
+packages/unity/*.VC.db
+
+# Web specific
+packages/web/dist/
+packages/web/.cache/
+packages/web/.parcel-cache/
+
+# Testing
+.jest/
+test-results/
+playwright-report/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Package manager locks (keep package-lock.json for consistency)
+yarn.lock
+pnpm-lock.yaml
+
+# Changeset files (keep for release management)
+!.changeset/nv.development.local
+.env.test.local
+.env.production.local
+
+# Lerna
+lerna-debug.log
+
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]nity[Uu]ser[Ss]ettings/
+*.sln
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.private
+*.private.*
+*.private[0-9]*
+*.private[0-9][0-9]*
+*.unitypackage
+*.a
+*.dll
+*.dylib
+*.so
+
+# Unreal Engine
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+.vs/
+*.sln
+*.sdf
+*.opensdf
+*.suo
+*.xcodeproj
+*.xcworkspace
+*.clang-format
+*.clang-tidy
+*.clangd/
+
+# Android
+.gradle/
+.idea/
+*.iml
+local.properties
+*.keystore
+*.jks
+
+# iOS
+Pods/
+*.xcworkspace
+*.xcodeproj
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+*.xcsettings
+*.xcscheme
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserdatad/
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.xcdatamodeld
+*.xccurrentversion
+*.xcprivacy
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-tool
+.packages
+.pub-cache/
+.pub/
+build/
+
+# React Native
+android/app/build/
+android/app/debug
+android/app/release
+android/build/
+ios/Pods/
+ios/build/
+ios/*.xcworkspace/
+ios/*.xcodeproj/project.xcworkspace/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Web
+.cache/
+.next/
+out/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.orig
+
+# Local development
+.local-*
