@@ -137,3 +137,24 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  create-release:
+    needs: [publish-android, publish-ios, publish-unity, publish-web-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Unity Package
+        run: |
+          cd packages/unity
+          zip -r ../../gamealytics-unity-${{ github.ref_name }}.zip . -x "*.meta" "Library/*" "Temp/*"
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: gamealytics-unity-${{ github.ref_name }}.zip
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
