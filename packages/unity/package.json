@@ -26,6 +26,10 @@
   "bugs": {
     "url": "https://github.com/gamealytics/gamealytics-sdk/issues"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
   "dependencies": {},
   "samples": [
     {
