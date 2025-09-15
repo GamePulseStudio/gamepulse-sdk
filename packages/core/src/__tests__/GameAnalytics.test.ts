@@ -306,7 +306,7 @@ describe('GameAnalytics', () => {
       }));
       
       // @ts-ignore - accessing private property for test
-      const sendEventsSpy = jest.spyOn(ga, 'sendEvents');
+      const sendEventsSpy = jest.spyOn(ga, 'sendEvents') as jest.MockedFunction<typeof ga.sendEvents>;
       
       // Add events to queue
       events.forEach(event => ga.trackEvent(event));
