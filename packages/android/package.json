@@ -23,7 +23,5 @@
   ],
   "author": "GameAlytics Team",
   "license": "MIT",
-  "dependencies": {
-    "@gameanalytics/core": "^0.1.0"
-  }
+  "dependencies": {}
 }
