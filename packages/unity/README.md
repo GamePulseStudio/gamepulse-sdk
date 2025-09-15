@@ -12,164 +12,128 @@ The official Unity SDK for GameAlytics, providing game analytics tracking for Un
 
 ## Installation
 
-### Using Unity Package Manager (UPM)
+### Via Unity Package Manager
 
-1. Open your Unity project
-2. Open the Package Manager (Window > Package Manager)
-3. Click the "+" button in the top-left corner and select "Add package from git URL..."
-4. Enter the Git URL for this package: `https://github.com/your-org/gamealytics-sdk.git?path=packages/unity`
-5. Click "Add"
+1. Open Unity Package Manager (`Window > Package Manager`)
+2. Click the `+` button and select `Add package from git URL`
+3. Enter: `https://github.com/gamealytics/gamealytics-sdk.git?path=/packages/unity`
 
-### Manual Installation
+## Usage
 
-1. Download the latest `.unitypackage` from the [releases page](https://github.com/your-org/gamealytics-sdk/releases)
-2. Import the package into your Unity project (Assets > Import Package > Custom Package...)
-3. Select the downloaded `.unitypackage` file and click "Import"
-
-## Getting Started
-
-### Initialization
-
-Initialize the SDK in your game's startup code (e.g., in a `GameManager` script):
+### 1. Initialize the SDK
 
 ```csharp
-using GameAnalyticsSDK;
+using GameAlytics;
 
 public class GameManager : MonoBehaviour
 {
-    private void Start()
+    void Start()
     {
-        // Replace with your GameAnalytics game key and secret key
-        string gameKey = "YOUR_GAME_KEY";
-        string secretKey = "YOUR_SECRET_KEY";
-        
-        // Initialize the SDK
-        GameAnalytics.Initialize(gameKey, secretKey, Application.version);
-        
-        // Optional: Listen for initialization
-        GameAnalytics.OnInitialized += () => {
-            Debug.Log("GameAnalytics initialized successfully!");
-        };
-    }
-    
-    private void OnApplicationQuit()
-    {
-        // Track session end when the application quits
-        GameAnalytics.TrackSessionEnd();
+        // Create user configuration
+        var userConfig = UserConfig.CreateBuilder()
+            .SetSessionId(System.Guid.NewGuid().ToString())
+            .SetUserId("user123") // or use SetAnonymous() for anonymous users
+            .Build();
+
+        // Initialize GameAlytics
+        GameAlytics.Init("your-api-key", Environment.PRODUCTION)
+            .UserConfig(userConfig)
+            .Create();
     }
 }
 ```
 
-### Tracking Events
-
-Track custom events to understand player behavior:
+### 2. Track System Events
 
 ```csharp
-// Track a simple event
-GameAnalytics.TrackEvent("level_started", new Dictionary<string, object>
-{
-    { "level_name", "Forest Level" },
-    { "difficulty", "hard" },
-    { "player_class", "warrior" }
-});
-
-// Track an in-app purchase
-GameAnalytics.TrackPurchase(
-    productId: "com.yourgame.coins.100",
-    currency: "USD",
-    amount: 0.99,
-    transactionId: "T123456789"
-);
-
-// Track an error
-try
-{
-    // Your game code here
-}
-catch (Exception ex)
-{
-    GameAnalytics.TrackError(ex, isFatal: true, new Dictionary<string, object>
+// Track user events
+GameAlytics.GetInstance().SystemEvent()
+    .Category(typeof(GameAlytics.UserEvents))
+    .Type(GameAlytics.UserEvents.SESSION_START)
+    .SetProperties(new Dictionary<string, string> 
     {
-        { "context", "loading_save_game" },
-        { "player_level", 5 }
-    });
-}
+        {"platform", "mobile"}
+    })
+    .Trigger();
+
+// Track gameplay events
+GameAlytics.GetInstance().SystemEvent()
+    .Category(typeof(GameAlytics.GameplayEvents))
+    .Type(GameAlytics.GameplayEvents.LEVEL_START)
+    .SetProperties(new Dictionary<string, string>
+    {
+        {"level", "1"},
+        {"difficulty", "easy"}
+    })
+    .Trigger();
+
+// Track IAP events
+GameAlytics.GetInstance().SystemEvent()
+    .Category(typeof(GameAlytics.IAPEvents))
+    .Type(GameAlytics.IAPEvents.PURCHASE)
+    .SetProperties(new Dictionary<string, string>
+    {
+        {"item_id", "sword_001"},
+        {"price", "4.99"},
+        {"currency", "USD"}
+    })
+    .Trigger();
 ```
 
-### Configuration
-
-You can configure the SDK by creating a `GameAnalyticsConfig` asset in your project:
-
-1. Right-click in the Project window
-2. Select Create > GameAnalytics > Config
-3. Configure the settings as needed
-4. The SDK will automatically use this configuration when initialized
-
-## Advanced Usage
-
-### Custom User IDs
-
-To track users across devices or platforms, set a custom user ID:
+### 3. Track Custom Events
 
 ```csharp
-// Set a custom user ID (e.g., from your authentication system)
-GameAnalytics.SetCustomUserId("player123");
-
-// Get the current user ID
-string userId = GameAnalytics.GetUserId();
+// Track custom events
+GameAlytics.GetInstance().CustomEvent()
+    .Category("boss_fight")
+    .Type("boss_defeated")
+    .SetProperties(new Dictionary<string, string>
+    {
+        {"boss_name", "Dragon King"},
+        {"time_taken", "120"}
+    })
+    .Trigger();
 ```
 
-### Manual Flushing
-
-By default, events are sent in batches. You can manually flush the event queue:
+### 4. Session Management
 
 ```csharp
-// Force send all queued events to the server
-GameAnalytics.Flush();
+// Start a new session
+GameAlytics.GetInstance().StartSession();
+
+// End current session
+GameAlytics.GetInstance().EndSession();
 ```
 
-### Platform-Specific Setup
+## Event Categories
 
-#### Android
-
-Add the following permissions to your `AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+### User Events
+```csharp
+GameAlytics.UserEvents.SESSION_START
+GameAlytics.UserEvents.SESSION_END
+GameAlytics.UserEvents.USER_LOGIN
+GameAlytics.UserEvents.USER_LOGOUT
+GameAlytics.UserEvents.USER_REGISTER
 ```
 
-#### iOS
-
-Add the following to your `Info.plist`:
-
-```xml
-<key>NSAppTransportSecurity</key>
-<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-</dict>
+### Gameplay Events
+```csharp
+GameAlytics.GameplayEvents.LEVEL_START
+GameAlytics.GameplayEvents.LEVEL_END
+GameAlytics.GameplayEvents.LEVEL_UP
+GameAlytics.GameplayEvents.GAME_START
+GameAlytics.GameplayEvents.GAME_END
+GameAlytics.GameplayEvents.BOSS_FIGHT
 ```
 
-## API Reference
-
-### Static Methods
-
-| Method | Description |
-|--------|-------------|
-| `Initialize(string gameKey, string secretKey, string build, string userId = null)` | Initializes the GameAnalytics SDK |
-| `TrackEvent(string eventName, Dictionary<string, object> customFields = null)` | Tracks a custom event |
-| `TrackSessionStart()` | Tracks the start of a user session |
-| `TrackSessionEnd()` | Tracks the end of a user session |
-| `TrackError(Exception error, bool isFatal = false, Dictionary<string, object> context = null)` | Tracks an error event |
-| `TrackPurchase(string productId, string currency, double amount, string transactionId, string receipt = null, Dictionary<string, object> customFields = null)` | Tracks an in-app purchase |
-| `SetCustomUserId(string userId)` | Sets a custom user ID |
-| `string GetUserId()` | Gets the current user ID |
-| `string GetSessionId()` | Gets the current session ID |
-| `string GetDeviceId()` | Gets the device ID |
-| `void Flush()` | Flushes any queued events to the server |
-
-### Events
+### Economy Events
+```csharp
+GameAlytics.EconomyEvents.CURRENCY_EARNED
+GameAlytics.EconomyEvents.CURRENCY_SPENT
+GameAlytics.EconomyEvents.ITEM_PURCHASED
+GameAlytics.EconomyEvents.ITEM_SOLD
+GameAlytics.EconomyEvents.SHOP_VIEWED
+```
 
 | Event | Description |
 |-------|-------------|

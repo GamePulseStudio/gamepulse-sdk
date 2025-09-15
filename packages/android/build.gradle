@@ -1,12 +1,21 @@
-plugins {
-    id 'com.android.library' version '8.1.2'
-    id 'maven-publish'
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.2'
+    }
 }
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 apply from: 'publish.gradle'
 
 android {
     compileSdk 34
+    compileSdkVersion 34
     namespace 'com.gamealytics.sdk'
 
     defaultConfig {
@@ -37,6 +46,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     testOptions {

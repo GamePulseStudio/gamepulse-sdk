@@ -7,241 +7,247 @@ using UnityEngine.Networking;
 
 namespace GameAlytics
 {
-    public enum EventType
-    {
-        // System Events
-        SESSION_START,
-        SESSION_END,
-        LEVEL_START,
-        LEVEL_END,
-        LEVEL_UP,
-        TUTORIAL_COMPLETE,
-        ACHIEVEMENT_UNLOCKED,
-        PURCHASE,
-        AD_VIEWED,
-        AD_REWARDED
-    }
-
-    public enum EventCategory
-    {
-        USER,
-        GAMEPLAY,
-        ECONOMY,
-        PROGRESSION,
-        AD,
-        IAP
-    }
-
     public enum Environment
     {
         DEVELOPMENT,
         PRODUCTION
     }
 
-    [System.Serializable]
     public class UserConfig
     {
-        public string sessionId;
-        public string userId;
-        public string anonymousId;
-
-        public UserConfig(string sessionId, string userId = null, string anonymousId = null)
-        {
-            this.sessionId = sessionId;
-            this.userId = userId;
-            this.anonymousId = anonymousId;
-        }
-
-        public static UserConfigBuilder Builder()
-        {
-            return new UserConfigBuilder();
-        }
-    }
-
-    public class UserConfigBuilder
-    {
-        private string sessionId;
-        private string userId;
-        private string anonymousId;
-
-        public UserConfigBuilder SetSessionId(string sessionId)
-        {
-            this.sessionId = sessionId;
-            return this;
-        }
-
-        public UserConfigBuilder SetUserId(string userId)
-        {
-            this.userId = userId;
-            return this;
-        }
-
-        public UserConfigBuilder SetAnonymous(string anonymousId)
-        {
-            this.anonymousId = anonymousId;
-            return this;
-        }
-
-        public UserConfig Build()
+        private readonly string sessionId;
+        private readonly string userId;
+        private readonly string anonymousId;
+        
+        private UserConfig(string sessionId, string userId, string anonymousId)
         {
             if (string.IsNullOrEmpty(sessionId))
             {
-                throw new ArgumentException("SessionId is required");
+                throw new ArgumentException("sessionId is mandatory");
             }
             if (string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(anonymousId))
             {
                 throw new ArgumentException("Either userId or anonymousId must be provided");
             }
-            return new UserConfig(sessionId, userId, anonymousId);
+            
+            this.sessionId = sessionId;
+            this.userId = userId;
+            this.anonymousId = anonymousId;
+        }
+        
+        public string GetSessionId() { return sessionId; }
+        public string GetUserId() { return userId; }
+        public string GetAnonymousId() { return anonymousId; }
+        
+        public static Builder CreateBuilder()
+        {
+            return new Builder();
+        }
+        
+        public class Builder
+        {
+            private string sessionId;
+            private string userId;
+            private string anonymousId;
+            
+            public Builder SetSessionId(string sessionId)
+            {
+                this.sessionId = sessionId;
+                return this;
+            }
+            
+            public Builder SetUserId(string userId)
+            {
+                this.userId = userId;
+                return this;
+            }
+            
+            public Builder SetAnonymous(string anonymousId)
+            {
+                this.anonymousId = anonymousId;
+                return this;
+            }
+            
+            public UserConfig Build()
+            {
+                return new UserConfig(sessionId, userId, anonymousId);
+            }
         }
     }
-
-    public class EventBuilder
+    
+    public class DeviceInfo
     {
-        private readonly GameAlytics _gameAlytics;
-        private readonly string _eventType;
-        private readonly string _eventCategory;
-        private readonly bool _isCustom;
-        private Dictionary<string, object> _properties = new Dictionary<string, object>();
-
-        public EventBuilder(GameAlytics gameAlytics, string eventType, string eventCategory, bool isCustom)
+        public readonly string platform;
+        public readonly string osVersion;
+        public readonly string appVersion;
+        public readonly string deviceModel;
+        public readonly string screenResolution;
+        public readonly string deviceManufacturer;
+        
+        public DeviceInfo(string platform, string osVersion, string appVersion, 
+                         string deviceModel, string screenResolution, string deviceManufacturer)
         {
-            _gameAlytics = gameAlytics;
-            _eventType = eventType;
-            _eventCategory = eventCategory;
-            _isCustom = isCustom;
+            this.platform = platform;
+            this.osVersion = osVersion;
+            this.appVersion = appVersion;
+            this.deviceModel = deviceModel;
+            this.screenResolution = screenResolution;
+            this.deviceManufacturer = deviceManufacturer;
         }
-
-        public EventBuilder SetProperties(Dictionary<string, object> properties)
-        {
-            if (properties != null)
-            {
-                _properties = new Dictionary<string, object>(properties);
-            }
-            return this;
-        }
-
-        public void Track()
-        {
-            _gameAlytics.TrackEvent(
-                _isCustom ? "CUSTOM" : "SYSTEM",
-                _eventType,
-                _eventCategory,
-                _properties
-            );
-        }
-    }
-
-    public class InitBuilder
-    {
-        private readonly string _apiKey;
-        private readonly Environment _environment;
-        private UserConfig _userConfig;
-
-        public InitBuilder(string apiKey, Environment environment)
-        {
-            _apiKey = apiKey;
-            _environment = environment;
-        }
-
-        public InitBuilder UserConfig(UserConfig userConfig)
-        {
-            _userConfig = userConfig;
-            return this;
-        }
-
-        public GameAlytics Create()
-        {
-            if (string.IsNullOrEmpty(_apiKey))
-            {
-                throw new ArgumentException("API key is required");
-            }
-            if (_userConfig == null)
-            {
-                throw new ArgumentException("UserConfig is required");
-            }
-
-            GameAlytics._instance = GameAlytics.CreateInstance(_apiKey, _environment, _userConfig);
-            return GameAlytics._instance;
-        }
-    }
-
-    [System.Serializable]
-    public struct DeviceInfo
-    {
-        public string platform;
-        public string osVersion;
-        public string deviceModel;
-        public string screenResolution;
-        public string deviceManufacturer;
-        public string appVersion;
     }
 
     public class GameAlytics : MonoBehaviour
     {
         // Singleton instance
-        internal static GameAlytics _instance;
-        private static readonly object _lock = new object();
+        private static GameAlytics instance;
         
         // Configuration
-        private string _apiKey = string.Empty;
-        private Environment _environment;
-        private UserConfig _userConfig;
-        private DeviceInfo _deviceInfo;
-        private string _baseUrl;
-        private bool _isInitialized = false;
+        private string apiKey;
+        private Environment environment;
+        private UserConfig userConfig;
+        private DeviceInfo deviceInfo;
+        private string baseUrl;
+        private bool isInitialized = false;
         
         // Queue for events
-        private readonly Queue<Dictionary<string, object>> _eventQueue = new Queue<Dictionary<string, object>>();
-        private bool _isSending = false;
+        private readonly Queue<Dictionary<string, object>> eventQueue = new Queue<Dictionary<string, object>>();
+        private bool isSending = false;
         private const int MaxQueueSize = 1000;
         private const int BatchSize = 10;
+
+        // User Events
+        public static class UserEvents
+        {
+            public const string CATEGORY = "user";
+            public const string SESSION_START = "session_start";
+            public const string SESSION_END = "session_end";
+            public const string USER_LOGIN = "user_login";
+            public const string USER_LOGOUT = "user_logout";
+            public const string USER_REGISTER = "user_register";
+        }
         
-        // Static initialization method
+        // Gameplay Events
+        public static class GameplayEvents
+        {
+            public const string CATEGORY = "gameplay";
+            public const string LEVEL_START = "level_start";
+            public const string LEVEL_END = "level_end";
+            public const string LEVEL_UP = "level_up";
+            public const string GAME_START = "game_start";
+            public const string GAME_END = "game_end";
+            public const string BOSS_FIGHT = "boss_fight";
+        }
+        
+        // Economy Events
+        public static class EconomyEvents
+        {
+            public const string CATEGORY = "economy";
+            public const string CURRENCY_EARNED = "currency_earned";
+            public const string CURRENCY_SPENT = "currency_spent";
+            public const string ITEM_PURCHASED = "item_purchased";
+            public const string ITEM_SOLD = "item_sold";
+            public const string SHOP_VIEWED = "shop_viewed";
+        }
+        
+        // Progression Events
+        public static class ProgressionEvents
+        {
+            public const string CATEGORY = "progression";
+            public const string TUTORIAL_COMPLETE = "tutorial_complete";
+            public const string ACHIEVEMENT_UNLOCKED = "achievement_unlocked";
+            public const string MILESTONE_REACHED = "milestone_reached";
+            public const string QUEST_COMPLETED = "quest_completed";
+        }
+        
+        // Ad Events
+        public static class AdEvents
+        {
+            public const string CATEGORY = "ad";
+            public const string AD_VIEWED = "ad_viewed";
+            public const string AD_CLICKED = "ad_clicked";
+            public const string AD_REWARDED = "ad_rewarded";
+            public const string AD_FAILED = "ad_failed";
+        }
+        
+        // IAP Events
+        public static class IAPEvents
+        {
+            public const string CATEGORY = "iap";
+            public const string PURCHASE = "purchase";
+            public const string PURCHASE_FAILED = "purchase_failed";
+            public const string PURCHASE_RESTORED = "purchase_restored";
+            public const string SUBSCRIPTION_STARTED = "subscription_started";
+            public const string SUBSCRIPTION_CANCELLED = "subscription_cancelled";
+        }
+
         public static InitBuilder Init(string apiKey, Environment environment)
         {
             return new InitBuilder(apiKey, environment);
         }
-        
+
         public static GameAlytics GetInstance()
         {
             if (instance == null)
             {
-                throw new System.InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init(...).Create()");
+                throw new InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init(...).Create()");
             }
             return instance;
         }
-        
+
         public SystemEventBuilder SystemEvent()
         {
             return new SystemEventBuilder();
         }
-        
+
         public CustomEventBuilder CustomEvent()
         {
             return new CustomEventBuilder();
         }
 
-
-        // Internal method to create instance
-        internal static GameAlytics CreateInstance(string apiKey, Environment environment, UserConfig userConfig)
+        public class InitBuilder
         {
-            lock (_lock)
+            private readonly string apiKey;
+            private readonly Environment environment;
+            private UserConfig userConfig;
+            
+            public InitBuilder(string apiKey, Environment environment)
             {
-                if (_instance == null)
+                this.apiKey = apiKey;
+                this.environment = environment;
+            }
+            
+            public InitBuilder UserConfig(UserConfig userConfig)
+            {
+                this.userConfig = userConfig;
+                return this;
+            }
+            
+            public GameAlytics Create()
+            {
+                if (string.IsNullOrEmpty(apiKey))
+                {
+                    throw new ArgumentException("API key is required");
+                }
+                if (userConfig == null)
+                {
+                    throw new ArgumentException("UserConfig is required");
+                }
+                
+                if (instance == null)
                 {
                     var go = new GameObject("GameAlytics");
-                    _instance = go.AddComponent<GameAlytics>();
+                    instance = go.AddComponent<GameAlytics>();
                     DontDestroyOnLoad(go);
-                    _instance.Initialize(apiKey, environment, userConfig);
+                    instance.Initialize(apiKey, environment, userConfig);
                 }
-                return _instance;
+                
+                return instance;
             }
         }
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (instance != null && instance != this)
             {
                 Destroy(gameObject);
             }
@@ -249,192 +255,198 @@ namespace GameAlytics
 
         private void Initialize(string apiKey, Environment environment, UserConfig userConfig)
         {
-            _apiKey = apiKey;
-            _environment = environment;
-            _userConfig = userConfig;
-            _deviceInfo = AutoFetchDeviceInfo();
-            _baseUrl = environment == Environment.PRODUCTION 
-                ? "https://client.gamealytics.click" 
-                : "https://client.dev.gamealytics.click";
-            _isInitialized = true;
+            this.apiKey = apiKey;
+            this.environment = environment;
+            this.userConfig = userConfig;
+            this.deviceInfo = AutoFetchDeviceInfo();
+            this.baseUrl = environment == Environment.PRODUCTION 
+                ? "https://client.gamealytics.click/events/collect" 
+                : "https://client.dev.gamealytics.click/events/collect";
+            this.isInitialized = true;
+        }
+
+        public class SystemEventBuilder
+        {
+            private string category;
+            private string type;
+            private Dictionary<string, string> properties = new Dictionary<string, string>();
+            
+            public SystemEventBuilder Category(Type categoryClass)
+            {
+                this.category = categoryClass.Name.ToLower().Replace("events", "");
+                return this;
+            }
+            
+            public SystemEventBuilder Type(string type)
+            {
+                this.type = type;
+                return this;
+            }
+            
+            public SystemEventBuilder SetProperties(Dictionary<string, string> properties)
+            {
+                this.properties = properties ?? new Dictionary<string, string>();
+                return this;
+            }
+            
+            public void Trigger()
+            {
+                if (instance == null)
+                {
+                    throw new InvalidOperationException("GameAlytics must be initialized first");
+                }
+                if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
+                {
+                    throw new ArgumentException("Category and type are required");
+                }
+                instance.TrackEventInternal("SYSTEM", type, category, properties);
+            }
+        }
+        
+        public class CustomEventBuilder
+        {
+            private string category;
+            private string type;
+            private Dictionary<string, string> properties = new Dictionary<string, string>();
+            
+            public CustomEventBuilder Category(string category)
+            {
+                this.category = category;
+                return this;
+            }
+            
+            public CustomEventBuilder Type(string type)
+            {
+                this.type = type;
+                return this;
+            }
+            
+            public CustomEventBuilder SetProperties(Dictionary<string, string> properties)
+            {
+                this.properties = properties ?? new Dictionary<string, string>();
+                return this;
+            }
+            
+            public void Trigger()
+            {
+                if (instance == null)
+                {
+                    throw new InvalidOperationException("GameAlytics must be initialized first");
+                }
+                if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
+                {
+                    throw new ArgumentException("Category and type are required");
+                }
+                instance.TrackEventInternal("CUSTOM", type, category, properties);
+            }
+        }
+
+        private void TrackEventInternal(string eventClass, string eventType, string category, Dictionary<string, string> properties)
+        {
+            if (eventQueue.Count >= MaxQueueSize)
+            {
+                eventQueue.Dequeue();
+            }
+            
+            var eventData = new Dictionary<string, object>
+            {
+                ["type"] = eventClass,
+                ["value"] = eventType,
+                ["category"] = category,
+                ["platform"] = deviceInfo.platform,
+                ["osVersion"] = deviceInfo.osVersion,
+                ["deviceModel"] = deviceInfo.deviceModel,
+                ["deviceManufacturer"] = deviceInfo.deviceManufacturer,
+                ["appVersion"] = deviceInfo.appVersion,
+                ["screenResolution"] = deviceInfo.screenResolution,
+                ["userId"] = userConfig.GetUserId() ?? "",
+                ["anonymousId"] = userConfig.GetAnonymousId() ?? "",
+                ["sessionId"] = userConfig.GetSessionId(),
+                ["timezone"] = TimeZoneInfo.Local.StandardName,
+                ["localDateTime"] = DateTime.UtcNow.ToString("o"),
+                ["properties"] = properties ?? new Dictionary<string, string>()
+            };
+            
+            eventQueue.Enqueue(eventData);
+            
+            if (eventQueue.Count >= BatchSize)
+            {
+                StartCoroutine(FlushEvents());
+            }
+        }
+
+        public void StartSession()
+        {
+            CheckInitialized();
+            string newSessionId = System.Guid.NewGuid().ToString();
+            this.userConfig = UserConfig.CreateBuilder()
+                .SetSessionId(newSessionId)
+                .SetUserId(userConfig.GetUserId())
+                .SetAnonymous(userConfig.GetAnonymousId())
+                .Build();
+            
+            SystemEvent()
+                .Category(typeof(UserEvents))
+                .Type(UserEvents.SESSION_START)
+                .SetProperties(new Dictionary<string, string>())
+                .Trigger();
+        }
+
+        public void EndSession()
+        {
+            CheckInitialized();
+            
+            if (string.IsNullOrEmpty(userConfig.GetSessionId()))
+            {
+                return;
+            }
+            
+            SystemEvent()
+                .Category(typeof(UserEvents))
+                .Type(UserEvents.SESSION_END)
+                .SetProperties(new Dictionary<string, string>())
+                .Trigger();
+        }
+
+        public void UpdateUserConfig(UserConfig newUserConfig)
+        {
+            CheckInitialized();
+            this.userConfig = newUserConfig;
+        }
+        
+        public UserConfig GetUserConfig()
+        {
+            return userConfig;
+        }
+        
+        public DeviceInfo GetDeviceInfo()
+        {
+            return deviceInfo;
         }
 
         private DeviceInfo AutoFetchDeviceInfo()
         {
             try
             {
-                return new DeviceInfo
-                {
-                    platform = GetPlatformString(),
-                    osVersion = SystemInfo.operatingSystem,
-                    deviceModel = SystemInfo.deviceModel,
-                    screenResolution = $"{Screen.width}x{Screen.height}",
-                    deviceManufacturer = SystemInfo.deviceName,
-                    appVersion = Application.version
-                };
+                return new DeviceInfo(
+                    GetPlatformString(),
+                    SystemInfo.operatingSystem,
+                    Application.version,
+                    SystemInfo.deviceModel,
+                    $"{Screen.width}x{Screen.height}",
+                    SystemInfo.deviceName
+                );
             }
             catch
             {
-                // Silent failure for performance
-                return new DeviceInfo
-                {
-                    platform = "Unknown",
-                    osVersion = "Unknown",
-                    deviceModel = "Unknown",
-                    screenResolution = "Unknown",
-                    deviceManufacturer = "Unknown",
-                    appVersion = "1.0.0"
-                };
-            }
-        }
-
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus)
-            {
-                // App is pausing, flush events
-                StartCoroutine(FlushEvents());
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (_isInitialized)
-            {
-                // Flush events
-                StartCoroutine(FlushEvents(true));
-            }
-        }
-
-
-        /// <summary>
-        /// Track a system event
-        /// </summary>
-        public EventBuilder Event(EventType type, EventCategory category)
-        {
-            EnsureInitialized();
-            return CreateEventBuilder(type.ToString(), category.ToString(), false);
-        }
-
-        /// <summary>
-        /// Track a custom event
-        /// </summary>
-        public EventBuilder CustomEvent(string type, string category)
-        {
-            EnsureInitialized();
-            return CreateEventBuilder(type, category, true);
-        }
-
-        /// <summary>
-        /// Start a new session
-        /// </summary>
-        public void StartSession()
-        {
-            EnsureInitialized();
-            
-            Event(EventType.SESSION_START, EventCategory.USER)
-                .SetProperties(new Dictionary<string, object>())
-                .Track();
-        }
-
-        /// <summary>
-        /// End the current session
-        /// </summary>
-        public void EndSession()
-        {
-            EnsureInitialized();
-            
-            Event(EventType.SESSION_END, EventCategory.USER)
-                .SetProperties(new Dictionary<string, object>())
-                .Track();
-        }
-
-        private EventBuilder CreateEventBuilder(string eventType, string eventCategory, bool isCustom)
-        {
-            return new EventBuilder(this, eventType, eventCategory, isCustom);
-        }
-
-        private void EnsureInitialized()
-        {
-            if (!_isInitialized)
-            {
-                throw new InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init()");
-            }
-        }
-
-        internal void TrackEvent(string type, string eventType, string category, Dictionary<string, object> properties)
-        {
-            if (_eventQueue.Count >= MaxQueueSize)
-            {
-                _eventQueue.Dequeue();
-            }
-            
-            var eventData = new Dictionary<string, object>
-            {
-                ["type"] = type,
-                ["timezone"] = TimeZoneInfo.Local.StandardName,
-                ["localDateTime"] = DateTime.UtcNow.ToString("o"),
-                ["value"] = eventType,
-                ["category"] = category,
-                ["userId"] = _userConfig.userId ?? "",
-                ["anonymousId"] = _userConfig.anonymousId ?? "",
-                ["sessionId"] = _userConfig.sessionId,
-                ["platform"] = _deviceInfo.platform,
-                ["osVersion"] = _deviceInfo.osVersion,
-                ["appVersion"] = _deviceInfo.appVersion,
-                ["deviceModel"] = _deviceInfo.deviceModel,
-                ["screenResolution"] = _deviceInfo.screenResolution,
-                ["deviceManufacturer"] = _deviceInfo.deviceManufacturer,
-                ["properties"] = properties ?? new Dictionary<string, object>()
-            };
-            
-            _eventQueue.Enqueue(eventData);
-            
-            // Process queue if we've reached batch size
-            if (_eventQueue.Count >= BatchSize)
-            {
-                StartCoroutine(FlushEvents());
-            }
-        }
-
-        private IEnumerator FlushEvents(bool force = false)
-        {
-            if (_isSending || _eventQueue.Count == 0) yield break;
-            
-            _isSending = true;
-            
-            // Determine how many events to send (up to BatchSize)
-            int count = Mathf.Min(BatchSize, _eventQueue.Count);
-            var batch = new List<Dictionary<string, object>>();
-            
-            for (int i = 0; i < count; i++)
-            {
-                batch.Add(_eventQueue.Dequeue());
-            }
-            
-            // Convert to JSON
-            var json = JsonUtility.ToJson(new { events = batch });
-            var url = $"{_baseUrl}/events/collect";
-            
-            using (var request = new UnityWebRequest(url, "POST"))
-            {
-                byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-                request.SetRequestHeader("x-api-key", _apiKey);
-                
-                yield return request.SendWebRequest();
-                
-                // Silent failure for performance optimization
-            }
-            
-            _isSending = false;
-            
-            // If there are more events and we're forcing a flush, continue
-            if (force && _eventQueue.Count > 0)
-            {
-                yield return FlushEvents(true);
+                return new DeviceInfo(
+                    "UNITY",
+                    "Unknown",
+                    "1.0.0",
+                    "Unknown",
+                    "Unknown",
+                    "Unknown"
+                );
             }
         }
 
@@ -443,152 +455,88 @@ namespace GameAlytics
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    return "Android";
+                    return "ANDROID";
                 case RuntimePlatform.IPhonePlayer:
-                    return "iOS";
+                    return "IOS";
                 case RuntimePlatform.WindowsPlayer:
                 case RuntimePlatform.WindowsEditor:
-                    return "Windows";
+                    return "WINDOWS";
                 case RuntimePlatform.OSXPlayer:
                 case RuntimePlatform.OSXEditor:
-                    return "macOS";
+                    return "MACOS";
                 case RuntimePlatform.LinuxPlayer:
-                    return "Linux";
+                    return "LINUX";
                 case RuntimePlatform.WebGLPlayer:
-                    return "WebGL";
+                    return "WEBGL";
                 case RuntimePlatform.XboxOne:
-                    return "XboxOne";
+                    return "XBOX";
                 case RuntimePlatform.PS4:
-                    return "PS4";
                 case RuntimePlatform.PS5:
-                    return "PS5";
+                    return "PLAYSTATION";
                 case RuntimePlatform.Switch:
-                    return "Nintendo Switch";
+                    return "NINTENDO_SWITCH";
                 default:
-                    return Application.platform.ToString();
+                    return "UNITY";
             }
         }
-    }
-    
-    // Event Category Classes
-    public static class Gameplay
-    {
-        public const string LevelStart = "level_start";
-        public const string LevelEnd = "level_end";
-        public const string LevelUp = "level_up";
-        public const string BossFight = "boss_fight";
-        public const string CheckpointReached = "checkpoint_reached";
-    }
-    
-    public static class IAP
-    {
-        public const string Purchase = "purchase";
-        public const string PurchaseFailed = "purchase_failed";
-        public const string PurchaseRestored = "purchase_restored";
-        public const string SubscriptionStarted = "subscription_started";
-        public const string SubscriptionCancelled = "subscription_cancelled";
-    }
-    
-    public static class User
-    {
-        public const string SessionStart = "session_start";
-        public const string SessionEnd = "session_end";
-        public const string UserLogin = "user_login";
-        public const string UserLogout = "user_logout";
-        public const string UserRegister = "user_register";
-    }
-    
-    public static class Progression
-    {
-        public const string TutorialComplete = "tutorial_complete";
-        public const string AchievementUnlocked = "achievement_unlocked";
-        public const string MilestoneReached = "milestone_reached";
-        public const string QuestCompleted = "quest_completed";
-    }
-    
-    public static class Ad
-    {
-        public const string AdViewed = "ad_viewed";
-        public const string AdClicked = "ad_clicked";
-        public const string AdRewarded = "ad_rewarded";
-        public const string AdFailed = "ad_failed";
-    }
-    
-    // Event Builders
-    public class SystemEventBuilder
-    {
-        private string category;
-        private string type;
-        private Dictionary<string, string> properties = new Dictionary<string, string>();
-        
-        public SystemEventBuilder Category<T>()
+
+        private IEnumerator FlushEvents(bool force = false)
         {
-            this.category = typeof(T).Name.ToLower();
-            return this;
-        }
-        
-        public SystemEventBuilder Type(string type)
-        {
-            this.type = type;
-            return this;
-        }
-        
-        public SystemEventBuilder SetProperties(Dictionary<string, string> properties)
-        {
-            this.properties = properties ?? new Dictionary<string, string>();
-            return this;
-        }
-        
-        public void Trigger()
-        {
-            if (instance == null)
+            if (isSending || eventQueue.Count == 0) yield break;
+            
+            isSending = true;
+            
+            int count = Mathf.Min(BatchSize, eventQueue.Count);
+            var batch = new List<Dictionary<string, object>>();
+            
+            for (int i = 0; i < count; i++)
             {
-                throw new System.InvalidOperationException("GameAlytics must be initialized first");
+                batch.Add(eventQueue.Dequeue());
             }
-            if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
+            
+            var json = JsonUtility.ToJson(new { events = batch });
+            
+            using (var request = new UnityWebRequest(baseUrl, "POST"))
             {
-                throw new System.ArgumentException("Category and type are required");
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                request.SetRequestHeader("x-api-key", apiKey);
+                
+                yield return request.SendWebRequest();
             }
-            instance.TrackEvent("SYSTEM", type, category, properties);
+            
+            isSending = false;
+            
+            if (force && eventQueue.Count > 0)
+            {
+                yield return FlushEvents(true);
+            }
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                StartCoroutine(FlushEvents());
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (isInitialized)
+            {
+                StartCoroutine(FlushEvents(true));
+            }
+        }
+
+        private void CheckInitialized()
+        {
+            if (!isInitialized)
+            {
+                throw new InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init()");
+            }
         }
     }
-    
-    public class CustomEventBuilder
-    {
-        private string category;
-        private string type;
-        private Dictionary<string, string> properties = new Dictionary<string, string>();
-        
-        public CustomEventBuilder Category(string category)
-        {
-            this.category = category;
-            return this;
-        }
-        
-        public CustomEventBuilder Type(string type)
-        {
-            this.type = type;
-            return this;
-        }
-        
-        public CustomEventBuilder SetProperties(Dictionary<string, string> properties)
-        {
-            this.properties = properties ?? new Dictionary<string, string>();
-            return this;
-        }
-        
-        public void Trigger()
-        {
-            if (instance == null)
-            {
-                throw new System.InvalidOperationException("GameAlytics must be initialized first");
-            }
-            if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
-            {
-                throw new System.ArgumentException("Category and type are required");
-            }
-            instance.TrackEvent("CUSTOM", type, category, properties);
-        }
-    }
-}
 }

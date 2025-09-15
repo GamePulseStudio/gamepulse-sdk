@@ -26,44 +26,50 @@ artifacts {
     archives androidJavadocsJar
 }
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            from components.release
-            artifact androidSourcesJar
-            artifact androidJavadocsJar
-
-            groupId GROUP
-            artifactId 'gamealytics-android'
-            version VERSION_NAME
-
-            pom {
-                name = 'GameAlytics Android SDK'
-                description = POM_DESCRIPTION
-                url = POM_URL
-                licenses {
-                    license {
-                        name = POM_LICENCE_NAME
-                        url = POM_LICENCE_URL
-                        distribution = POM_LICENCE_DIST
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                android.libraryVariants.all { variant ->
+                    if (variant.buildType.name == 'release') {
+                        artifact variant.outputs[0].outputFile
                     }
                 }
-                developers {
-                    developer {
-                        id = POM_DEVELOPER_ID
-                        name = POM_DEVELOPER_NAME
+                artifact androidSourcesJar
+                artifact androidJavadocsJar
+
+                groupId GROUP
+                artifactId 'gamealytics-android'
+                version VERSION_NAME
+
+                pom {
+                    name = 'GameAlytics Android SDK'
+                    description = POM_DESCRIPTION
+                    url = POM_URL
+                    licenses {
+                        license {
+                            name = POM_LICENCE_NAME
+                            url = POM_LICENCE_URL
+                            distribution = POM_LICENCE_DIST
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_ID
+                            name = POM_DEVELOPER_NAME
+                        }
+                    }
+                    scm {
+                        connection = POM_SCM_CONNECTION
+                        developerConnection = POM_SCM_DEV_CONNECTION
+                        url = POM_SCM_URL
                     }
                 }
-                scm {
-                    connection = POM_SCM_CONNECTION
-                    developerConnection = POM_SCM_DEV_CONNECTION
-                    url = POM_SCM_URL
-                }
-            }
         }
     }
-    // JitPack automatically publishes from GitHub releases
-    // No explicit repository configuration needed
+        // JitPack automatically publishes from GitHub releases
+        // No explicit repository configuration needed
+    }
 }
 
 // Signing removed for GitHub Packages - not required
