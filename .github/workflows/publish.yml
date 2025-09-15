@@ -139,7 +139,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   create-release:
-    needs: [publish-android, publish-ios, publish-unity, publish-web-core]
+    needs: [publish-android, publish-ios, publish-unity, publish-npm]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
