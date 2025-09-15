@@ -61,8 +61,12 @@ class UserConfig {
 
   constructor(sessionId: string, userId?: string, anonymousId?: string) {
     this.sessionId = sessionId;
-    this.userId = userId;
-    this.anonymousId = anonymousId;
+    if (userId !== undefined) {
+      this.userId = userId;
+    }
+    if (anonymousId !== undefined) {
+      this.anonymousId = anonymousId;
+    }
   }
 
   static builder(): UserConfigBuilder {
