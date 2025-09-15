@@ -12,23 +12,7 @@ on:
         default: '2.0.0'
 
 jobs:
-  create-tag:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and push tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag v${{ github.event.inputs.version }}
-          git push origin v${{ github.event.inputs.version }}
-
   publish-android:
-    needs: [create-tag]
-    if: always() && (github.event_name == 'push' || needs.create-tag.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -65,8 +49,6 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
   publish-ios:
-    needs: [create-tag]
-    if: always() && (github.event_name == 'push' || needs.create-tag.result == 'success')
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -93,8 +75,6 @@ jobs:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
 
   publish-unity:
-    needs: [create-tag]
-    if: always() && (github.event_name == 'push' || needs.create-tag.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -119,8 +99,6 @@ jobs:
           path: packages/unity/*.tgz
 
   publish-npm:
-    needs: [create-tag]
-    if: always() && (github.event_name == 'push' || needs.create-tag.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
