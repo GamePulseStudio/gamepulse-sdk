@@ -57,6 +57,7 @@ jobs:
           pod trunk push GameAlytics.podspec --allow-warnings
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        continue-on-error: true
 
   publish-unity:
     runs-on: ubuntu-latest
@@ -71,15 +72,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@gamealytics'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Publish Unity Package to GitHub Packages
+      - name: Publish Unity Package to npm
         run: |
           cd packages/unity
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
       - name: Create Unity Package for GitHub Release
         run: |
@@ -105,8 +105,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@gamealytics'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install root dependencies
         run: npm ci
@@ -130,18 +129,19 @@ jobs:
           cd packages/core
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish Web SDK
         run: |
           cd packages/web
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   create-release:
-    needs: [publish-android, publish-ios, publish-unity, publish-npm]
+    needs: [publish-android, publish-unity, publish-npm]
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - uses: actions/checkout@v4
       - name: Create Unity Package

@@ -1,5 +1,5 @@
 {
-  "name": "com.gamealytics.unity-sdk",
+  "name": "@gamealytics/unity-sdk",
   "version": "2.0.0",
   "displayName": "GameAlytics Unity SDK",
   "description": "Unity SDK for GameAlytics game analytics platform with simplified permission management",
@@ -27,7 +27,6 @@
     "url": "https://github.com/gamealytics/gamealytics-sdk/issues"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
   "dependencies": {},
