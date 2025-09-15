@@ -1,5 +1,4 @@
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 task androidSourcesJar(type: Jar) {
     archiveClassifier.set('sources')
@@ -65,17 +64,14 @@ publishing {
     }
     repositories {
         maven {
-            name = "sonatype"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/gamealytics/gamealytics-sdk"
             credentials {
-                username ossrhUsername
-                password ossrhPassword
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
         }
     }
 }
 
-signing {
-    required { gradle.taskGraph.hasTask("publish") }
-    sign publishing.publications
-}
+// Signing removed for GitHub Packages - not required
