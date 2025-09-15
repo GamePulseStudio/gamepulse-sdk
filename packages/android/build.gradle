@@ -2,12 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-androplugins {
-    id 'com.android.library'
-    id 'maven-publish'
-    id 'signing'
-}
-
 apply from: 'publish.gradle'
 
 android {
@@ -18,7 +12,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "0.1.0"
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -79,58 +73,4 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.5.0'
 }
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.gamealytics'
-            artifactId = 'android-sdk'
-            version = '0.1.0'
-
-            afterEvaluate {
-                from components.release
-            }
-
-            pom {
-                name = 'GameAlytics Android SDK'
-                description = 'Android SDK for GameAlytics game analytics platform'
-                url = 'https://github.com/your-org/gamealytics-sdk'
-                
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://opensource.org/licenses/MIT'
-                    }
-                }
-                
-                developers {
-                    developer {
-                        id = 'gamealytics'
-                        name = 'GameAlytics Team'
-                        email = 'support@gamealytics.com'
-                    }
-                }
-                
-                scm {
-                    connection = 'scm:git:git://github.com/your-org/gamealytics-sdk.git'
-                    developerConnection = 'scm:git:ssh://github.com:your-org/gamealytics-sdk.git'
-                    url = 'https://github.com/your-org/gamealytics-sdk/tree/main'
-                }
-            }
-        }
-    }
-    
-    repositories {
-        maven {
-            name = "sonatype"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username ossrhUsername
-                password ossrhPassword
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.release
-}
+// Publishing configuration is handled in publish.gradle

@@ -2,30 +2,26 @@
   "name": "com.gamealytics.unity-sdk",
   "version": "2.0.0",
   "displayName": "GameAlytics Unity SDK",
-  "description": "GameAlytics SDK for Unity - Cross-platform analytics for game developers with static singleton pattern and fluent builder API",
+  "description": "Unity SDK for GameAlytics game analytics platform with simplified permission management",
   "unity": "2020.3",
-  "unityRelease": "0f1",
   "keywords": [
     "analytics",
-    "gaming",
     "unity",
-    "cross-platform",
-    "sdk",
     "gamealytics",
-    "events",
-    "tracking"
+    "game-analytics",
+    "telemetry"
   ],
   "author": {
     "name": "GameAlytics Team",
     "email": "support@gamealytics.com",
-    "url": "https://gamealytics.com"
+    "url": "https://github.com/gamealytics/gamealytics-sdk"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/gamealytics/gamealytics-sdk.git",
     "directory": "packages/unity"
   },
-  "license": "MIT",
   "homepage": "https://github.com/gamealytics/gamealytics-sdk/tree/main/packages/unity#readme",
   "bugs": {
     "url": "https://github.com/gamealytics/gamealytics-sdk/issues"
