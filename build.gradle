@@ -21,12 +21,19 @@ apply plugin: 'maven-publish'
 android {
     compileSdk 34
     namespace 'com.gamealytics.sdk'
+    
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
 
     defaultConfig {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "2.0.17"
+        versionName "2.0.18"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "SDK_VERSION", "\"${versionName}\""
@@ -39,8 +46,7 @@ android {
             buildConfigField "boolean", "DEBUG_MODE", "true"
         }
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
             buildConfigField "boolean", "DEBUG_MODE", "false"
         }
     }
@@ -98,7 +104,7 @@ afterEvaluate {
                 
                 groupId 'com.gamealytics'
                 artifactId 'gamealytics-sdk'
-                version '2.0.17'
+                version '2.0.18'
                 
                 pom {
                     name = 'GameAlytics Android SDK'
