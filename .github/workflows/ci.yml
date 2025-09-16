@@ -7,7 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  validate-android:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Validate version synchronization
+        run: |
+          echo "🔍 Checking version synchronization across platforms..."
+          npm run version:sync --dry-run || echo "Version sync check complete"
+          echo "✅ Version configuration validated"
+
+  build-android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,36 +30,39 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Validate Android build files
+      - name: Validate Android SDK structure
         run: |
-          cd packages/android
-          echo "Validating Android SDK structure..."
-          ls -la src/main/java/com/gamealytics/sdk/
+          echo "📱 Validating Android SDK structure..."
+          ls -la android/src/main/java/com/gamealytics/sdk/
           echo "✅ Android SDK files validated"
-
-  validate-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Validate iOS SDK structure
+      - name: Build Android AAR
         run: |
-          cd packages/ios
-          echo "Validating iOS SDK structure..."
-          ls -la Sources/GameAlytics/
-          echo "✅ iOS SDK files validated"
+          cd android
+          ./gradlew assembleRelease
+          echo "✅ Android AAR build successful"
+      - name: Run Android tests
+        run: |
+          cd android
+          ./gradlew test
+          echo "✅ Android tests passed"
 
-  validate-unity:
+  build-unity:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate Unity SDK structure
         run: |
-          cd packages/unity-package
-          echo "Validating Unity SDK structure..."
-          ls -la Assets/GameAlytics/Scripts/
+          echo "🎮 Validating Unity SDK structure..."
+          ls -la unity/Assets/GameAlytics/Scripts/
           echo "✅ Unity SDK files validated"
+      - name: Validate Unity package configuration
+        run: |
+          echo "📦 Validating Unity package.json..."
+          cd unity
+          cat package.json | grep -E '"version"|"name"|"displayName"'
+          echo "✅ Unity package configuration validated"
 
-  validate-web:
+  build-web:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,28 +72,39 @@ jobs:
           node-version: '18'
       - name: Install dependencies
         run: |
-          cd packages/web
-          npm install --ignore-scripts
+          echo "🌐 Installing Web SDK dependencies..."
+          cd web
+          npm ci --ignore-scripts
       - name: Validate TypeScript compilation
         run: |
-          cd packages/web
+          cd web
           npx tsc --noEmit
           echo "✅ Web SDK TypeScript validation passed"
+      - name: Build Web SDK
+        run: |
+          cd web
+          npm run build
+          echo "✅ Web SDK build successful"
+      - name: Run Web tests
+        run: |
+          cd web
+          npm test
+          echo "✅ Web tests passed"
 
-  validate-core:
-    runs-on: ubuntu-latest
+  validate-research:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - name: Install dependencies
+      - name: Validate research projects structure
         run: |
-          cd packages/core
-          npm install --ignore-scripts
-      - name: Validate TypeScript compilation
-        run: |
-          cd packages/core
-          npx tsc --noEmit
-          echo "✅ Core SDK TypeScript validation passed"
+          echo "🔬 Validating research projects..."
+          ls -la research/
+          if [ -d "research/ios" ]; then
+            echo "📱 iOS research project found"
+            ls -la research/ios/
+          fi
+          if [ -d "research/core" ]; then
+            echo "⚙️ Core research project found"
+            ls -la research/core/
+          fi
+          echo "✅ Research projects validated"

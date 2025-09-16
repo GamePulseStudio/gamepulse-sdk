@@ -15,9 +15,9 @@ NC='\033[0m' # No Color
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-UNITY_PACKAGE_DIR="$ROOT_DIR/unity"
+UNITY_PACKAGE_DIR="$ROOT_DIR/packages/unity-package"
 BUILD_DIR="$ROOT_DIR/build"
-VERSION="${1:-2.0.18}"
+VERSION="${1:-2.0.16}"
 PACKAGE_NAME="GameAlytics-${VERSION}.unitypackage"
 
 # Unity command line paths (adjust as needed for your system)

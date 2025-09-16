@@ -57,9 +57,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Sync versions from central config
+        run: |
+          echo "🔄 Syncing versions from version.json..."
+          node scripts/sync-versions.js
+          
       - name: Build Android SDK (JitPack will auto-publish from releases)
         run: |
-          cd packages/android
+          cd android
           ./gradlew build --no-daemon --stacktrace
 
   # TODO: Re-enable iOS publishing after Android is fixed
@@ -160,10 +165,21 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Sync versions from central config
+        run: |
+          echo "🔄 Syncing versions from version.json..."
+          node scripts/sync-versions.js
+          
       - name: Build Unity Package (.unitypackage)
         run: |
-          # Build the authentic Unity package
-          ./scripts/build-unity-package.sh ${{ steps.extract_version.outputs.version }}
+          # Build the authentic Unity package from new structure
+          cd unity
+          if [ -f "build-unity-package.sh" ]; then
+            ./build-unity-package.sh ${{ steps.extract_version.outputs.version }}
+          else
+            echo "📦 Creating Unity package..."
+            zip -r "../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
+          fi
           
       - name: Upload Unity Package to Firebase Storage
         run: |
@@ -232,63 +248,23 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Update package versions dynamically
+      - name: Sync versions from central config
         run: |
-          VERSION="${{ steps.extract_version.outputs.version }}"
-          echo "Updating package.json files with version: $VERSION"
-          
-          # Function to update package version if different
-          update_version() {
-            local package_dir=$1
-            local current_version=$(node -p "require('./$package_dir/package.json').version")
-            
-            if [ "$current_version" != "$VERSION" ]; then
-              echo "Updating $package_dir: $current_version → $VERSION"
-              cd $package_dir
-              npm version $VERSION --no-git-tag-version
-              cd ..
-            else
-              echo "$package_dir already at version $VERSION, skipping"
-            fi
-          }
-          
-          # Update core package
-          cd packages
-          update_version "core"
-          
-          # Update web package
-          update_version "web"
-          
-          cd ..
-          echo "All package.json files updated with version: $VERSION"
+          echo "🔄 Syncing versions from version.json..."
+          node scripts/sync-versions.js
       
       - name: Install root dependencies
         run: npm install
 
-      - name: Install package dependencies
+      - name: Install and build Web SDK
         run: |
-          cd packages/core
+          cd web
           npm install --ignore-scripts
-          cd ../web
-          npm install --ignore-scripts
-
-      - name: Build packages
-        run: |
-          cd packages/core
           npm run build
-          cd ../web
-          npm run build
-
-      - name: Publish Core SDK
-        run: |
-          cd packages/core
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish Web SDK
         run: |
-          cd packages/web
+          cd web
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,33 @@
+{
+  "name": "com.gamealytics.sdk",
+  "version": "2.0.19",
+  "displayName": "GameAlytics SDK",
+  "description": "Cross-platform analytics SDK for Unity game developers",
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "keywords": [
+    "analytics",
+    "gameanalytics",
+    "telemetry",
+    "game",
+    "unity"
+  ],
+  "author": {
+    "name": "GameAlytics Team",
+    "email": "support@gamealytics.com",
+    "url": "https://github.com/gamealytics/gamealytics-sdk"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gamealytics/gamealytics-sdk.git",
+    "directory": "unity"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Usage Example",
+      "description": "Basic example showing how to initialize and use GameAlytics",
+      "path": "Assets/GameAlytics/Examples"
+    }
+  ]
+}

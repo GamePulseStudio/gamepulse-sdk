@@ -1,5 +1,4 @@
-jdk:
-  - openjdk17
-
+before_install:
+  - cd android
 install:
-  - ./gradlew assemble publishToMavenLocal --no-daemon --stacktrace
+  - ./gradlew publishToMavenLocal

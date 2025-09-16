@@ -52,11 +52,21 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Final version: $VERSION"
           
+      - name: Setup Node.js for version sync
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Sync versions from central config
+        run: |
+          echo "🔄 Syncing versions from version.json..."
+          node scripts/sync-versions.js
+          
       - name: Update podspec version
         run: |
           VERSION="${{ steps.extract_version.outputs.version }}"
           echo "Updating GameAlytics.podspec with version: $VERSION"
-          cd packages/ios
+          cd research/ios
           
           # Update version in podspec
           sed -i '' "s/spec.version.*=.*/spec.version = \"$VERSION\"/" GameAlytics.podspec
@@ -66,7 +76,7 @@ jobs:
           
       - name: Validate podspec
         run: |
-          cd packages/ios
+          cd research/ios
           echo "Validating podspec..."
           pod spec lint GameAlytics.podspec --quick --skip-import-validation --skip-tests --allow-warnings
           
@@ -94,7 +104,7 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: |
-          cd packages/ios
+          cd research/ios
           echo "Publishing GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods..."
           
           # Final validation
@@ -128,7 +138,7 @@ jobs:
           
           ## 🔗 Resources
           - [CocoaPods Page](https://cocoapods.org/pods/GameAlytics)
-          - [iOS Documentation](https://github.com/gamealytics/gamealytics-sdk/blob/main/packages/ios/README.md)
-          - [Source Code](https://github.com/gamealytics/gamealytics-sdk/tree/main/packages/ios)
-          - [All Platforms](https://github.com/gamealytics/gamealytics-sdk#quick-setup)
+          - [iOS Documentation](https://github.com/gamealytics/gamealytics-sdk/blob/main/research/README.md)
+          - [Source Code](https://github.com/gamealytics/gamealytics-sdk/tree/main/research/ios)
+          - [All Platforms](https://github.com/gamealytics/gamealytics-sdk#quick-start)
           EOF

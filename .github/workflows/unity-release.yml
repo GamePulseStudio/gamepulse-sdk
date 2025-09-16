@@ -15,16 +15,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
+      - name: Setup Node.js for version sync
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Sync versions from central config
+        run: |
+          echo "🔄 Syncing versions from version.json..."
+          node scripts/sync-versions.js
+          
       - name: Create Unity Package
         run: |
-          cd packages/unity-package
+          cd unity
           
           # Create the .unitypackage using Unity's packaging
           # For now, we'll create a zip file as a .unitypackage (they're the same format)
           zip -r "GameAlytics-${GITHUB_REF_NAME}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
           
           # Move to root for release upload
-          mv "GameAlytics-${GITHUB_REF_NAME}.unitypackage" ../../
+          mv "GameAlytics-${GITHUB_REF_NAME}.unitypackage" ../
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -44,9 +54,9 @@ jobs:
             ```
             
             ### 📖 Documentation
-            - [Unity Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/packages/unity-package/Assets/GameAlytics/Documentation/README.md)
-            - [Android Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/packages/android/README.md)
-            - [Web Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/packages/web/README.md)
+            - [Unity Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/unity/README.md)
+            - [Android Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/android/README.md)
+            - [Web Integration Guide](https://github.com/gamealytics/gamealytics-sdk/blob/main/web/README.md)
             
             ### ✨ What's New
             See the [CHANGELOG](https://github.com/gamealytics/gamealytics-sdk/blob/main/CHANGELOG.md) for details.
