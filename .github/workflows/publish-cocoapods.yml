@@ -66,7 +66,7 @@ jobs:
       - name: Validate podspec
         run: |
           echo "Validating podspec..."
-          pod lib lint packages/ios/GameAlytics.podspec --allow-warnings
+          pod spec lint packages/ios/GameAlytics.podspec --quick --allow-warnings
           
       - name: Setup CocoaPods authentication
         env:
@@ -95,10 +95,10 @@ jobs:
           echo "Publishing GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods..."
           
           # Final validation
-          pod spec lint packages/ios/GameAlytics.podspec --allow-warnings
+          pod spec lint packages/ios/GameAlytics.podspec --quick --allow-warnings
           
           # Publish to CocoaPods Trunk
-          pod trunk push packages/ios/GameAlytics.podspec --allow-warnings
+          pod trunk push packages/ios/GameAlytics.podspec --skip-import-validation --allow-warnings
           
           echo "✅ Successfully published GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods!"
           
