@@ -1,6 +1,6 @@
 {
   "name": "@gamealytics/sdk-monorepo",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "GameAlytics SDK - Cross-platform analytics for game developers",
   "private": true,
   "workspaces": [

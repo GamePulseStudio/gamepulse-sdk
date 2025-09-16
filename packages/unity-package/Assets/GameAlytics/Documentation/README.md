@@ -44,4 +44,4 @@ GameAlytics.SetUserProperty("premium_user", true);
 
 ---
 
-**Version**: 2.0.15 • **License**: MIT
+**Version**: 2.0.16 • **License**: MIT
