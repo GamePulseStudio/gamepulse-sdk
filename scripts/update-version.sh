@@ -70,7 +70,7 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-TAG_NAME="v$VERSION"
+TAG_NAME="$VERSION"  # Remove 'v' prefix for cleaner JitPack versions
 
 # Function to run command or show what would be run
 run_cmd() {
