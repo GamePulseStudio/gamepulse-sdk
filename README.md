@@ -5,190 +5,82 @@
 [![Web](https://img.shields.io/npm/v/@gamealytics/web-sdk)](https://www.npmjs.com/package/@gamealytics/web-sdk)
 [![Unity](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk)](https://github.com/gamealytics/gamealytics-sdk/releases)
 
-A modern, cross-platform analytics SDK for game developers with a **fluent builder API** and comprehensive event tracking across all major gaming platforms.
+Cross-platform game analytics SDK with **fluent builder API** for Unity, Android, iOS, and Web.
 
-## ✨ Features
+## 🚀 Quick Setup
 
-- 🚀 **Easy Integration** - Simple, intuitive API with fluent builders
-- 🎯 **Comprehensive Tracking** - System events, custom events, user sessions, and more
-- 📱 **Cross-Platform** - Android, iOS, Unity, Web/Node.js support
-- ⚡ **Performance Optimized** - Event queuing, batching, and offline support
-- 🛡️ **Data Validation** - Built-in data sanitization and validation
-- 🔄 **Real-time Analytics** - View your game's analytics in real-time
-- 📊 **Rich Event Categories** - Predefined events for gameplay, IAP, progression, and more
-
-## 🚀 Quick Start
-
-Choose your platform to get started:
-
-### 📱 Android
-[![JitPack](https://img.shields.io/jitpack/version/gamealytics/gamealytics-sdk?style=flat-square)](https://jitpack.io/#gamealytics/gamealytics-sdk)
-
+### 📱 Android 
 ```gradle
-// Add to app/build.gradle
-implementation 'com.github.gamealytics:gamealytics-sdk:2.0.9'
-```
+// Add JitPack repository to settings.gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
-**[📖 Android Documentation →](packages/android/README.md)**
+// Add to app/build.gradle
+implementation 'com.github.gamealytics:gamealytics-sdk:2.0.14'
+```
+[📖 Android Guide](packages/android/README.md)
+
+### 🎮 Unity
+**Download**: [GameAlytics-2.0.14.unitypackage](https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.14/GameAlytics-2.0.14.unitypackage)
+
+1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
+2. Import: `Assets > Import Package > Custom Package`
+
+[📖 Unity Guide](packages/unity-package/Assets/GameAlytics/Documentation/README.md)
 
 ### 🌐 Web/JavaScript
-[![NPM](https://img.shields.io/npm/v/@gamealytics/web-sdk?style=flat-square)](https://www.npmjs.com/package/@gamealytics/web-sdk)
-
 ```bash
+# NPM
 npm install @gamealytics/web-sdk
-```
 
+# Yarn  
+yarn add @gamealytics/web-sdk
+```
 ```javascript
 import GameAlytics from '@gamealytics/web-sdk';
 ```
+[📖 Web Guide](packages/web/README.md)
 
-**[📖 Web SDK Documentation →](packages/web/README.md)**
-
-### 🎮 Unity
-[![GitHub Release](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk?style=flat-square)](https://github.com/gamealytics/gamealytics-sdk/releases)
-
-**Download Unity Package (.unitypackage)**
-1. Download `GameAlytics-2.0.9.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
-2. In Unity: `Assets > Import Package > Custom Package`
-3. Import the downloaded package
-
-**[📖 Unity Documentation →](packages/unity-package/Assets/GameAlytics/Documentation/README.md)**
-
-### 🍎 iOS
-[![CocoaPods](https://img.shields.io/cocoapods/v/GameAlytics?style=flat-square)](https://cocoapods.org/pods/GameAlytics)
-
+### 🍎 iOS *(Coming Soon)*
 ```ruby
-# Add to Podfile
-pod 'GameAlytics', '~> 2.0.9'
+# Podfile
+pod 'GameAlytics'
 ```
+[📖 iOS Guide](packages/ios/README.md)
+## 📈 Features
 
-**[📖 iOS Documentation →](packages/ios/README.md)** *(Coming Soon)*
+- 🎯 **Event Tracking**: Custom events, system events, user sessions
+- 🚀 **Fluent API**: Type-safe builder pattern for easy integration
+- 📱 **Cross-Platform**: Unity, Android, iOS, Web/JavaScript support
+- ⚡ **Performance**: Event queuing, batching, offline support
 
-## 📚 Platform-Specific Guides
-
-| Platform | Package | Installation | Documentation |
-|----------|---------|--------------|---------------|
-| **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖 Guide](packages/android/README.md) |
-| **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖 Guide](packages/web/README.md) |
-| **Unity** | `GameAlytics.unitypackage` | [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖 Guide](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
-| **iOS** | `GameAlytics` | [CocoaPods](https://cocoapods.org/pods/GameAlytics) | [📖 Guide](packages/ios/README.md) |
-
-## 🎯 Common Usage Example
-
-All platforms follow a similar fluent API pattern:
+## 📊 Common API Example
 
 ```typescript
-// Initialize (platform-specific syntax)
+// Initialize
 GameAlytics.init("your-api-key", Environment.PRODUCTION)
     .userConfig(userConfig)
     .create();
 
-// Track system events
+// Track events
 GameAlytics.getInstance().systemEvent()
     .category(GameplayEvents)
     .type(GameplayEvents.LEVEL_START)
-    .setProperties({
-        level: "1",
-        difficulty: "easy"
-    })
-    .trigger();
-
-// Track custom events
-GameAlytics.getInstance().customEvent()
-    .category("boss_fight")
-    .type("boss_defeated")
-    .setProperties({
-        boss_name: "Dragon King",
-        time_taken: "120"
-    })
+    .setProperties({ level: "1", difficulty: "easy" })
     .trigger();
 ```
 
-## 📊 Event Categories
+## 📁 Documentation
 
-The SDK provides comprehensive predefined event categories:
-
-- **👤 User Events**: Session management, login, registration
-- **🎮 Gameplay Events**: Level progression, game flow, achievements
-- **💰 IAP Events**: Purchases, subscriptions, transaction tracking
-- **📈 Progression Events**: Tutorial completion, milestones, unlocks
-- **📺 Ad Events**: Ad viewing, clicks, rewards, failures
-- **🔧 Custom Events**: Your game-specific analytics needs
-
-## 📁 Repository Structure
-
-```
-gamealytics-sdk/
-├── packages/
-│   ├── core/                  # Shared core functionality
-│   ├── android/              # Android SDK (Java/Kotlin)
-│   ├── ios/                   # iOS SDK (Swift/Objective-C)
-│   ├── unity/                 # Unity SDK (C#)
-│   └── web/                   # Web/Node.js SDK (TypeScript)
-├── examples/                  # Example implementations
-├── scripts/                   # Build and deployment scripts
-└── .github/workflows/         # CI/CD automation
-```
-
-## 🔄 Latest Release: v2.0.9
-
-### What's New
-- ✅ Comprehensive README documentation for all platforms
-- ✅ Enhanced Android SDK with complete API documentation
-- ✅ New Web SDK README with framework integration examples
-- ✅ Clean version tagging (no "v" prefix for cleaner dependencies)
-- ✅ Improved CI/CD pipeline with single workflow triggers
-- ✅ Updated cross-platform event builder APIs
-
-[📋 View All Releases →](https://github.com/gamealytics/gamealytics-sdk/releases)
-
-## 🛠 Development Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/gamealytics/gamealytics-sdk.git
-cd gamealytics-sdk
-
-# Install dependencies
-npm install
-
-# Build all packages
-npm run build
-
-# Run tests
-npm test
-```
-
-## 📈 Monitoring & Analytics
-
-- **🔗 GitHub Actions**: [View CI/CD Status](https://github.com/gamealytics/gamealytics-sdk/actions)
-- **📦 Package Health**: Monitor NPM, JitPack, and CocoaPods
-- **🐛 Issues**: [Report bugs or request features](https://github.com/gamealytics/gamealytics-sdk/issues)
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for:
-
-- Code of conduct
-- Development workflow
-- Pull request process
-- Coding standards
-
-## 📞 Support
-
-- **📧 Email**: support@gamealytics.com
-- **📚 Documentation**: [docs.gamealytics.com](https://docs.gamealytics.com)
-- **🐛 Issues**: [GitHub Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/gamealytics/gamealytics-sdk/discussions)
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+| Platform | Package | Installation | Guide |
+|----------|---------|--------------|-------|
+| **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖](packages/android/README.md) |
+| **Unity** | `GameAlytics-{version}.unitypackage` | [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
+| **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖](packages/web/README.md) |
+| **iOS** | `GameAlytics` | CocoaPods *(Coming Soon)* | [📖](packages/ios/README.md) |
 
 ---
 
-<div align="center">
-  <strong>Built with ❤️ by the GameAlytics Team</strong>
-  <br>
-  <sub>Empowering game developers with actionable analytics</sub>
+**Latest Release**: [v2.0.14](https://github.com/gamealytics/gamealytics-sdk/releases) • **License**: [MIT](LICENSE) • **Support**: [Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
 </div>
