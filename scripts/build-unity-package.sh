@@ -244,7 +244,7 @@ create_package_info() {
   ],
   "supported_unity_versions": "2020.3+",
   "platforms": [
-    "iOS", "Android", "Windows", "macOS", "Linux", "WebGL", "Console"
+    "Android", "Windows", "macOS", "Linux", "WebGL", "Console"
   ]
 }
 EOF

@@ -5,7 +5,7 @@
 [![Web](https://img.shields.io/npm/v/@gamealytics/web-sdk)](https://www.npmjs.com/package/@gamealytics/web-sdk)
 [![Unity](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk)](https://github.com/gamealytics/gamealytics-sdk/releases)
 
-Cross-platform game analytics SDK with **fluent builder API** for Unity, Android, iOS, and Web.
+Cross-platform game analytics SDK with **fluent builder API** for Unity, Android, and Web.
 
 ## 🚀 Quick Setup
 
@@ -42,20 +42,11 @@ import GameAlytics from '@gamealytics/web-sdk';
 ```
 [📖 Web Guide](packages/web/README.md)
 
-### 🍎 iOS
-```ruby
-# Add to your Podfile
-pod 'GameAlytics', '~> 2.0.15'
-```
-```bash
-pod install
-```
-[📖 iOS Guide](packages/ios/README.md)
 ## 📈 Features
 
 - 🎯 **Event Tracking**: Custom events, system events, user sessions
 - 🚀 **Fluent API**: Type-safe builder pattern for easy integration
-- 📱 **Cross-Platform**: Unity, Android, iOS, Web/JavaScript support
+- 📱 **Cross-Platform**: Unity, Android, Web/JavaScript support
 - ⚡ **Performance**: Event queuing, batching, offline support
 
 ## 📊 Common API Example
@@ -81,7 +72,6 @@ GameAlytics.getInstance().systemEvent()
 | **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖](packages/android/README.md) |
 | **Unity** | `GameAlytics-{version}.unitypackage` | [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
 | **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖](packages/web/README.md) |
-| **iOS** | `GameAlytics` | [CocoaPods](https://cocoapods.org/pods/GameAlytics) | [📖](packages/ios/README.md) |
 
 ---
 
