@@ -167,16 +167,34 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
-      - name: Create Unity Package for GitHub Release
+      - name: Build Unity Package (.unitypackage)
+        run: |
+          # Build the authentic Unity package
+          ./scripts/build-unity-package.sh ${{ steps.extract_version.outputs.version }}
+          
+      - name: Upload Unity Package to Firebase Storage
+        run: |
+          # Upload to Firebase Storage (requires Firebase setup)
+          # This step can be enabled when Firebase is configured
+          echo "Unity package built: build/GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage"
+          # ./scripts/upload-to-firebase.sh ${{ steps.extract_version.outputs.version }}
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          
+      - name: Create Unity Package for GitHub Release (NPM version)
         run: |
           cd packages/unity
           npm pack
           
-      - name: Upload Unity Package
+      - name: Upload Unity Package Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: unity-package
-          path: packages/unity/*.tgz
+          name: unity-packages
+          path: |
+            packages/unity/*.tgz
+            build/GameAlytics-*.unitypackage
+            build/GameAlytics-*.json
 
   publish-npm:
     runs-on: ubuntu-latest

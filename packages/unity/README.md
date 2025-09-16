@@ -12,11 +12,25 @@ The official Unity SDK for GameAlytics, providing game analytics tracking for Un
 
 ## Installation
 
-### Via Unity Package Manager
+### Method 1: Unity Package (.unitypackage) - **RECOMMENDED**
+
+1. **Download the latest Unity package**:
+   - Visit: [GameAlytics Unity SDK Downloads](https://firebase.google.com/docs/storage) *(Firebase Storage link will be provided)*
+   - Or download directly: `GameAlytics-2.0.9.unitypackage`
+
+2. **Import in Unity**:
+   - Open your Unity project
+   - Go to `Assets > Import Package > Custom Package`
+   - Select the downloaded `GameAlytics.unitypackage` file
+   - Click "Import" to add GameAlytics to your project
+
+### Method 2: Unity Package Manager (Git URL)
 
 1. Open Unity Package Manager (`Window > Package Manager`)
 2. Click the `+` button and select `Add package from git URL`
 3. Enter: `https://github.com/gamealytics/gamealytics-sdk.git?path=/packages/unity`
+
+*Note: Method 1 (.unitypackage) is recommended as it provides a complete, authentic Unity package experience with proper Editor integration.*
 
 ## Usage
 
