@@ -1,0 +1,56 @@
+name: Debug iOS Environment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug-ios:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+          
+      - name: Check Xcode environment
+        run: |
+          echo "=== Xcode Environment ==="
+          xcode-select -p
+          which xcodebuild
+          xcodebuild -version
+          
+          echo -e "\n=== Simulators ==="
+          xcrun simctl list devices --json | head -20
+          
+          echo -e "\n=== Available SDKs ==="
+          xcodebuild -showsdks
+          
+          echo -e "\n=== Destinations ==="
+          xcodebuild -project /dev/null -showdestinations || true
+          
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          pod setup
+          
+      - name: Try building our podspec
+        run: |
+          echo "=== Testing podspec build directly ==="
+          cd packages/ios
+          
+          # Try with different flags
+          echo "Testing with --quick flag:"
+          pod lib lint GameAlytics.podspec --quick --allow-warnings || true
+          
+          echo -e "\nTesting with --skip-import-validation:"
+          pod lib lint GameAlytics.podspec --skip-import-validation --allow-warnings || true
+          
+          echo -e "\nTesting with --skip-tests:"
+          pod lib lint GameAlytics.podspec --skip-tests --allow-warnings || true
+          
+          echo -e "\nTesting with all skip flags:"
+          pod lib lint GameAlytics.podspec --quick --skip-import-validation --skip-tests --allow-warnings || true
