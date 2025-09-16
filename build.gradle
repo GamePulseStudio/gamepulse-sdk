@@ -26,7 +26,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "2.0.16"
+        versionName "2.0.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "SDK_VERSION", "\"${versionName}\""
@@ -98,7 +98,7 @@ afterEvaluate {
                 
                 groupId 'com.gamealytics'
                 artifactId 'gamealytics-sdk'
-                version '2.0.16'
+                version '2.0.17'
                 
                 pom {
                     name = 'GameAlytics Android SDK'
