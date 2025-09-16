@@ -1,0 +1,27 @@
+// Root build.gradle for JitPack compatibility
+// This points JitPack to build the Android package
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.2'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Configure this as a multi-project build
+subprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}

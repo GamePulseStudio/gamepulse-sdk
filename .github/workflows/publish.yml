@@ -160,13 +160,6 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Publish Unity Package to npm
-        run: |
-          cd packages/unity
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          
       - name: Build Unity Package (.unitypackage)
         run: |
           # Build the authentic Unity package
@@ -174,27 +167,26 @@ jobs:
           
       - name: Upload Unity Package to Firebase Storage
         run: |
-          # Upload to Firebase Storage (requires Firebase setup)
-          # This step can be enabled when Firebase is configured
-          echo "Unity package built: build/GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage"
-          # ./scripts/upload-to-firebase.sh ${{ steps.extract_version.outputs.version }}
+          # Upload to Firebase Storage (when Firebase is configured)
+          if [ -n "$FIREBASE_PROJECT_ID" ]; then
+            echo "Uploading Unity package to Firebase Storage..."
+            ./scripts/upload-to-firebase.sh ${{ steps.extract_version.outputs.version }}
+          else
+            echo "Firebase not configured, skipping upload"
+            echo "Unity package built: build/GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage"
+          fi
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
           
-      - name: Create Unity Package for GitHub Release (NPM version)
-        run: |
-          cd packages/unity
-          npm pack
-          
       - name: Upload Unity Package Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: unity-packages
+          name: unity-package-artifacts
           path: |
-            packages/unity/*.tgz
             build/GameAlytics-*.unitypackage
             build/GameAlytics-*.json
+            build/download-info-*.json
 
   publish-npm:
     runs-on: ubuntu-latest
@@ -266,9 +258,6 @@ jobs:
           
           # Update web package
           update_version "web"
-          
-          # Update Unity package
-          update_version "unity"
           
           cd ..
           echo "All package.json files updated with version: $VERSION"
