@@ -1,0 +1,133 @@
+name: Publish to CocoaPods
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish'
+        required: true
+        default: '2.0.14'
+
+jobs:
+  publish-cocoapods:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+          
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          pod setup
+          
+      - name: Extract version from tag or input
+        id: extract_version
+        run: |
+          if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]; then
+            TAG_NAME=${{ github.ref_name }}
+            echo "Using version from tag: $TAG_NAME"
+            # Extract version number (remove 'v' prefix if present)
+            if [[ $TAG_NAME =~ ^v[0-9] ]]; then
+              VERSION=${TAG_NAME#v}
+            else
+              VERSION=$TAG_NAME
+            fi
+          elif [ "${{ github.event.inputs.version }}" != "" ]; then
+            VERSION=${{ github.event.inputs.version }}
+            echo "Using manual version: $VERSION"
+          else
+            VERSION="2.0.14"
+            echo "Using default version: $VERSION"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Final version: $VERSION"
+          
+      - name: Update podspec version
+        run: |
+          VERSION="${{ steps.extract_version.outputs.version }}"
+          echo "Updating GameAlytics.podspec with version: $VERSION"
+          cd packages/ios
+          
+          # Update version in podspec
+          sed -i '' "s/spec.version.*=.*/spec.version = \"$VERSION\"/" GameAlytics.podspec
+          
+          echo "Updated podspec:"
+          grep "spec.version" GameAlytics.podspec
+          
+      - name: Validate podspec
+        run: |
+          cd packages/ios
+          echo "Validating podspec..."
+          pod lib lint GameAlytics.podspec --allow-warnings
+          
+      - name: Setup CocoaPods authentication
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          if [ -z "$COCOAPODS_TRUNK_TOKEN" ]; then
+            echo "❌ COCOAPODS_TRUNK_TOKEN secret not found"
+            echo ""
+            echo "📋 CocoaPods Setup Instructions:"
+            echo "1. Register your CocoaPods account:"
+            echo "   pod trunk register your-email@domain.com 'GameAlytics'"
+            echo "2. Check your email and click the verification link"
+            echo "3. Get your session token:"
+            echo "   cat ~/.netrc | grep cocoapods"
+            echo "4. Add the token as COCOAPODS_TRUNK_TOKEN in GitHub repository secrets"
+            echo "5. Re-run this workflow"
+            exit 1
+          else
+            echo "✅ CocoaPods authentication configured"
+          fi
+          
+      - name: Publish to CocoaPods
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          cd packages/ios
+          echo "Publishing GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods..."
+          
+          # Final validation
+          pod spec lint GameAlytics.podspec --allow-warnings
+          
+          # Publish to CocoaPods Trunk
+          pod trunk push GameAlytics.podspec --allow-warnings
+          
+          echo "✅ Successfully published GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods!"
+          
+      - name: Create publication summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          # 🎉 CocoaPods Publication Successful
+          
+          **Package**: GameAlytics iOS SDK  
+          **Version**: ${{ steps.extract_version.outputs.version }}  
+          **Platform**: iOS 12.0+  
+          **Language**: Swift 5.0  
+          
+          ## 📱 Installation for Developers
+          \`\`\`ruby
+          # Add to your iOS project's Podfile
+          pod 'GameAlytics', '~> ${{ steps.extract_version.outputs.version }}'
+          \`\`\`
+          
+          Then run:
+          \`\`\`bash
+          pod install
+          \`\`\`
+          
+          ## 🔗 Resources
+          - [CocoaPods Page](https://cocoapods.org/pods/GameAlytics)
+          - [iOS Documentation](https://github.com/gamealytics/gamealytics-sdk/blob/main/packages/ios/README.md)
+          - [Source Code](https://github.com/gamealytics/gamealytics-sdk/tree/main/packages/ios)
+          - [All Platforms](https://github.com/gamealytics/gamealytics-sdk#quick-setup)
+          EOF

@@ -42,10 +42,13 @@ import GameAlytics from '@gamealytics/web-sdk';
 ```
 [📖 Web Guide](packages/web/README.md)
 
-### 🍎 iOS *(Coming Soon)*
+### 🍎 iOS
 ```ruby
-# Podfile
-pod 'GameAlytics'
+# Add to your Podfile
+pod 'GameAlytics', '~> 2.0.14'
+```
+```bash
+pod install
 ```
 [📖 iOS Guide](packages/ios/README.md)
 ## 📈 Features
@@ -78,7 +81,7 @@ GameAlytics.getInstance().systemEvent()
 | **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖](packages/android/README.md) |
 | **Unity** | `GameAlytics-{version}.unitypackage` | [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
 | **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖](packages/web/README.md) |
-| **iOS** | `GameAlytics` | CocoaPods *(Coming Soon)* | [📖](packages/ios/README.md) |
+| **iOS** | `GameAlytics` | [CocoaPods](https://cocoapods.org/pods/GameAlytics) | [📖](packages/ios/README.md) |
 
 ---
 
