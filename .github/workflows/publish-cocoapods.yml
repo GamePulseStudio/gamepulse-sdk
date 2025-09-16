@@ -1,9 +1,10 @@
 name: Publish to CocoaPods
 
 on:
-  push:
-    tags:
-      - '*'
+  # Temporarily disabled - enable when iOS publishing is ready
+  # push:
+  #   tags:
+  #     - '*'
   workflow_dispatch:
     inputs:
       version:

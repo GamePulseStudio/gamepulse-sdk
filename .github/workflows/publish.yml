@@ -263,14 +263,14 @@ jobs:
           echo "All package.json files updated with version: $VERSION"
       
       - name: Install root dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install package dependencies
         run: |
           cd packages/core
-          npm ci --ignore-scripts
+          npm install --ignore-scripts
           cd ../web
-          npm ci --ignore-scripts
+          npm install --ignore-scripts
 
       - name: Build packages
         run: |

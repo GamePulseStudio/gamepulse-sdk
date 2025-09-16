@@ -17,7 +17,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 UNITY_PACKAGE_DIR="$ROOT_DIR/packages/unity-package"
 BUILD_DIR="$ROOT_DIR/build"
-VERSION="${1:-2.0.9}"
+VERSION="${1:-2.0.15}"
 PACKAGE_NAME="GameAlytics-${VERSION}.unitypackage"
 
 # Unity command line paths (adjust as needed for your system)
@@ -303,7 +303,7 @@ show_help() {
     echo "Usage: $0 [VERSION] [OPTIONS]"
     echo ""
     echo "Arguments:"
-    echo "  VERSION    Package version (default: 2.0.9)"
+echo "  VERSION    Package version (default: 2.0.15)"
     echo ""
     echo "Examples:"
     echo "  $0                    # Build with default version"
