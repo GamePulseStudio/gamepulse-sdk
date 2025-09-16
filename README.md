@@ -1,6 +1,6 @@
 # 🎮 GameAlytics SDK
 
-[![CI](https://github.com/gamealytics/gamealytics-sdk/workflows/publish/badge.svg)](https://github.com/gamealytics/gamealytics-sdk/actions)
+[![CI](https://github.com/gamealytics/gamealytics-sdk/workflows/CI/badge.svg)](https://github.com/gamealytics/gamealytics-sdk/actions)
 [![JitPack](https://jitpack.io/v/gamealytics/gamealytics-sdk.svg)](https://jitpack.io/#gamealytics/gamealytics-sdk)
 [![Web](https://img.shields.io/npm/v/@gamealytics/web-sdk)](https://www.npmjs.com/package/@gamealytics/web-sdk)
 [![Unity](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk)](https://github.com/gamealytics/gamealytics-sdk/releases)
