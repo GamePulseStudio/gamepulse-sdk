@@ -17,12 +17,12 @@ repositories {
 }
 
 // Add to app/build.gradle
-implementation 'com.github.gamealytics:gamealytics-sdk:2.0.14'
+implementation 'com.github.gamealytics:gamealytics-sdk:2.0.15'
 ```
 [📖 Android Guide](packages/android/README.md)
 
 ### 🎮 Unity
-**Download**: [GameAlytics-2.0.14.unitypackage](https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.14/GameAlytics-2.0.14.unitypackage)
+**Download**: [GameAlytics-2.0.15.unitypackage](https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.15/GameAlytics-2.0.15.unitypackage)
 
 1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
 2. Import: `Assets > Import Package > Custom Package`
@@ -45,7 +45,7 @@ import GameAlytics from '@gamealytics/web-sdk';
 ### 🍎 iOS
 ```ruby
 # Add to your Podfile
-pod 'GameAlytics', '~> 2.0.14'
+pod 'GameAlytics', '~> 2.0.15'
 ```
 ```bash
 pod install
@@ -85,5 +85,5 @@ GameAlytics.getInstance().systemEvent()
 
 ---
 
-**Latest Release**: [v2.0.14](https://github.com/gamealytics/gamealytics-sdk/releases) • **License**: [MIT](LICENSE) • **Support**: [Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
+**Latest Release**: [v2.0.15](https://github.com/gamealytics/gamealytics-sdk/releases) • **License**: [MIT](LICENSE) • **Support**: [Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
 </div>

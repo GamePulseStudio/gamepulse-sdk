@@ -9,7 +9,7 @@ on:
       version:
         description: 'Version to publish'
         required: true
-        default: '2.0.14'
+        default: '2.0.15'
 
 jobs:
   publish-cocoapods:
@@ -45,7 +45,7 @@ jobs:
             VERSION=${{ github.event.inputs.version }}
             echo "Using manual version: $VERSION"
           else
-            VERSION="2.0.14"
+            VERSION="2.0.15"
             echo "Using default version: $VERSION"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT

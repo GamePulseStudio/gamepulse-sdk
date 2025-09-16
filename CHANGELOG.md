@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.15] - 2025-09-16
+
+### 🧹 Repository Cleanup
+- **BREAKING**: Removed unnecessary files and directories
+  - Deleted IDE files (`.idea/`, `.gradle/`, `build/`)
+  - Removed legacy documentation files
+  - Cleaned up duplicate README files
+  - Removed build artifacts and generated files
+  - Eliminated redundant configuration files
+
+### 📁 Structure Optimization
+- Streamlined repository structure for better maintainability
+- Optimized `.gitignore` to prevent build artifacts
+- Reduced repository size by removing `node_modules/` and `dist/` folders
+- Consolidated documentation to root level
+
+### 🔧 Configuration Updates
+- Updated all platform versions to 2.0.15
+- Cleaned up GitHub Actions workflows
+- Optimized package configurations
+
+### 🎯 Focus
+- Repository now contains only essential source code and configuration
+- Improved developer experience with cleaner structure
+- Faster clone times and reduced disk usage
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

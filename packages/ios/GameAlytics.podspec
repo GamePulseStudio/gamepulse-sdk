@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = "GameAlytics"
-  spec.version       = "2.0.14"
+  spec.version       = "2.0.15"
   spec.summary       = "Cross-platform game analytics SDK for iOS with fluent API"
   spec.description   = <<-DESC
     GameAlytics iOS SDK provides comprehensive game analytics tracking with a modern fluent API design.
@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, "12.0"
   spec.swift_version = "5.0"
   
-  spec.source_files = "packages/ios/Sources/**/*.swift"
+  spec.source_files = "packages/ios/Sources/GameAlytics/*.swift"
   spec.exclude_files = "packages/ios/Sources/**/Info.plist"
   spec.frameworks = "Foundation"
   
