@@ -2,4 +2,4 @@ jdk:
   - openjdk17
 
 install:
-  - ./gradlew :android:assemble :android:publishToMavenLocal --no-daemon --stacktrace
+  - ./gradlew assemble publishToMavenLocal --no-daemon --stacktrace
