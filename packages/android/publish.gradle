@@ -1,49 +1,21 @@
 apply plugin: 'maven-publish'
 
-task androidSourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    from android.sourceSets.main.java.srcDirs
-}
+// Using Android plugin's automatic source and javadoc jar generation
 
-// Disable Javadocs task temporarily due to classpath issues in CI
-// task androidJavadocs(type: Javadoc) {
-//     source = android.sourceSets.main.java.srcDirs
-//     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//     android.libraryVariants.all { variant ->
-//         if (variant.name == 'release') {
-//             owner.classpath += variant.javaCompileProvider.get().classpath
-//         }
-//     }
-//     exclude '**/R.html', '**/R.*.html', '**/index.html'
-//     
-//     // Handle empty paths gracefully
-//     options.addBooleanOption('Xdoclint:none', true)
-//     options.addBooleanOption('quiet', true)
-//     failOnError false
-// }
-
-// Create empty Javadoc jar for publishing compatibility
-task androidJavadocsJar(type: Jar) {
-    archiveClassifier.set('javadoc')
-    // Empty javadoc jar - will be replaced when javadoc issues are resolved
-}
-
-artifacts {
-    archives androidSourcesJar
-    archives androidJavadocsJar
+android {
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                android.libraryVariants.all { variant ->
-                    if (variant.buildType.name == 'release') {
-                        artifact variant.outputs[0].outputFile
-                    }
-                }
-                artifact androidSourcesJar
-                artifact androidJavadocsJar
+                from components.release
 
                 groupId GROUP
                 artifactId 'gamealytics-android'
@@ -72,8 +44,8 @@ afterEvaluate {
                         url = POM_SCM_URL
                     }
                 }
+            }
         }
-    }
         // JitPack automatically publishes from GitHub releases
         // No explicit repository configuration needed
     }

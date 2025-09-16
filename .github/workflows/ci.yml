@@ -40,9 +40,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate Unity SDK structure
         run: |
-          cd packages/unity
+          cd packages/unity-package
           echo "Validating Unity SDK structure..."
-          ls -la Runtime/
+          ls -la Assets/GameAlytics/Scripts/
           echo "✅ Unity SDK files validated"
 
   validate-web:
