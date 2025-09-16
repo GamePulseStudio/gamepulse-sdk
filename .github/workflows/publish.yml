@@ -328,18 +328,39 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "Final version: $VERSION"
-      - name: Create Unity Package
-        run: |
-          cd packages/unity
-          zip -r ../../gamealytics-unity-${{ steps.extract_version.outputs.version }}.zip . -x "*.meta" "Library/*" "Temp/*"
+      - name: Download Unity Package Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: unity-package-artifacts
+          path: ./artifacts
+          
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: gamealytics-unity-${{ steps.extract_version.outputs.version }}.zip
+          files: |
+            ./artifacts/GameAlytics-*.unitypackage
+            ./artifacts/GameAlytics-*.json
           tag_name: ${{ steps.extract_version.outputs.tag_name }}
           name: Release ${{ steps.extract_version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
+          body: |
+            ## GameAlytics Unity SDK ${{ steps.extract_version.outputs.version }}
+            
+            ### 📦 Installation
+            
+            **Unity Package (.unitypackage) - RECOMMENDED:**
+            1. Download `GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage` from this release
+            2. In Unity: `Assets > Import Package > Custom Package`
+            3. Select the downloaded package and click Import
+            
+            ### 🚀 Features
+            - Cross-platform Unity support (iOS, Android, Windows, macOS, Linux, WebGL, Console)
+            - Fluent API with comprehensive event tracking
+            - Real-time analytics with event batching and queuing
+            - Complete Unity Editor integration
+            
+            For detailed documentation, see the included README in the package.
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
