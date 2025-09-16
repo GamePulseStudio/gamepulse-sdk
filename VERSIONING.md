@@ -27,38 +27,59 @@ During the publish workflow, the following files are automatically updated with 
 
 ## Local Development
 
-For local development, you can use the provided script to update all versions at once:
+For local development, you can use the provided script to handle the complete release process:
 
 ```bash
-# Update all packages to version 2.1.0
+# Complete release (updates versions, commits, tags, and pushes)
 ./scripts/update-version.sh 2.1.0
+
+# Dry run to see what would happen
+./scripts/update-version.sh 2.1.0 --dry-run
+
+# Update and commit but don't push/tag
+./scripts/update-version.sh 2.1.0 --no-push
+
+# Skip all confirmation prompts
+./scripts/update-version.sh 2.1.0 --auto-yes
 ```
 
-This script updates:
-- All NPM package.json files
-- iOS Podspec file
-- Provides next steps for committing and tagging
+The script handles everything automatically:
+- Updates all NPM package.json files
+- Updates iOS Podspec file
+- Commits the changes
+- Creates and pushes the Git tag
+- Triggers the automated CI/CD pipeline
 
 ## Release Process
 
-### Automated (Recommended)
+### One-Command Release (Recommended)
 
-1. Update your code and commit changes
-2. Run the version update script:
-   ```bash
-   ./scripts/update-version.sh 2.1.0
-   ```
-3. Commit the version changes:
-   ```bash
-   git add .
-   git commit -m "chore: bump version to 2.1.0"
-   ```
-4. Create and push the tag:
-   ```bash
-   git tag v2.1.0
-   git push origin v2.1.0
-   ```
-5. The GitHub Actions workflow will automatically publish all packages
+```bash
+# Make your changes, then deploy everything in one command:
+./scripts/update-version.sh 2.1.0
+```
+
+This single command will:
+1. ✅ Validate the version format
+2. ✅ Check for existing tags and clean conflicts
+3. ✅ Update all package.json and podspec files
+4. ✅ Show you the changes and ask for confirmation
+5. ✅ Commit the changes with a proper message
+6. ✅ Create and push the version tag
+7. ✅ Trigger GitHub Actions to publish all packages
+
+### Advanced Options
+
+```bash
+# Preview what would happen without making changes
+./scripts/update-version.sh 2.1.0 --dry-run
+
+# Update versions and commit, but let me handle push/tag manually
+./scripts/update-version.sh 2.1.0 --no-push
+
+# Skip confirmation prompts (for CI/automation)
+./scripts/update-version.sh 2.1.0 --auto-yes
+```
 
 ### Manual GitHub Actions
 
@@ -70,11 +91,13 @@ This script updates:
 
 ## Benefits
 
-- **No manual version updates**: Versions are automatically extracted and applied
-- **Consistent versioning**: All packages use the same version from the Git tag
-- **Reduced errors**: Eliminates version mismatch issues between packages
-- **Simplified releases**: Tag creation triggers automatic publishing
-- **Flexible**: Supports both automated tag-based and manual releases
+- **One-Command Deployment**: Complete release in a single command
+- **No Manual Version Updates**: Versions are automatically extracted and applied
+- **Consistent Versioning**: All packages use the same version from the Git tag
+- **Error Prevention**: Built-in validation and conflict resolution
+- **Safe Operations**: Dry-run mode and confirmation prompts
+- **Automatic Publishing**: GitHub Actions handles all package publishing
+- **Flexible Options**: Multiple modes for different workflows
 
 ## File Structure
 
