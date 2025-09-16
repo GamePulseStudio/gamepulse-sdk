@@ -1,5 +1,5 @@
 // Root build.gradle for JitPack compatibility
-// This points JitPack to build the Android package
+// This delegates to the Android module
 
 buildscript {
     repositories {
@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.2'
+        classpath 'com.android.tools.build:gradle:8.1.4'
     }
 }
 
@@ -18,10 +18,11 @@ allprojects {
     }
 }
 
-// Configure this as a multi-project build
-subprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+// For JitPack to work, we need to apply the Android plugin at root level
+// But delegate the actual implementation to the android subproject
+if (project.hasProperty('android') || project.plugins.hasPlugin('com.android.library')) {
+    // Already applied in subproject
+} else {
+    // This is for JitPack's publishToMavenLocal task discovery
+    apply plugin: 'maven-publish'
 }

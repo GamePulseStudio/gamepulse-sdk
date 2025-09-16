@@ -47,12 +47,12 @@ import GameAlytics from '@gamealytics/web-sdk';
 ### 🎮 Unity
 [![GitHub Release](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk?style=flat-square)](https://github.com/gamealytics/gamealytics-sdk/releases)
 
-```
-// Via Unity Package Manager
-https://github.com/gamealytics/gamealytics-sdk.git?path=/packages/unity
-```
+**Download Unity Package (.unitypackage)**
+1. Download `GameAlytics-2.0.9.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
+2. In Unity: `Assets > Import Package > Custom Package`
+3. Import the downloaded package
 
-**[📖 Unity Documentation →](packages/unity/README.md)**
+**[📖 Unity Documentation →](packages/unity-package/Assets/GameAlytics/Documentation/README.md)**
 
 ### 🍎 iOS
 [![CocoaPods](https://img.shields.io/cocoapods/v/GameAlytics?style=flat-square)](https://cocoapods.org/pods/GameAlytics)
@@ -70,7 +70,7 @@ pod 'GameAlytics', '~> 2.0.9'
 |----------|---------|--------------|---------------|
 | **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖 Guide](packages/android/README.md) |
 | **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖 Guide](packages/web/README.md) |
-| **Unity** | Unity Package | [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖 Guide](packages/unity/README.md) |
+| **Unity** | `GameAlytics.unitypackage` | [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖 Guide](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
 | **iOS** | `GameAlytics` | [CocoaPods](https://cocoapods.org/pods/GameAlytics) | [📖 Guide](packages/ios/README.md) |
 
 ## 🎯 Common Usage Example
