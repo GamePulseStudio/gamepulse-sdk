@@ -1,6 +1,6 @@
 # GameAlytics Unity SDK
 
-Version: **2.0.19**
+Version: **2.0.20**
 
 Cross-platform analytics SDK for Unity game developers.
 

@@ -1,6 +1,6 @@
 # GameAlytics Android SDK
 
-Version: **2.0.19**
+Version: **2.0.20**
 
 Cross-platform analytics SDK for Android game developers.
 
@@ -24,7 +24,7 @@ Add the dependency to your app's `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.19'
+    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.20'
 }
 ```
 

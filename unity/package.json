@@ -1,6 +1,6 @@
 {
   "name": "com.gamealytics.sdk",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "displayName": "GameAlytics SDK",
   "description": "Cross-platform analytics SDK for Unity game developers",
   "unity": "2020.3",

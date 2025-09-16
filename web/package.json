@@ -1,6 +1,6 @@
 {
   "name": "@gamealytics/web-sdk",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "GameAlytics SDK for Web/Node.js - Cross-platform analytics for game developers",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

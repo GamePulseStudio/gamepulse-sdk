@@ -55,7 +55,7 @@ gamealytics-sdk/
 ### Android (JitPack)
 ```gradle
 dependencies {
-    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.19'
+    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.20'
 }
 ```
 
@@ -66,7 +66,7 @@ https://github.com/gamealytics/gamealytics-sdk.git?path=unity
 
 ### Web (npm)
 ```bash
-npm install @gamealytics/sdk@2.0.19
+npm install @gamealytics/sdk@2.0.20
 ```
 
 ## 📊 Usage Examples

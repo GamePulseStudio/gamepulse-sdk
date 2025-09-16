@@ -1,6 +1,6 @@
 # GameAlytics Web SDK
 
-Version: **2.0.19**
+Version: **2.0.20**
 
 Cross-platform analytics SDK for web-based games and applications.
 
@@ -15,7 +15,7 @@ npm install @gamealytics/sdk
 ### Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@gamealytics/sdk@2.0.19/dist/gamealytics.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gamealytics/sdk@2.0.20/dist/gamealytics.min.js"></script>
 ```
 
 ### Using GitHub Releases
