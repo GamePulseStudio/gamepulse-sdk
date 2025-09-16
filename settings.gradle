@@ -1,4 +1,1 @@
 rootProject.name = 'gamealytics-sdk'
-
-include ':android'
-project(':android').projectDir = file('packages/android')
