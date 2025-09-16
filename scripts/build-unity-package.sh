@@ -168,6 +168,7 @@ validate_package_structure() {
         "Assets/GameAlytics/Scripts/GameAlytics.cs"
         "Assets/GameAlytics/Examples/GameAnalyticsUsageExample.cs"
         "Assets/GameAlytics/Editor/GameAnalyticsPackageExporter.cs"
+        "Assets/GameAlytics/Editor/ExportPackage.cs"
         "Assets/GameAlytics/Documentation/README.md"
     )
     

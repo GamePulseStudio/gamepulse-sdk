@@ -172,14 +172,19 @@ jobs:
           
       - name: Build Unity Package (.unitypackage)
         run: |
-          # Build the authentic Unity package from new structure
+          echo "📦 Creating Unity package from unity/ folder..."
           cd unity
-          if [ -f "build-unity-package.sh" ]; then
-            ./build-unity-package.sh ${{ steps.extract_version.outputs.version }}
-          else
-            echo "📦 Creating Unity package..."
-            zip -r "../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
-          fi
+          
+          # Verify files exist
+          echo "Checking Unity package structure:"
+          ls -la Assets/GameAlytics/
+          find Assets/GameAlytics -name "*.cs" -o -name "*.md" | head -10
+          
+          # Create Unity package
+          zip -r "../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
+          
+          # Verify package was created
+          ls -la ../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage
           
       - name: Upload Unity Package to Firebase Storage
         run: |
@@ -200,9 +205,7 @@ jobs:
         with:
           name: unity-package-artifacts
           path: |
-            build/GameAlytics-*.unitypackage
-            build/GameAlytics-*.json
-            build/download-info-*.json
+            GameAlytics-*.unitypackage
 
   publish-npm:
     runs-on: ubuntu-latest

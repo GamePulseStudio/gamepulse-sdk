@@ -158,7 +158,7 @@ export class EventQueue {
       }
     }, delay);
 
-    this.retryTimeouts.set(event.id, timeoutId);
+    this.retryTimeouts.set(event.id, timeoutId as any);
   }
 
   /**
