@@ -467,7 +467,7 @@ public class GameAlytics {
             json.put("properties", propsJson);
             
             // Send the event
-            sendEvent(json);
+            sendEventInternal(json);
             
         } catch (JSONException e) {
             // Silent fail for performance
@@ -521,6 +521,80 @@ public class GameAlytics {
     
     public DeviceInfo getDeviceInfo() {
         return deviceInfo;
+    }
+    
+    // Missing event methods
+    public EventBuilder userEvent(String eventType) {
+        checkInitialized();
+        if (!UserEvents.isValidEvent(eventType)) {
+            throw new IllegalArgumentException("Invalid user event type: " + eventType);
+        }
+        return new EventBuilder(eventType, UserEvents.CATEGORY, false);
+    }
+    
+    public EventBuilder gameplayEvent(String eventType) {
+        checkInitialized();
+        if (!GameplayEvents.isValidEvent(eventType)) {
+            throw new IllegalArgumentException("Invalid gameplay event type: " + eventType);
+        }
+        return new EventBuilder(eventType, GameplayEvents.CATEGORY, false);
+    }
+    
+    public EventBuilder adEvent(String eventType) {
+        checkInitialized();
+        if (!AdEvents.isValidEvent(eventType)) {
+            throw new IllegalArgumentException("Invalid ad event type: " + eventType);
+        }
+        return new EventBuilder(eventType, AdEvents.CATEGORY, false);
+    }
+    
+    public EventBuilder progressionEvent(String eventType) {
+        checkInitialized();
+        if (!ProgressionEvents.isValidEvent(eventType)) {
+            throw new IllegalArgumentException("Invalid progression event type: " + eventType);
+        }
+        return new EventBuilder(eventType, ProgressionEvents.CATEGORY, false);
+    }
+    
+    public EventBuilder economyEvent(String eventType) {
+        checkInitialized();
+        if (!EconomyEvents.isValidEvent(eventType)) {
+            throw new IllegalArgumentException("Invalid economy event type: " + eventType);
+        }
+        return new EventBuilder(eventType, EconomyEvents.CATEGORY, false);
+    }
+    
+    // Send event internally
+    private void sendEventInternal(JSONObject eventData) {
+        RequestBody body = RequestBody.create(eventData.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(environment.getBaseUrl())
+                .addHeader("Content-Type", "application/json")
+                .addHeader("x-api-key", apiKey)
+                .post(body)
+                .build();
+
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (debug) {
+                    System.out.println("GameAlytics: Failed to send event: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (debug) {
+                    System.out.println("GameAlytics: Event sent successfully: " + response.code());
+                }
+                response.close();
+            }
+        });
+    }
+    
+    // Public sendEvent method (for backwards compatibility)
+    private void sendEvent(JSONObject eventData) {
+        sendEventInternal(eventData);
     }
     
 
@@ -579,33 +653,11 @@ public class GameAlytics {
                 json.put("properties", propsJson);
                 
                 // Send the event
-                sendEvent(json);
+                GameAlytics.this.sendEventInternal(json);
                 
             } catch (JSONException e) {
                 // Silent fail for performance
             }
-        }
-        
-        private void sendEvent(JSONObject eventData) {
-            RequestBody body = RequestBody.create(eventData.toString(), JSON);
-            Request request = new Request.Builder()
-                    .url(environment.getBaseUrl())
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("x-api-key", apiKey)
-                    .post(body)
-                    .build();
-
-            httpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    // Silent fail for performance
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    response.close();
-                }
-            });
         }
     }
 

@@ -189,19 +189,32 @@ jobs:
           VERSION="${{ steps.extract_version.outputs.version }}"
           echo "Updating package.json files with version: $VERSION"
           
+          # Function to update package version if different
+          update_version() {
+            local package_dir=$1
+            local current_version=$(node -p "require('./$package_dir/package.json').version")
+            
+            if [ "$current_version" != "$VERSION" ]; then
+              echo "Updating $package_dir: $current_version → $VERSION"
+              cd $package_dir
+              npm version $VERSION --no-git-tag-version
+              cd ..
+            else
+              echo "$package_dir already at version $VERSION, skipping"
+            fi
+          }
+          
           # Update core package
-          cd packages/core
-          npm version $VERSION --no-git-tag-version
+          cd packages
+          update_version "core"
           
           # Update web package
-          cd ../web
-          npm version $VERSION --no-git-tag-version
+          update_version "web"
           
           # Update Unity package
-          cd ../unity
-          npm version $VERSION --no-git-tag-version
+          update_version "unity"
           
-          cd ../..
+          cd ..
           echo "All package.json files updated with version: $VERSION"
       
       - name: Install root dependencies
