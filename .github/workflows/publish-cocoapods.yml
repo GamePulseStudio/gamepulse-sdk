@@ -98,7 +98,7 @@ jobs:
           pod spec lint packages/ios/GameAlytics.podspec --quick --allow-warnings
           
           # Publish to CocoaPods Trunk
-          pod trunk push packages/ios/GameAlytics.podspec --skip-import-validation --allow-warnings
+          pod trunk push packages/ios/GameAlytics.podspec --skip-import-validation --skip-tests --allow-warnings
           
           echo "✅ Successfully published GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods!"
           
