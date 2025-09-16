@@ -49,58 +49,59 @@ jobs:
           cd packages/android
           ./gradlew build --no-daemon --stacktrace
 
-  publish-ios:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Extract version
-        id: extract_version
-        run: |
-          if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]; then
-            VERSION=${{ github.ref_name }}
-            echo "Using version from tag: $VERSION"
-          elif [ "${{ github.event.inputs.version }}" != "" ]; then
-            VERSION=${{ github.event.inputs.version }}
-            echo "Using manual version: $VERSION"
-          else
-            VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-            echo "Using latest git tag: $VERSION"
-          fi
-          echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
-          echo "tag_name=$VERSION" >> $GITHUB_OUTPUT
-          echo "Final version: ${VERSION#v}"
-
-      - name: Set up Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-
-      - name: Install CocoaPods
-        run: gem install cocoapods
-      
-      - name: Update Podspec version
-        run: |
-          VERSION="${{ steps.extract_version.outputs.version }}"
-          echo "Updating GameAlytics.podspec with version: $VERSION"
-          cd packages/ios
-          sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" GameAlytics.podspec
-          echo "Podspec updated:"
-          grep "spec.version" GameAlytics.podspec
-
-      - name: Validate Podspec
-        run: |
-          cd packages/ios
-          pod lib lint GameAlytics.podspec --allow-warnings --skip-import-validation
-
-      - name: Publish to CocoaPods
-        run: |
-          cd packages/ios
-          pod trunk push GameAlytics.podspec --allow-warnings
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-        continue-on-error: true
+  # TODO: Re-enable iOS publishing after Android is fixed
+  # publish-ios:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     
+  #     - name: Extract version
+  #       id: extract_version
+  #       run: |
+  #         if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]; then
+  #           VERSION=${{ github.ref_name }}
+  #           echo "Using version from tag: $VERSION"
+  #         elif [ "${{ github.event.inputs.version }}" != "" ]; then
+  #           VERSION=${{ github.event.inputs.version }}
+  #           echo "Using manual version: $VERSION"
+  #         else
+  #           VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+  #           echo "Using latest git tag: $VERSION"
+  #         fi
+  #         echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
+  #         echo "tag_name=$VERSION" >> $GITHUB_OUTPUT
+  #         echo "Final version: ${VERSION#v}"
+  #
+  #     - name: Set up Xcode
+  #       uses: maxim-lobanov/setup-xcode@v1
+  #       with:
+  #         xcode-version: latest-stable
+  #
+  #     - name: Install CocoaPods
+  #       run: gem install cocoapods
+  #     
+  #     - name: Update Podspec version
+  #       run: |
+  #         VERSION="${{ steps.extract_version.outputs.version }}"
+  #         echo "Updating GameAlytics.podspec with version: $VERSION"
+  #         cd packages/ios
+  #         sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" GameAlytics.podspec
+  #         echo "Podspec updated:"
+  #         grep "spec.version" GameAlytics.podspec
+  #
+  #     - name: Validate Podspec
+  #       run: |
+  #         cd packages/ios
+  #         pod lib lint GameAlytics.podspec --allow-warnings --skip-import-validation
+  #
+  #     - name: Publish to CocoaPods
+  #       run: |
+  #         cd packages/ios
+  #         pod trunk push GameAlytics.podspec --allow-warnings
+  #       env:
+  #         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+  #       continue-on-error: true
 
   publish-unity:
     runs-on: ubuntu-latest

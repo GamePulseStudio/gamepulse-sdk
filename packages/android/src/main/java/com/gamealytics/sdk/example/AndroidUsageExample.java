@@ -122,7 +122,7 @@ public class AndroidUsageExample extends Application {
         properties.put("experience_gained", "250");
         properties.put("time_played", "1800"); // 30 minutes
 
-        gameAlytics.gameplayEvent(GameplayEvents.LEVEL_UP)
+        gameAlytics.gameplayEvent(GameAlytics.GameplayEvents.LEVEL_UP)
                 .setProperties(properties)
                 .track();
     }
@@ -137,7 +137,7 @@ public class AndroidUsageExample extends Application {
         properties.put("currency", currency);
         properties.put("platform", "Android");
 
-        gameAlytics.iapEvent(IAPEvents.PURCHASE)
+        gameAlytics.iapEvent(GameAlytics.IAPEvents.PURCHASE)
                 .setProperties(properties)
                 .track();
     }
@@ -151,7 +151,7 @@ public class AndroidUsageExample extends Application {
         properties.put("placement", placement);
         properties.put("timestamp", String.valueOf(System.currentTimeMillis()));
 
-        gameAlytics.adEvent(AdEvents.AD_VIEWED)
+        gameAlytics.adEvent(GameAlytics.AdEvents.AD_VIEWED)
                 .setProperties(properties)
                 .track();
     }
@@ -165,7 +165,7 @@ public class AndroidUsageExample extends Application {
         properties.put("time_spent", String.valueOf(timeSpent));
         properties.put("completion_rate", "1.0");
 
-        gameAlytics.progressionEvent(ProgressionEvents.TUTORIAL_COMPLETE)
+        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.TUTORIAL_COMPLETE)
                 .setProperties(properties)
                 .track();
     }
@@ -180,7 +180,7 @@ public class AndroidUsageExample extends Application {
         properties.put("success", String.valueOf(success));
         properties.put("attempts", success ? "1" : "2");
 
-        gameAlytics.gameplayEvent(GameplayEvents.LEVEL_END)
+        gameAlytics.gameplayEvent(GameAlytics.GameplayEvents.LEVEL_END)
                 .setProperties(properties)
                 .track();
     }
@@ -212,7 +212,7 @@ public class AndroidUsageExample extends Application {
         gameAlytics.updateUserConfig(newUserConfig);
         
         // Track login event
-        gameAlytics.userEvent(UserEvents.USER_LOGIN)
+        gameAlytics.userEvent(GameAlytics.UserEvents.USER_LOGIN)
                 .setProperties(new HashMap<>())
                 .track();
     }
@@ -221,7 +221,7 @@ public class AndroidUsageExample extends Application {
         if (gameAlytics == null) return;
 
         // Track logout event
-        gameAlytics.userEvent(UserEvents.USER_LOGOUT)
+        gameAlytics.userEvent(GameAlytics.UserEvents.USER_LOGOUT)
                 .setProperties(new HashMap<>())
                 .track();
         
@@ -247,7 +247,7 @@ public class AndroidUsageExample extends Application {
         questProperties.put("reward_type", "experience");
         questProperties.put("reward_amount", "500");
         
-        gameAlytics.progressionEvent(ProgressionEvents.QUEST_COMPLETED)
+        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.QUEST_COMPLETED)
                 .setProperties(questProperties)
                 .track();
 
@@ -256,7 +256,7 @@ public class AndroidUsageExample extends Application {
         milestoneProperties.put("milestone_type", "playtime");
         milestoneProperties.put("milestone_value", "3600"); // 1 hour
         
-        gameAlytics.progressionEvent(ProgressionEvents.MILESTONE_REACHED)
+        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.MILESTONE_REACHED)
                 .setProperties(milestoneProperties)
                 .track();
 
@@ -266,7 +266,7 @@ public class AndroidUsageExample extends Application {
         subscriptionProperties.put("duration", "monthly");
         subscriptionProperties.put("price", "9.99");
         
-        gameAlytics.iapEvent(IAPEvents.SUBSCRIPTION_STARTED)
+        gameAlytics.iapEvent(GameAlytics.IAPEvents.SUBSCRIPTION_STARTED)
                 .setProperties(subscriptionProperties)
                 .track();
     }
