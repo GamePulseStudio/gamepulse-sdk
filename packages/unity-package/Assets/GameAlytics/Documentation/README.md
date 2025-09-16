@@ -14,17 +14,28 @@ The official Unity SDK for GameAlytics, providing comprehensive game analytics t
 
 ## 📦 Installation
 
-### Method 1: Import Unity Package (.unitypackage)
+### Method 1: Import Unity Package (.unitypackage) - Recommended
 
-1. Download `GameAlytics.unitypackage` from Firebase Storage
-2. In Unity, go to `Assets > Import Package > Custom Package`
-3. Select the downloaded `GameAlytics.unitypackage` file
-4. Click "Import" to add GameAlytics to your project
+1. **Download from GitHub Releases**:
+   - Go to [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
+   - Download the latest `GameAlytics-{version}.unitypackage`
+   - **Direct URL**: `https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.13/GameAlytics-2.0.13.unitypackage`
+
+2. **Import into Unity**:
+   - In Unity, go to `Assets > Import Package > Custom Package`
+   - Select the downloaded `GameAlytics-{version}.unitypackage` file
+   - Click "Import" to add GameAlytics to your project
 
 ### Method 2: Manual Installation
 
 1. Copy the `GameAlytics` folder to your project's `Assets` directory
 2. Unity will automatically compile the scripts
+
+### Version Management
+
+Each release provides a versioned Unity package:
+- **Latest Release**: [v2.0.13](https://github.com/gamealytics/gamealytics-sdk/releases/tag/2.0.13)
+- **All Versions**: Browse [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases) for previous versions
 
 ## 🎯 Quick Start
 

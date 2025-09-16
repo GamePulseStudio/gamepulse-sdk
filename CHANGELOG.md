@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### Planned
 - Request signing with HMAC for data integrity
 - Client-side rate limiting and request throttling
 - Data validation and sanitization for user properties
@@ -15,6 +15,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline event queueing and retry mechanisms
 - User consent management (GDPR/CCPA)
 - Event batching for performance optimization
+
+## [2.0.13] - 2025-09-16
+
+### Added
+- ✅ **GitHub Releases Integration**: Automated Unity package releases via GitHub Actions
+- ✅ **Unity Package Export**: Professional `.unitypackage` files with versioned releases
+- ✅ **Direct Download URLs**: Versioned Unity packages available at predictable URLs
+
+### Changed
+- 🔧 **Release Automation**: Full CI/CD pipeline for Unity package distribution
+- 🔧 **Documentation**: Updated integration guides for new release system
+
+### Fixed
+- 🐛 **JitPack Build**: All build issues resolved, Android SDK now available
+- 🐛 **Unity CI**: Fixed validation workflow for new package structure
+
+## [2.0.12] - 2025-09-16
+
+### Fixed
+- 🐛 **JitPack Configuration**: Gradle 8.5 + Java 17 compatibility
+- 🐛 **Android Publishing**: Proper Maven publication with all required artifacts
+- 🐛 **Build System**: Root-level gradle.properties with AndroidX configuration
+
+## [2.0.11] - 2025-09-16
+
+### Changed
+- 🔧 **Unity Package Structure**: Migrated from NPM to authentic Unity package format
+- 🔧 **Package Location**: Moved Unity SDK to `packages/unity-package/Assets/GameAlytics/`
+- 🔧 **Documentation**: Comprehensive README files for all platforms
 
 ## [2.0.0] - 2024-09-15
 
