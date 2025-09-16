@@ -1,6 +1,6 @@
 {
   "name": "@gamealytics/unity-sdk",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "displayName": "GameAlytics Unity SDK",
   "description": "Unity SDK for GameAlytics game analytics platform with simplified permission management",
   "unity": "2020.3",
