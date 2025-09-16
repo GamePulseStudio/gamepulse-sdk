@@ -457,7 +457,7 @@ Configuration class for user identification.
 
 ## Version History
 
-Current version: **2.0.7**
+Current version: **2.0.14**
 
 - Added comprehensive event categories and builders
 - Improved TypeScript support and type definitions

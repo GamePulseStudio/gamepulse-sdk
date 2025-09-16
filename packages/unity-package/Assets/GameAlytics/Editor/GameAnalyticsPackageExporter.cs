@@ -46,7 +46,7 @@ namespace GameAlytics.Editor
         {
             EditorUtility.DisplayDialog(
                 "GameAlytics Unity SDK",
-                "GameAlytics Unity SDK v2.0.9\n\n" +
+                "GameAlytics Unity SDK v2.0.14\n\n" +
                 "A comprehensive analytics SDK for Unity games.\n\n" +
                 "Features:\n" +
                 "• Cross-platform support\n" +

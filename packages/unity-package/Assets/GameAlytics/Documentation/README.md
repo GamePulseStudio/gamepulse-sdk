@@ -19,7 +19,7 @@ The official Unity SDK for GameAlytics, providing comprehensive game analytics t
 1. **Download from GitHub Releases**:
    - Go to [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
    - Download the latest `GameAlytics-{version}.unitypackage`
-   - **Direct URL**: `https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.13/GameAlytics-2.0.13.unitypackage`
+   - **Direct URL**: `https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.14/GameAlytics-2.0.14.unitypackage`
 
 2. **Import into Unity**:
    - In Unity, go to `Assets > Import Package > Custom Package`
@@ -34,7 +34,7 @@ The official Unity SDK for GameAlytics, providing comprehensive game analytics t
 ### Version Management
 
 Each release provides a versioned Unity package:
-- **Latest Release**: [v2.0.13](https://github.com/gamealytics/gamealytics-sdk/releases/tag/2.0.13)
+- **Latest Release**: [v2.0.14](https://github.com/gamealytics/gamealytics-sdk/releases/tag/2.0.14)
 - **All Versions**: Browse [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases) for previous versions
 
 ## 🎯 Quick Start
@@ -277,8 +277,8 @@ This SDK is licensed under the MIT License. See the LICENSE file for more inform
 
 ## 📋 Version History
 
-### v2.0.9
-- Authentic Unity package distribution via Firebase Storage
+### v2.0.14
+- Automated Unity package distribution via GitHub Releases
 - Enhanced fluent API design
 - Comprehensive event categories
 - Cross-platform support for all Unity targets

@@ -31,7 +31,7 @@ Add the dependency to your app's `build.gradle` (app level):
 
 ```gradle
 dependencies {
-    implementation 'com.github.gamealytics:gamealytics-sdk:2.0.7'
+    implementation 'com.github.gamealytics:gamealytics-sdk:2.0.14'
 }
 ```
 
@@ -240,7 +240,7 @@ GameAlytics.setDebugEnabled(true);
 
 ## Version History
 
-Current version: **2.0.7**
+Current version: **2.0.14**
 
 - Added comprehensive event categories
 - Improved error handling and validation
