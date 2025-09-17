@@ -258,7 +258,7 @@ public class GamePulse {
         }
     }
 
-    private GameAlytics(Context context, String apiKey, Environment environment) {
+    private GamePulse(Context context, String apiKey, Environment environment) {
         this.context = context.getApplicationContext();
         this.apiKey = apiKey;
         this.environment = environment;
