@@ -275,16 +275,16 @@ public class GamePulse {
         return new InitBuilder(apiKey, environment);
     }
 
-    public static GameAlytics getInstance(Context context) {
+    public static GamePulse getInstance(Context context) {
         if (instance == null) {
-            throw new IllegalStateException("GameAlytics must be initialized first. Call GameAlytics.init(...).create(context)");
+            throw new IllegalStateException("GamePulse must be initialized first. Call GamePulse.init(...).create(context)");
         }
         return instance;
     }
 
-    public static GameAlytics getInstance() {
+    public static GamePulse getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("GameAlytics must be initialized first. Call GameAlytics.init(...).create(context)");
+            throw new IllegalStateException("GamePulse must be initialized first. Call GamePulse.init(...).create(context)");
         }
         return instance;
     }
@@ -312,7 +312,7 @@ public class GamePulse {
             return this;
         }
         
-        public GameAlytics create(Context context) {
+        public GamePulse create(Context context) {
             if (apiKey == null || apiKey.isEmpty()) {
                 throw new IllegalArgumentException("API key is required");
             }
@@ -320,9 +320,9 @@ public class GamePulse {
                 throw new IllegalArgumentException("UserConfig is required");
             }
             
-            synchronized (GameAlytics.class) {
+            synchronized (GamePulse.class) {
                 if (instance == null) {
-                    instance = new GameAlytics(context, apiKey, environment);
+                    instance = new GamePulse(context, apiKey, environment);
                     instance.userConfig = userConfig;
                     instance.deviceInfo = instance.autoFetchDeviceInfo();
                     instance.isInitialized = true;
@@ -653,7 +653,7 @@ public class GamePulse {
                 json.put("properties", propsJson);
                 
                 // Send the event
-                GameAlytics.this.sendEventInternal(json);
+                GamePulse.this.sendEventInternal(json);
                 
             } catch (JSONException e) {
                 // Silent fail for performance

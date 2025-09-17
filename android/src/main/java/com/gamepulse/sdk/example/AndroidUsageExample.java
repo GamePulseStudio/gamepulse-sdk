@@ -122,7 +122,7 @@ public class AndroidUsageExample extends Application {
         properties.put("experience_gained", "250");
         properties.put("time_played", "1800"); // 30 minutes
 
-        gamePulse.customEvent("level_up")
+        gamePulse.customEvent("progression", "level_up")
                 .setProperties(properties)
                 .track();
     }
@@ -151,7 +151,7 @@ public class AndroidUsageExample extends Application {
         properties.put("placement", placement);
         properties.put("timestamp", String.valueOf(System.currentTimeMillis()));
 
-        gamePulse.customEvent("ad_viewed")
+        gamePulse.customEvent("ad", "ad_viewed")
                 .setProperties(properties)
                 .track();
     }
@@ -180,7 +180,7 @@ public class AndroidUsageExample extends Application {
         properties.put("success", String.valueOf(success));
         properties.put("attempts", success ? "1" : "2");
 
-        gamePulse.customEvent("level_end")
+        gamePulse.customEvent("gameplay", "level_end")
                 .setProperties(properties)
                 .track();
     }
