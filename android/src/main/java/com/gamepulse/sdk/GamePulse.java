@@ -122,7 +122,7 @@ public class GamePulse {
     
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    private static GameAlytics instance;
+    private static GamePulse instance;
     private final Context context;
     private final String apiKey;
     private final Environment environment;
