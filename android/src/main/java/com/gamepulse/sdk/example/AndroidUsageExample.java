@@ -1,16 +1,16 @@
-package com.gamealytics.sdk.example;
+package com.gamepulse.sdk.example;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import com.gamealytics.sdk.GameAlytics;
-import com.gamealytics.sdk.GameAlytics.Environment;
-import com.gamealytics.sdk.GameAlytics.UserConfig;
-import com.gamealytics.sdk.GameAlytics.User;
-import com.gamealytics.sdk.GameAlytics.Gameplay;
-import com.gamealytics.sdk.GameAlytics.IAP;
-import com.gamealytics.sdk.GameAlytics.Progression;
-import com.gamealytics.sdk.GameAlytics.Ad;
+import com.gamepulse.sdk.GamePulse;
+import com.gamepulse.sdk.GamePulse.Environment;
+import com.gamepulse.sdk.GamePulse.UserConfig;
+import com.gamepulse.sdk.GamePulse.User;
+import com.gamepulse.sdk.GamePulse.Gameplay;
+import com.gamepulse.sdk.GamePulse.IAP;
+import com.gamepulse.sdk.GamePulse.Progression;
+import com.gamepulse.sdk.GamePulse.Ad;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 public class AndroidUsageExample extends Application {
 
-    private GameAlytics gameAlytics;
+    private GamePulse gamePulse;
 
     @Override
     public void onCreate() {
@@ -33,8 +33,8 @@ public class AndroidUsageExample extends Application {
     private void initializeSDK() {
         try {
             // Initialize GameAlytics with fluent API
-            gameAlytics = GameAlytics.init("your-api-key-here", Environment.DEVELOPMENT)
-                    .userConfig(UserConfig.builder()
+            gamePulse = GamePulse.init("your-api-key-here", Environment.DEVELOPMENT)
+                    .userConfig(GamePulse.UserConfig.builder()
                             .setSessionId("session-123")
                             .setUserId("user-456")
                             .build())
@@ -52,7 +52,7 @@ public class AndroidUsageExample extends Application {
         sessionProperties.put("source", "android_app");
         sessionProperties.put("app_version", "1.0.0");
         
-        GameAlytics.getInstance().systemEvent()
+        gamePulse.systemEvent()
                 .category(User.class).type(User.SESSION_START)
                 .setProperties(sessionProperties)
                 .trigger();
@@ -63,7 +63,7 @@ public class AndroidUsageExample extends Application {
         levelProperties.put("difficulty", "easy");
         levelProperties.put("timestamp", String.valueOf(System.currentTimeMillis()));
         
-        GameAlytics.getInstance().systemEvent()
+        gamePulse.systemEvent()
                 .category(Gameplay.class).type(Gameplay.LEVEL_START)
                 .setProperties(levelProperties)
                 .trigger();
@@ -74,7 +74,7 @@ public class AndroidUsageExample extends Application {
         purchaseProperties.put("price", "9.99");
         purchaseProperties.put("currency", "USD");
         
-        GameAlytics.getInstance().systemEvent()
+        gamePulse.systemEvent()
                 .category(IAP.class).type(IAP.PURCHASE)
                 .setProperties(purchaseProperties)
                 .trigger();
@@ -84,7 +84,7 @@ public class AndroidUsageExample extends Application {
         buttonProperties.put("button_name", "start_game");
         buttonProperties.put("screen", "main_menu");
         
-        GameAlytics.getInstance().customEvent()
+        gamePulse.customEvent()
                 .category("ui").type("button_click")
                 .setProperties(buttonProperties)
                 .trigger();
@@ -93,43 +93,43 @@ public class AndroidUsageExample extends Application {
         achievementProperties.put("achievement_id", "first_win");
         achievementProperties.put("points", "100");
         
-        GameAlytics.getInstance().systemEvent()
+        gamePulse.systemEvent()
                 .category(Progression.class).type(Progression.ACHIEVEMENT_UNLOCKED)
                 .setProperties(achievementProperties)
                 .trigger();
     }
 
     private void sessionManagement() {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         // Start a new session
-        gameAlytics.startSession();
+        gamePulse.startSession();
 
         // Simulate session end after some time
         new Handler().postDelayed(() -> {
-            if (gameAlytics != null) {
-                gameAlytics.endSession();
+            if (gamePulse != null) {
+                gamePulse.endSession();
             }
         }, 60000); // End session after 1 minute
     }
 
     // Example of tracking user progression
     public void trackUserProgression() {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("new_level", "5");
         properties.put("experience_gained", "250");
         properties.put("time_played", "1800"); // 30 minutes
 
-        gameAlytics.gameplayEvent(GameAlytics.GameplayEvents.LEVEL_UP)
+        gamePulse.customEvent("level_up")
                 .setProperties(properties)
                 .track();
     }
 
     // Example of tracking monetization events
     public void trackPurchase(String productId, double price, String currency) {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("product_id", productId);
@@ -137,42 +137,42 @@ public class AndroidUsageExample extends Application {
         properties.put("currency", currency);
         properties.put("platform", "Android");
 
-        gameAlytics.iapEvent(GameAlytics.IAPEvents.PURCHASE)
+        gamePulse.iapEvent(GamePulse.IAPEvents.PURCHASE)
                 .setProperties(properties)
                 .track();
     }
 
     // Example of tracking ad events
     public void trackAdViewed(String adType, String placement) {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("ad_type", adType);
         properties.put("placement", placement);
         properties.put("timestamp", String.valueOf(System.currentTimeMillis()));
 
-        gameAlytics.adEvent(GameAlytics.AdEvents.AD_VIEWED)
+        gamePulse.customEvent("ad_viewed")
                 .setProperties(properties)
                 .track();
     }
 
     // Example of tracking tutorial completion
     public void trackTutorialComplete(int stepCount, float timeSpent) {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("step_count", String.valueOf(stepCount));
         properties.put("time_spent", String.valueOf(timeSpent));
         properties.put("completion_rate", "1.0");
 
-        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.TUTORIAL_COMPLETE)
+        gamePulse.progressionEvent(GamePulse.ProgressionEvents.TUTORIAL_COMPLETE)
                 .setProperties(properties)
                 .track();
     }
 
     // Example of tracking level completion
     public void trackLevelComplete(int level, float score, boolean success) {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         Map<String, String> properties = new HashMap<>();
         properties.put("level", String.valueOf(level));
@@ -180,7 +180,7 @@ public class AndroidUsageExample extends Application {
         properties.put("success", String.valueOf(success));
         properties.put("attempts", success ? "1" : "2");
 
-        gameAlytics.gameplayEvent(GameAlytics.GameplayEvents.LEVEL_END)
+        gamePulse.customEvent("level_end")
                 .setProperties(properties)
                 .track();
     }
@@ -188,8 +188,8 @@ public class AndroidUsageExample extends Application {
     // Example for production initialization (typically in Application class)
     public static void initializeForProduction(Context context) {
         try {
-            GameAlytics.init("your-production-api-key", Environment.PRODUCTION)
-                    .userConfig(UserConfig.builder()
+            GamePulse.init("your-production-api-key", GamePulse.Environment.PRODUCTION)
+                    .userConfig(GamePulse.UserConfig.builder()
                             .setSessionId(UUID.randomUUID().toString())
                             .setAnonymous("anonymous_" + UUID.randomUUID().toString())
                             .build())
@@ -201,27 +201,27 @@ public class AndroidUsageExample extends Application {
 
     // Example of user login/logout handling
     public void onUserLogin(String newUserId) {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         String newSessionId = UUID.randomUUID().toString();
-        UserConfig newUserConfig = UserConfig.builder()
+        GamePulse.UserConfig newUserConfig = GamePulse.UserConfig.builder()
                 .setSessionId(newSessionId)
                 .setUserId(newUserId)
                 .build();
         
-        gameAlytics.updateUserConfig(newUserConfig);
+        gamePulse.updateUserConfig(newUserConfig);
         
         // Track login event
-        gameAlytics.userEvent(GameAlytics.UserEvents.USER_LOGIN)
+        gamePulse.userEvent(GamePulse.UserEvents.USER_LOGIN)
                 .setProperties(new HashMap<>())
                 .track();
     }
     
     public void onUserLogout() {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         // Track logout event
-        gameAlytics.userEvent(GameAlytics.UserEvents.USER_LOGOUT)
+        gamePulse.userEvent(GamePulse.UserEvents.USER_LOGOUT)
                 .setProperties(new HashMap<>())
                 .track();
         
@@ -229,17 +229,17 @@ public class AndroidUsageExample extends Application {
         String newSessionId = UUID.randomUUID().toString();
         String anonymousId = "anonymous_" + UUID.randomUUID().toString();
         
-        UserConfig anonymousConfig = UserConfig.builder()
+        GamePulse.UserConfig anonymousConfig = GamePulse.UserConfig.builder()
                 .setSessionId(newSessionId)
                 .setAnonymous(anonymousId)
                 .build();
         
-        gameAlytics.updateUserConfig(anonymousConfig);
+        gamePulse.updateUserConfig(anonymousConfig);
     }
 
     // Example of advanced event tracking
     public void trackAdvancedEvents() {
-        if (gameAlytics == null) return;
+        if (gamePulse == null) return;
 
         // Track quest completion
         Map<String, String> questProperties = new HashMap<>();
@@ -247,7 +247,7 @@ public class AndroidUsageExample extends Application {
         questProperties.put("reward_type", "experience");
         questProperties.put("reward_amount", "500");
         
-        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.QUEST_COMPLETED)
+        gamePulse.progressionEvent(GamePulse.ProgressionEvents.QUEST_COMPLETED)
                 .setProperties(questProperties)
                 .track();
 
@@ -256,7 +256,7 @@ public class AndroidUsageExample extends Application {
         milestoneProperties.put("milestone_type", "playtime");
         milestoneProperties.put("milestone_value", "3600"); // 1 hour
         
-        gameAlytics.progressionEvent(GameAlytics.ProgressionEvents.MILESTONE_REACHED)
+        gamePulse.progressionEvent(GamePulse.ProgressionEvents.MILESTONE_REACHED)
                 .setProperties(milestoneProperties)
                 .track();
 
@@ -266,7 +266,7 @@ public class AndroidUsageExample extends Application {
         subscriptionProperties.put("duration", "monthly");
         subscriptionProperties.put("price", "9.99");
         
-        gameAlytics.iapEvent(GameAlytics.IAPEvents.SUBSCRIPTION_STARTED)
+        gamePulse.iapEvent(GamePulse.IAPEvents.SUBSCRIPTION_STARTED)
                 .setProperties(subscriptionProperties)
                 .track();
     }
