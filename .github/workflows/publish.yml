@@ -172,7 +172,7 @@ jobs:
           
       - name: Create GamePulse Unity Package (.unitypackage)
         run: |
-          echo "📦 Publishing GamePulse SDK v$VERSION Unity package..." from unity/ folder..."
+          echo "📦 Building GamePulse Unity package from unity/ folder..."
           cd unity
           
           # Verify files exist
