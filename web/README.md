@@ -9,13 +9,13 @@ Cross-platform analytics SDK for web-based games and applications.
 ### Using npm (Recommended)
 
 ```bash
-npm install @gamepulse/sdk
+npm install @gamepulse.studio/web-sdk
 ```
 
 ### Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@gamepulse/sdk@2.0.21/dist/gamepulse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gamepulse.studio/web-sdk@2.0.21/dist/gamepulse.min.js"></script>
 ```
 
 ### Using GitHub Releases
@@ -27,7 +27,7 @@ Download the latest `gamepulse-web-sdk.js` from the [Releases](https://github.co
 ### Initialize the SDK
 
 ```javascript
-import GamePulse from '@gamepulse/sdk';
+import GamePulse from '@gamepulse.studio/web-sdk';
 
 // Initialize GamePulse
 GamePulse.init({
@@ -70,7 +70,7 @@ import GamePulse, {
     GamePulseConfig, 
     CustomEventData, 
     ProgressionEventData 
-} from '@gamepulse/sdk';
+} from '@gamepulse.studio/web-sdk';
 
 const config: GamePulseConfig = {
     apiKey: 'your-api-key',
