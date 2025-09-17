@@ -1,5 +1,5 @@
 {
-  "name": "@gamepulse.studio/web-sdk",
+  "name": "@gamepulse-studio/web-sdk",
   "version": "2.0.21",
   "description": "GamePulse SDK for Web/Node.js - Cross-platform analytics for game developers",
   "main": "dist/index.js",

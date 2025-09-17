@@ -16,7 +16,7 @@ Choose your platform and get started in minutes:
 |----------|--------|--------------|---------------|
 | **Android** | ✅ Production Ready | [JitPack](https://jitpack.io/#gamepulse/gamepulse-sdk) | [Android README](android/README.md) |
 | **Unity** | ✅ Production Ready | [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html) | [Unity README](unity/README.md) |
-| **Web** | ✅ Production Ready | [npm](https://www.npmjs.com/package/@gamepulse.studio/web-sdk) | [Web README](web/README.md) |
+| **Web** | ✅ Production Ready | [npm](https://www.npmjs.com/package/@gamepulse-studio/web-sdk) | [Web README](web/README.md) |
 | **iOS** | 🔬 Research | Coming Soon | [Research README](research/README.md) |
 
 ## 📁 Repository Structure
@@ -66,7 +66,7 @@ https://github.com/gamepulse/gamepulse-sdk.git?path=unity
 
 ### Web (npm)
 ```bash
-npm install @gamepulse.studio/web-sdk@2.0.20
+npm install @gamepulse-studio/web-sdk@2.0.21
 ```
 
 ## 📊 Usage Examples
