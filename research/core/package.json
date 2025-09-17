@@ -1,7 +1,7 @@
 {
-  "name": "@gamealytics/core",
+  "name": "@gamepulse/core",
   "version": "2.0.16",
-  "description": "Core functionality for GameAlytics SDKs",
+  "description": "Core functionality for GamePulse SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gamealytics/gamealytics-sdk.git",
+    "url": "https://github.com/gamepulse/gamepulse-sdk.git",
     "directory": "packages/core"
   },
   "keywords": [
@@ -35,7 +35,7 @@
     "sdk",
     "core"
   ],
-  "author": "GameAlytics Team",
+  "author": "GamePulse Team",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

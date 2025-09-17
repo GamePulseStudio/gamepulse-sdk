@@ -1,6 +1,6 @@
-# GameAlytics Android SDK
+# GamePulse Android SDK
 
-Version: **2.0.20**
+Version: **2.0.21**
 
 Cross-platform analytics SDK for Android game developers.
 
@@ -24,7 +24,7 @@ Add the dependency to your app's `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.20'
+    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.21'
 }
 ```
 
@@ -33,11 +33,11 @@ dependencies {
 ### Initialize the SDK
 
 ```java
-import com.gamealytics.sdk.GameAlytics;
+import com.gamepulse.sdk.GamePulse;
 
 // Initialize in your Application or MainActivity
-GameAlytics.init("your-api-key")
-    .withEnvironment(GameAlytics.Environment.SANDBOX) // or PRODUCTION
+GamePulse.init("your-api-key")
+    .withEnvironment(GamePulse.Environment.SANDBOX) // or PRODUCTION
     .withUserId("unique-user-id")
     .build();
 ```
@@ -46,21 +46,21 @@ GameAlytics.init("your-api-key")
 
 ```java
 // Custom events
-GameAlytics.customEvent("level_completed")
+GamePulse.customEvent("level_completed")
     .setEventValue(100)
     .addCustomParameter("level", "1")
     .addCustomParameter("time", "120")
     .send();
 
 // Progression events
-GameAlytics.progressionEvent()
-    .setProgression(GameAlytics.Progression.START)
+GamePulse.progressionEvent()
+    .setProgression(GamePulse.Progression.START)
     .setProgressionName("world_1")
     .send();
 
 // Ad events
-GameAlytics.adEvent()
-    .setAdType(GameAlytics.Ad.REWARDED_VIDEO)
+GamePulse.adEvent()
+    .setAdType(GamePulse.Ad.REWARDED_VIDEO)
     .setAdPlacement("main_menu")
     .setAdProvider("admob")
     .send();
@@ -75,8 +75,8 @@ GameAlytics.adEvent()
 
 ```bash
 # Clone the repository
-git clone https://github.com/gamealytics/gamealytics-sdk.git
-cd gamealytics-sdk/android
+git clone https://github.com/gamepulse/gamepulse-sdk.git
+cd gamepulse-sdk/android
 
 # Build the AAR
 ./gradlew assembleRelease

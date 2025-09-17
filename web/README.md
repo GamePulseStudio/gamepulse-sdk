@@ -1,6 +1,6 @@
-# GameAlytics Web SDK
+# GamePulse Web SDK
 
-Version: **2.0.20**
+Version: **2.0.21**
 
 Cross-platform analytics SDK for web-based games and applications.
 
@@ -9,28 +9,28 @@ Cross-platform analytics SDK for web-based games and applications.
 ### Using npm (Recommended)
 
 ```bash
-npm install @gamealytics/sdk
+npm install @gamepulse/sdk
 ```
 
 ### Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@gamealytics/sdk@2.0.20/dist/gamealytics.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gamepulse/sdk@2.0.21/dist/gamepulse.min.js"></script>
 ```
 
 ### Using GitHub Releases
 
-Download the latest `gamealytics-web-sdk.js` from the [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) page.
+Download the latest `gamepulse-web-sdk.js` from the [Releases](https://github.com/gamepulse/gamepulse-sdk/releases) page.
 
 ## Usage
 
 ### Initialize the SDK
 
 ```javascript
-import GameAlytics from '@gamealytics/sdk';
+import GamePulse from '@gamepulse/sdk';
 
-// Initialize GameAlytics
-GameAlytics.init({
+// Initialize GamePulse
+GamePulse.init({
     apiKey: 'your-api-key',
     environment: 'sandbox', // or 'production'
     userId: 'unique-user-id' // optional
@@ -41,20 +41,20 @@ GameAlytics.init({
 
 ```javascript
 // Custom events
-GameAlytics.customEvent('level_completed', {
+GamePulse.customEvent('level_completed', {
     eventValue: 100,
     level: '1',
     time: '120'
 });
 
 // Progression events
-GameAlytics.progressionEvent({
+GamePulse.progressionEvent({
     progression: 'start',
     progressionName: 'world_1'
 });
 
 // Ad events
-GameAlytics.adEvent({
+GamePulse.adEvent({
     adType: 'rewarded_video',
     adPlacement: 'main_menu',
     adProvider: 'admob'
@@ -66,18 +66,18 @@ GameAlytics.adEvent({
 The SDK includes full TypeScript definitions:
 
 ```typescript
-import GameAlytics, { 
-    GameAlyticsConfig, 
+import GamePulse, { 
+    GamePulseConfig, 
     CustomEventData, 
     ProgressionEventData 
-} from '@gamealytics/sdk';
+} from '@gamepulse/sdk';
 
-const config: GameAlyticsConfig = {
+const config: GamePulseConfig = {
     apiKey: 'your-api-key',
     environment: 'sandbox'
 };
 
-GameAlytics.init(config);
+GamePulse.init(config);
 ```
 
 ## Requirements
@@ -90,8 +90,8 @@ GameAlytics.init(config);
 
 ```bash
 # Clone the repository
-git clone https://github.com/gamealytics/gamealytics-sdk.git
-cd gamealytics-sdk/web
+git clone https://github.com/gamepulse/gamepulse-sdk.git
+cd gamepulse-sdk/web
 
 # Install dependencies
 npm install

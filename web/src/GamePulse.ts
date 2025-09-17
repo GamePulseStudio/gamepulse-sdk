@@ -92,7 +92,7 @@ class EventBuilderImpl implements EventBuilder {
   }
 
   async track(): Promise<void> {
-    GameAlytics.getInstance().trackEvent(
+    GamePulse.getInstance().trackEvent(
       this.isCustom ? 'CUSTOM' : 'SYSTEM',
       this.eventType,
       this.eventCategory,
@@ -116,7 +116,7 @@ class InitBuilder {
     return this;
   }
 
-  public create(): GameAlytics {
+  public create(): GamePulse {
     if (!this.apiKey) {
       throw new Error('API key is required');
     }
@@ -124,13 +124,13 @@ class InitBuilder {
       throw new Error('UserConfig is required');
     }
 
-    GameAlytics.instance = new GameAlytics(this.apiKey, this.environment, this.userConfigValue);
-    return GameAlytics.instance;
+    GamePulse.instance = new GamePulse(this.apiKey, this.environment, this.userConfigValue);
+    return GamePulse.instance;
   }
 }
 
-class GameAlytics {
-  public static instance: GameAlytics | null = null;
+class GamePulse {
+  public static instance: GamePulse | null = null;
   private apiKey: string;
   private environment: Environment;
   private userConfig: UserConfig;
@@ -160,11 +160,11 @@ class GameAlytics {
     return new InitBuilder(apiKey, environment);
   }
 
-  public static getInstance(): GameAlytics {
-    if (!GameAlytics.instance) {
-      throw new Error('GameAlytics must be initialized first. Call GameAlytics.init(...).create()');
+  public static getInstance(): GamePulse {
+    if (!GamePulse.instance) {
+      throw new Error('GamePulse must be initialized first. Call GamePulse.init(...).create()');
     }
-    return GameAlytics.instance;
+    return GamePulse.instance;
   }
 
   public systemEvent(): SystemEventBuilder {
@@ -209,7 +209,7 @@ class GameAlytics {
 
     // Log validation errors in development
     if (validationResult.errors.length > 0 && this.environment === Environment.DEVELOPMENT) {
-      console.warn('GameAlytics validation warnings:', validationResult.errors);
+      console.warn('GamePulse validation warnings:', validationResult.errors);
     }
 
     const eventPayload = {
@@ -256,7 +256,7 @@ class GameAlytics {
 
   private ensureInitialized(): void {
     if (!this.isInitialized) {
-      throw new Error('GameAlytics must be initialized first. Call GameAlytics.init()');
+      throw new Error('GamePulse must be initialized first. Call GamePulse.init()');
     }
   }
 }
@@ -322,13 +322,13 @@ export class SystemEventBuilder {
   }
   
   public trigger(): void {
-    if (!GameAlytics.instance) {
-      throw new Error('GameAlytics must be initialized first');
+    if (!GamePulse.instance) {
+      throw new Error('GamePulse must be initialized first');
     }
     if (!this.category || !this.type) {
       throw new Error('Category and type are required');
     }
-    GameAlytics.instance.trackEvent('SYSTEM', this.type, this.category, this.properties);
+    GamePulse.instance.trackEvent('SYSTEM', this.type, this.category, this.properties);
   }
 }
 
@@ -353,15 +353,15 @@ export class CustomEventBuilder {
   }
   
   public trigger(): void {
-    if (!GameAlytics.instance) {
-      throw new Error('GameAlytics must be initialized first');
+    if (!GamePulse.instance) {
+      throw new Error('GamePulse must be initialized first');
     }
     if (!this.category || !this.type) {
       throw new Error('Category and type are required');
     }
-    GameAlytics.instance.trackEvent('CUSTOM', this.type, this.category, this.properties);
+    GamePulse.instance.trackEvent('CUSTOM', this.type, this.category, this.properties);
   }
 }
 
-export { GameAlytics, UserConfig, Environment };
-export default GameAlytics;
+export { GamePulse, UserConfig, Environment };
+export default GamePulse;

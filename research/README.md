@@ -1,6 +1,6 @@
 # Research & Development
 
-This folder contains experimental and in-development features of the GameAlytics SDK.
+This folder contains experimental and in-development features of the GamePulse SDK.
 
 ## Contents
 

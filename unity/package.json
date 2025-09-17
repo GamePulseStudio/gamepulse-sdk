@@ -1,33 +1,34 @@
 {
-  "name": "com.gamealytics.sdk",
-  "version": "2.0.20",
-  "displayName": "GameAlytics SDK",
-  "description": "Cross-platform analytics SDK for Unity game developers",
+  "name": "com.gamepulse.unity",
+  "version": "2.0.21",
+  "displayName": "GamePulse SDK",
+  "description": "GamePulse SDK for Unity - Cross-platform analytics for game developers",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "keywords": [
     "analytics",
-    "gameanalytics",
+    "gamepulse",
     "telemetry",
     "game",
     "unity"
   ],
   "author": {
-    "name": "GameAlytics Team",
-    "email": "support@gamealytics.com",
-    "url": "https://github.com/gamealytics/gamealytics-sdk"
+    "name": "GamePulse Team",
+    "email": "support@gamepulse.com",
+    "url": "https://www.gamepulse.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gamealytics/gamealytics-sdk.git",
+    "changelogUrl": "https://github.com/gamepulse/gamepulse-sdk/blob/main/CHANGELOG.md",
+    "url": "https://github.com/gamepulse/gamepulse-sdk.git",
     "directory": "unity"
   },
   "samples": [
     {
       "displayName": "Basic Usage Example",
-      "description": "Basic example showing how to initialize and use GameAlytics",
-      "path": "Assets/GameAlytics/Examples"
+      "description": "Basic example showing how to initialize and use GamePulse",
+      "path": "Assets/GamePulse/Examples"
     }
   ]
 }

@@ -33,7 +33,7 @@ jobs:
       - name: Validate Android SDK structure
         run: |
           echo "📱 Validating Android SDK structure..."
-          ls -la android/src/main/java/com/gamealytics/sdk/
+          ls -la android/src/main/java/com/gamepulse/sdk/
           echo "✅ Android SDK files validated"
       - name: Build Android AAR
         run: |
@@ -53,7 +53,7 @@ jobs:
       - name: Validate Unity SDK structure
         run: |
           echo "🎮 Validating Unity SDK structure..."
-          ls -la unity/Assets/GameAlytics/Scripts/
+          ls -la unity/Assets/GamePulse/Scripts/
           echo "✅ Unity SDK files validated"
       - name: Validate Unity package configuration
         run: |

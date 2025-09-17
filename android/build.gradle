@@ -16,13 +16,13 @@ apply from: 'publish.gradle'
 android {
     compileSdk 34
     compileSdkVersion 34
-    namespace 'com.gamealytics.sdk'
+    namespace 'com.gamepulse.sdk'
 
     defaultConfig {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "2.0.20"
+        versionName "2.0.21"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

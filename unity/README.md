@@ -1,6 +1,6 @@
-# GameAlytics Unity SDK
+# GamePulse Unity SDK
 
-Version: **2.0.20**
+Version: **2.0.21**
 
 Cross-platform analytics SDK for Unity game developers.
 
@@ -10,11 +10,11 @@ Cross-platform analytics SDK for Unity game developers.
 
 1. Open Unity and go to Window > Package Manager
 2. Click the "+" button and select "Add package from git URL"
-3. Enter: `https://github.com/gamealytics/gamealytics-sdk.git?path=unity`
+3. Enter: `https://github.com/gamepulse/gamepulse-sdk.git?path=unity`
 
 ### Manual Installation
 
-1. Download the latest `.unitypackage` file from the [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) page
+1. Download the latest `.unitypackage` file from the [Releases](https://github.com/gamepulse/gamepulse-sdk/releases) page
 2. Import the package into your Unity project: Assets > Import Package > Custom Package
 
 ## Usage
@@ -22,18 +22,18 @@ Cross-platform analytics SDK for Unity game developers.
 ### Initialize the SDK
 
 ```csharp
-using GameAlytics;
+using GamePulse;
 
 public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        // Initialize GameAlytics
-        GameAlytics.Initialize("your-api-key");
+        // Initialize GamePulse
+        GamePulse.Initialize("your-api-key");
         
         // Set user properties (optional)
-        GameAlytics.SetUserId("unique-user-id");
-        GameAlytics.SetEnvironment(GAEnvironment.Sandbox); // or Production
+        GamePulse.SetUserId("unique-user-id");
+        GamePulse.SetEnvironment(GPEnvironment.Sandbox); // or Production
     }
 }
 ```
@@ -42,21 +42,21 @@ public class GameManager : MonoBehaviour
 
 ```csharp
 // Custom events
-GameAlytics.CustomEvent("level_completed")
+GamePulse.CustomEvent("level_completed")
     .SetEventValue(100)
     .AddCustomParameter("level", "1")
     .AddCustomParameter("time", "120")
     .Send();
 
 // Progression events
-GameAlytics.ProgressionEvent()
-    .SetProgression(GAProgression.Start)
+GamePulse.ProgressionEvent()
+    .SetProgression(GPProgression.Start)
     .SetProgressionName("world_1")
     .Send();
 
 // Ad events
-GameAlytics.AdEvent()
-    .SetAdType(GAAdType.RewardedVideo)
+GamePulse.AdEvent()
+    .SetAdType(GPAdType.RewardedVideo)
     .SetAdPlacement("main_menu")
     .SetAdProvider("admob")
     .Send();
@@ -71,8 +71,8 @@ GameAlytics.AdEvent()
 
 ```bash
 # Clone the repository
-git clone https://github.com/gamealytics/gamealytics-sdk.git
-cd gamealytics-sdk/unity
+git clone https://github.com/gamepulse/gamepulse-sdk.git
+cd gamepulse-sdk/unity
 
 # Build Unity package
 ./build-unity-package.sh

@@ -5,10 +5,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace GameAlytics
+namespace GamePulse
 {
     /// <summary>
-    /// Environment configuration for GameAlytics SDK
+    /// Environment configuration for GamePulse SDK
     /// </summary>
     public enum Environment
     {
@@ -17,7 +17,7 @@ namespace GameAlytics
     }
 
     /// <summary>
-    /// User configuration class for GameAlytics SDK
+    /// User configuration class for GamePulse SDK
     /// </summary>
     public class UserConfig
     {

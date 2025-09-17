@@ -1,7 +1,7 @@
 {
-  "name": "@gameanalytics/android",
+  "name": "@gamepulse/android-sdk",
   "version": "0.1.0",
-  "description": "Android SDK for GameAlytics",
+  "description": "GamePulse SDK for Android - Cross-platform analytics for game developers",
   "main": "index.js",
   "scripts": {
     "build": "./gradlew assembleRelease",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/gamealytics-sdk.git",
+    "url": "https://github.com/your-org/gamepulse-sdk.git",
     "directory": "packages/android"
   },
   "keywords": [
@@ -19,9 +19,9 @@
     "game",
     "analytics",
     "sdk",
-    "gameanalytics"
+    "gamepulse"
   ],
-  "author": "GameAlytics Team",
+  "author": "GamePulse Team",
   "license": "MIT",
   "dependencies": {}
 }

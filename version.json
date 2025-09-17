@@ -1,31 +1,31 @@
 {
-  "version": "2.0.20",
+  "version": "2.0.21",
   "platforms": {
     "android": {
-      "version": "2.0.20",
+      "version": "2.0.21",
       "versionCode": 1,
       "minSdk": 21,
       "targetSdk": 34,
       "compileSdk": 34
     },
     "unity": {
-      "version": "2.0.20",
+      "version": "2.0.21",
       "unityVersion": "2020.3.0f1"
     },
     "web": {
-      "version": "2.0.20",
+      "version": "2.0.21",
       "nodeVersion": ">=16.0.0"
     },
     "ios": {
-      "version": "2.0.20",
+      "version": "2.0.21",
       "deploymentTarget": "12.0",
       "status": "research"
     }
   },
   "metadata": {
-    "buildDate": "2024-09-16",
-    "description": "GameAlytics SDK - Cross-platform analytics for game developers",
+    "buildDate": "2025-09-17",
+    "description": "GamePulse SDK - Cross-platform analytics for game developers",
     "license": "MIT",
-    "repository": "https://github.com/gamealytics/gamealytics-sdk"
+    "repository": "https://github.com/gamepulse/gamepulse-sdk"
   }
 }

@@ -135,43 +135,41 @@ var InitBuilder = /** @class */ (function () {
         if (!this.userConfigValue) {
             throw new Error('UserConfig is required');
         }
-        GameAlytics.instance = new GameAlytics(this.apiKey, this.environment, this.userConfigValue);
-        return GameAlytics.instance;
+        GamePulse.instance = new GamePulse(this.apiKey, this.environment, this.userConfigValue);
+        return GamePulse.instance;
     };
     return InitBuilder;
 }());
-var GameAlytics = /** @class */ (function () {
-    function GameAlytics(apiKey, environment, userConfig) {
+var GamePulse = /** @class */ (function () {
+    function GamePulse(apiKey, environment, userConfig) {
         this.isInitialized = false;
         this.apiKey = apiKey;
         this.environment = environment;
         this.userConfig = userConfig;
         this.deviceInfo = this.autoFetchDeviceInfo();
-        this.baseUrl = environment === Environment.PRODUCTION
-            ? 'https://client.gamealytics.click'
-            : 'https://client.dev.gamealytics.click';
+        this.baseUrl = environment === 'production' ? 'https://client.gamepulse.click' : 'https://client.dev.gamepulse.click';
         // Initialize event queue with base URL and API key injection
         this.eventQueue = new EventQueue_1.EventQueue();
         window.__GA_BASE_URL__ = this.baseUrl;
         window.__GA_API_KEY__ = this.apiKey;
         this.isInitialized = true;
     }
-    GameAlytics.init = function (apiKey, environment) {
+    GamePulse.init = function (apiKey, environment) {
         return new InitBuilder(apiKey, environment);
     };
-    GameAlytics.getInstance = function () {
-        if (!GameAlytics.instance) {
-            throw new Error('GameAlytics must be initialized first. Call GameAlytics.init(...).create()');
+    GamePulse.getInstance = function () {
+        if (!GamePulse.instance) {
+            throw new Error('GamePulse must be initialized first. Call GamePulse.init(...).create()');
         }
-        return GameAlytics.instance;
+        return GamePulse.instance;
     };
-    GameAlytics.prototype.systemEvent = function () {
+    GamePulse.prototype.systemEvent = function () {
         return new SystemEventBuilder();
     };
-    GameAlytics.prototype.customEvent = function () {
+    GamePulse.prototype.customEvent = function () {
         return new CustomEventBuilder();
     };
-    GameAlytics.prototype.autoFetchDeviceInfo = function () {
+    GamePulse.prototype.autoFetchDeviceInfo = function () {
         try {
             var isBrowser = typeof window !== 'undefined';
             return {
@@ -210,7 +208,7 @@ var GameAlytics = /** @class */ (function () {
         // Use event queue for reliable delivery
         this.eventQueue.enqueue(eventPayload);
     };
-    GameAlytics.prototype.getOSVersion = function () {
+    GamePulse.prototype.getOSVersion = function () {
         if (typeof window === 'undefined')
             return 'Node.js';
         var userAgent = window.navigator.userAgent;
@@ -230,21 +228,21 @@ var GameAlytics = /** @class */ (function () {
             return 'Linux';
         return 'Unknown';
     };
-    GameAlytics.prototype.getScreenResolution = function () {
+    GamePulse.prototype.getScreenResolution = function () {
         if (typeof window !== 'undefined' && window.screen) {
             return "".concat(window.screen.width, "x").concat(window.screen.height);
         }
         return 'unknown';
     };
-    GameAlytics.prototype.ensureInitialized = function () {
+    GamePulse.prototype.ensureInitialized = function () {
         if (!this.isInitialized) {
-            throw new Error('GameAlytics must be initialized first. Call GameAlytics.init()');
+            throw new Error('GamePulse must be initialized first. Call GamePulse.init()');
         }
     };
-    GameAlytics.instance = null;
-    return GameAlytics;
+    GamePulse.instance = null;
+    return GamePulse;
 }());
-exports.GameAlytics = GameAlytics;
+exports.GamePulse = GamePulse;
 // Event Category Classes
 var Gameplay = /** @class */ (function () {
     function Gameplay() {

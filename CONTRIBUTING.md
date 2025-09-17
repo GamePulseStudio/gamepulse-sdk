@@ -1,6 +1,6 @@
-# Contributing to GameAlytics SDK
+# Contributing to GamePulse SDK
 
-We welcome contributions to the GameAlytics SDK! This document provides guidelines for contributing to this project.
+We welcome contributions to the GamePulse SDK team! This document provides guidelines for contributing to this project.
 
 ## 🚀 Getting Started
 
@@ -15,8 +15,8 @@ We welcome contributions to the GameAlytics SDK! This document provides guidelin
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/gamealytics/gamealytics-sdk.git
-   cd gamealytics-sdk
+   git clone https://github.com/gamepulse/gamepulse-sdk.git
+   cd gamepulse-sdk
    ```
 
 2. **Install dependencies**
@@ -294,7 +294,7 @@ Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 - 📧 Email: support@gamealytics.com
 - 💬 Discord: [GameAlytics Community](https://discord.gg/gamealytics)
-- 🐛 Issues: [GitHub Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
+- 🐛 Issues: [GamePulse SDK Issues](https://github.com/gamepulse/gamepulse-sdk/issues)
 
 ### Recognition
 
@@ -303,4 +303,4 @@ Contributors will be recognized in:
 - Release notes
 - Project documentation
 
-Thank you for contributing to GameAlytics SDK! 🎮
+Thank you for your interest in contributing to the GamePulse SDK! 🎮

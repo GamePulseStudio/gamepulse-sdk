@@ -1,7 +1,7 @@
 {
-  "name": "@gamealytics/web-sdk",
-  "version": "2.0.20",
-  "description": "GameAlytics SDK for Web/Node.js - Cross-platform analytics for game developers",
+  "name": "@gamepulse/web-sdk",
+  "version": "2.0.21",
+  "description": "GamePulse SDK for Web/Node.js - Cross-platform analytics for game developers",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -32,19 +32,19 @@
     "browser",
     "cross-platform",
     "sdk",
-    "gamealytics"
+    "gamepulse"
   ],
-  "author": "GameAlytics Team <support@gamealytics.com>",
+  "author": "GamePulse Team <support@gamepulse.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gamealytics/gamealytics-sdk.git",
+    "url": "https://github.com/gamepulse/gamepulse-sdk.git",
     "directory": "packages/web"
   },
   "bugs": {
-    "url": "https://github.com/gamealytics/gamealytics-sdk/issues"
+    "url": "https://github.com/gamepulse/gamepulse-sdk/issues"
   },
-  "homepage": "https://github.com/gamealytics/gamealytics-sdk/tree/main/packages/web#readme",
+  "homepage": "https://github.com/gamepulse/gamepulse-sdk/tree/main/packages/web#readme",
   "engines": {
     "node": ">=14.0.0"
   },

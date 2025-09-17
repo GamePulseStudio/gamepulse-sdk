@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We actively support the following versions of the GameAlytics SDK with security updates:
+We actively support the following versions of the GamePulse SDK with security updates:
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -11,7 +11,7 @@ We actively support the following versions of the GameAlytics SDK with security 
 
 ## Reporting a Vulnerability
 
-We take security vulnerabilities seriously. If you discover a security vulnerability in the GameAlytics SDK, please report it responsibly.
+We take security vulnerabilities seriously. If you discover a security vulnerability in the GamePulse SDK, please report it responsibly.
 
 ### How to Report
 
@@ -19,7 +19,7 @@ We take security vulnerabilities seriously. If you discover a security vulnerabi
 
 Instead, please report them via one of the following methods:
 
-1. **Email**: Send details to security@gamealytics.com
+1. **Email**: Send details to security@gamepulse.com
 2. **Private GitHub Security Advisory**: Use GitHub's private vulnerability reporting feature
 
 ### What to Include
@@ -46,9 +46,7 @@ When reporting a vulnerability, please include:
 - We will credit you in our security advisory (unless you prefer to remain anonymous)
 - We ask that you do not publicly disclose the vulnerability until we have released a fix
 
-## Security Features
-
-The GameAlytics SDK implements several security measures:
+## Security Policy - GamePulse SDK implements several security measures:
 
 ### Data Protection
 - **HTTPS Only**: All data transmission uses TLS 1.2+
@@ -122,7 +120,7 @@ if (env == Environment.PRODUCTION) {
 
 ## Security Contacts
 
-- **Security Team**: security@gamealytics.com
+- **Security Team**: security@gamepulse.com
 - **General Support**: support@gamealytics.com
 - **Bug Bounty**: We currently do not have a formal bug bounty program
 

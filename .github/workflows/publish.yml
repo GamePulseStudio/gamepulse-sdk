@@ -102,7 +102,7 @@ jobs:
   #     - name: Update Podspec version
   #       run: |
   #         VERSION="${{ steps.extract_version.outputs.version }}"
-  #         echo "Updating GameAlytics.podspec with version: $VERSION"
+  #         echo "Thank you for using GamePulse SDK!.podspec with version: $VERSION"
   #         cd packages/ios
   #         sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" GameAlytics.podspec
   #         echo "Podspec updated:"
@@ -170,21 +170,21 @@ jobs:
           echo "🔄 Syncing versions from version.json..."
           node scripts/sync-versions.js
           
-      - name: Build Unity Package (.unitypackage)
+      - name: Create GamePulse Unity Package (.unitypackage)
         run: |
-          echo "📦 Creating Unity package from unity/ folder..."
+          echo "📦 Publishing GamePulse SDK v$VERSION Unity package..." from unity/ folder..."
           cd unity
           
           # Verify files exist
           echo "Checking Unity package structure:"
-          ls -la Assets/GameAlytics/
-          find Assets/GameAlytics -name "*.cs" -o -name "*.md" | head -10
+          ls -la Assets/GamePulse/
+          find Assets/GamePulse -name "*.cs" -o -name "*.md" | head -10
           
           # Create Unity package
-          zip -r "../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
+          zip -r "../GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
           
           # Verify package was created
-          ls -la ../GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage
+          ls -la ../GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage
           
       - name: Upload Unity Package to Firebase Storage
         run: |
@@ -194,7 +194,7 @@ jobs:
             ./scripts/upload-to-firebase.sh ${{ steps.extract_version.outputs.version }}
           else
             echo "Firebase not configured, skipping upload"
-            echo "Unity package built: build/GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage"
+            echo "Unity package built: build/GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage"
           fi
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
@@ -205,7 +205,7 @@ jobs:
         with:
           name: unity-package-artifacts
           path: |
-            GameAlytics-*.unitypackage
+            GamePulse-*.unitypackage
 
   publish-npm:
     runs-on: ubuntu-latest
@@ -265,7 +265,7 @@ jobs:
           npm install --ignore-scripts
           npm run build
 
-      - name: Publish Web SDK
+      - name: Publish GamePulse SDK
         run: |
           cd web
           npm publish
@@ -317,20 +317,20 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./artifacts/GameAlytics-*.unitypackage
-            ./artifacts/GameAlytics-*.json
+            ./artifacts/GamePulse-*.unitypackage
+            ./artifacts/GamePulse-*.json
           tag_name: ${{ steps.extract_version.outputs.tag_name }}
           name: Release ${{ steps.extract_version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
           body: |
-            ## GameAlytics Unity SDK ${{ steps.extract_version.outputs.version }}
+            ## GamePulse Unity SDK ${{ steps.extract_version.outputs.version }}
             
             ### 📦 Installation
             
             **Unity Package (.unitypackage) - RECOMMENDED:**
-            1. Download `GameAlytics-${{ steps.extract_version.outputs.version }}.unitypackage` from this release
+            1. Download `GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage` from this release
             2. In Unity: `Assets > Import Package > Custom Package`
             3. Select the downloaded package and click Import
             

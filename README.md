@@ -1,10 +1,10 @@
-# GameAlytics SDK
+# GamePulse SDK
 
 **Version: 2.0.18**
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub Release](https://img.shields.io/github/release/gamealytics/gamealytics-sdk.svg)](https://github.com/gamealytics/gamealytics-sdk/releases)
-[![GitHub Issues](https://img.shields.io/github/issues/gamealytics/gamealytics-sdk.svg)](https://github.com/gamealytics/gamealytics-sdk/issues)
+[![GitHub Release](https://img.shields.io/github/release/gamepulse/gamepulse-sdk.svg)](https://github.com/gamepulse/gamepulse-sdk/releases)
+[![GitHub Issues](https://img.shields.io/github/issues/gamepulse/gamepulse-sdk.svg)](https://github.com/gamepulse/gamepulse-sdk/issues)
 
 Cross-platform analytics SDK for game developers. Track player behavior, game events, and performance metrics across Android, Unity, and Web platforms.
 
@@ -14,15 +14,15 @@ Choose your platform and get started in minutes:
 
 | Platform | Status | Installation | Documentation |
 |----------|--------|--------------|---------------|
-| **Android** | ✅ Production Ready | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [Android README](android/README.md) |
+| **Android** | ✅ Production Ready | [JitPack](https://jitpack.io/#gamepulse/gamepulse-sdk) | [Android README](android/README.md) |
 | **Unity** | ✅ Production Ready | [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html) | [Unity README](unity/README.md) |
-| **Web** | ✅ Production Ready | [npm](https://www.npmjs.com/package/@gamealytics/sdk) | [Web README](web/README.md) |
+| **Web** | ✅ Production Ready | [npm](https://www.npmjs.com/package/@gamepulse/sdk) | [Web README](web/README.md) |
 | **iOS** | 🔬 Research | Coming Soon | [Research README](research/README.md) |
 
 ## 📁 Repository Structure
 
 ```
-gamealytics-sdk/
+gamepulse-sdk/
 ├── android/          # Android SDK (Java/Kotlin)
 ├── unity/            # Unity Package (C#)
 ├── web/              # Web/JavaScript SDK (TypeScript)
@@ -55,45 +55,45 @@ gamealytics-sdk/
 ### Android (JitPack)
 ```gradle
 dependencies {
-    implementation 'com.github.gamealytics:gamealytics-sdk:v2.0.20'
+    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.21'
 }
 ```
 
 ### Unity (Package Manager)
 ```
-https://github.com/gamealytics/gamealytics-sdk.git?path=unity
+https://github.com/gamepulse/gamepulse-sdk.git?path=unity
 ```
 
 ### Web (npm)
 ```bash
-npm install @gamealytics/sdk@2.0.20
+npm install @gamepulse/sdk@2.0.21
 ```
 
 ## 📊 Usage Examples
 
 ### Android
 ```java
-GameAlytics.init("your-api-key")
-    .withEnvironment(GameAlytics.Environment.SANDBOX)
+GamePulse.init("your-api-key")
+    .withEnvironment(GamePulse.Environment.SANDBOX)
     .build();
 
-GameAlytics.customEvent("level_completed")
+GamePulse.customEvent("level_completed")
     .setEventValue(100)
     .send();
 ```
 
 ### Unity
 ```csharp
-GameAlytics.Initialize("your-api-key");
-GameAlytics.CustomEvent("level_completed")
+GamePulse.Initialize("your-api-key");
+GamePulse.CustomEvent("level_completed")
     .SetEventValue(100)
     .Send();
 ```
 
 ### Web
 ```javascript
-GameAlytics.init({ apiKey: 'your-api-key' });
-GameAlytics.customEvent('level_completed', { eventValue: 100 });
+GamePulse.init({ apiKey: 'your-api-key' });
+GamePulse.customEvent('level_completed', { eventValue: 100 });
 ```
 
 ## 🛠️ Development
@@ -157,9 +157,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - **Documentation**: Platform-specific READMEs in each folder
-- **Issues**: [GitHub Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/gamealytics/gamealytics-sdk/discussions)
-- **Email**: support@gamealytics.com
+- **Issues**: [GitHub Issues](https://github.com/gamepulse/gamepulse-sdk/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/gamepulse/gamepulse-sdk/discussions)
+- **Email**: support@gamepulse.com
 
 ## 🗺️ Roadmap
 
@@ -177,4 +177,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**GameAlytics SDK** - Empowering game developers with actionable insights 🎮📊
+**GamePulse SDK** - Empowering game developers with actionable insights 🎮📊

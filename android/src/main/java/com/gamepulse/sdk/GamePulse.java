@@ -1,4 +1,4 @@
-package com.gamealytics.sdk;
+package com.gamepulse.sdk;
 
 import android.content.Context;
 import android.os.Build;
@@ -24,10 +24,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class GameAlytics {
+public class GamePulse {
     public enum Environment {
-        DEVELOPMENT("https://client.dev.gamealytics.click/events/collect"),
-        PRODUCTION("https://client.gamealytics.click/events/collect");
+        DEVELOPMENT("https://client.dev.gamepulse.click/events/collect"),
+        PRODUCTION("https://client.gamepulse.click/events/collect");
         
         private final String baseUrl;
         

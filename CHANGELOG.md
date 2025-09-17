@@ -111,7 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-08-01
 
 ### Added
-- Initial release of GameAlytics SDK
+- Initial release of GamePulse SDK
 - Basic event tracking functionality
 - Android, iOS, Unity, and Web platform support
 - JSON-based event serialization
@@ -129,7 +129,7 @@ The v2.0 release introduces significant API changes for improved developer exper
 #### Before (v1.x)
 ```java
 // Old initialization
-GameAlytics analytics = new GameAlytics("api-key", Environment.DEVELOPMENT);
+GamePulse analytics = new GamePulse("api-key", Environment.DEVELOPMENT);
 analytics.setUserConfig(userConfig);
 
 // Old event tracking
@@ -139,12 +139,12 @@ analytics.trackEvent(EventType.LEVEL_START, EventCategory.GAMEPLAY, properties);
 #### After (v2.0)
 ```java
 // New initialization
-GameAlytics.init("api-key", Environment.DEVELOPMENT)
+GamePulse.init("api-key", Environment.DEVELOPMENT)
     .userConfig(userConfig)
     .create(context);
 
 // New event tracking
-GameAlytics.getInstance().systemEvent()
+GamePulse.getInstance().systemEvent()
     .category(Gameplay.class)
     .type(Gameplay.LEVEL_START)
     .setProperties(properties)
