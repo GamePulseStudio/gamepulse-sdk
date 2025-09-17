@@ -1,6 +1,6 @@
 # GamePulse Unity SDK
 
-Version: **2.0.21**
+Version: **2.0.22**
 
 Cross-platform analytics SDK for Unity game developers.
 

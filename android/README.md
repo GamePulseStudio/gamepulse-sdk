@@ -1,6 +1,6 @@
 # GamePulse Android SDK
 
-Version: **2.0.21**
+Version: **2.0.22**
 
 Cross-platform analytics SDK for Android game developers.
 
@@ -24,7 +24,7 @@ Add the dependency to your app's `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.21'
+    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.22'
 }
 ```
 

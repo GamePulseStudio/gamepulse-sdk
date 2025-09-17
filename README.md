@@ -55,7 +55,7 @@ gamepulse-sdk/
 ### Android (JitPack)
 ```gradle
 dependencies {
-    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.21'
+    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.22'
 }
 ```
 
@@ -66,7 +66,7 @@ https://github.com/gamepulse/gamepulse-sdk.git?path=unity
 
 ### Web (npm)
 ```bash
-npm install @gamepulse-studio/web-sdk@2.0.21
+npm install @gamepulse-studio/web-sdk@2.0.22
 ```
 
 ## 📊 Usage Examples
