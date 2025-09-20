@@ -326,6 +326,50 @@ public class GamepulseUsageExample : MonoBehaviour
             .Trigger();
     }
 
+    /// <summary>
+    /// Example using the new Android-style API
+    /// </summary>
+    private void DemonstrateAndroidStyleAPI()
+    {
+        Debug.Log("--- Demonstrating Android-Style API ---");
+        
+        var properties = new Dictionary<string, string>
+        {
+            { "platform", Application.platform.ToString() },
+            { "unity_version", Application.unityVersion }
+        };
+        
+        var levelProperties = new Dictionary<string, string>
+        {
+            { "level", "1" },
+            { "difficulty", "easy" },
+            { "game_mode", "campaign" }
+        };
+        
+        var customProperties = new Dictionary<string, string>
+        {
+            { "button_name", "start_game" },
+            { "screen", "main_menu" }
+        };
+        
+        // Track a user event (Android-style)
+        Gamepulse.Gamepulse.GetInstance().UserEvent(Gamepulse.Gamepulse.UserEvents.SESSION_START)
+            .SetProperties(properties)
+            .Track(); // or .Trigger()
+        
+        // Track a gameplay event (Android-style)
+        Gamepulse.Gamepulse.GetInstance().GameplayEvent(Gamepulse.Gamepulse.GameplayEvents.LEVEL_START)
+            .SetProperties(levelProperties)
+            .Track(); // or .Trigger()
+        
+        // Track a custom event (Android-style)
+        Gamepulse.Gamepulse.GetInstance().CustomEvent("button_click", "ui")
+            .SetProperties(customProperties)
+            .Track(); // or .Trigger()
+        
+        Debug.Log("Android-style API demonstration complete!");
+    }
+    
     void OnDestroy()
     {
         // End session when this component is destroyed

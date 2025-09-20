@@ -140,6 +140,20 @@ namespace GamePulse
             public const string USER_LOGIN = "user_login";
             public const string USER_LOGOUT = "user_logout";
             public const string USER_REGISTER = "user_register";
+            
+            private static readonly string[] ValidEvents = {
+                SESSION_START, SESSION_END, USER_LOGIN, USER_LOGOUT, USER_REGISTER
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for user events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         /// <summary>
@@ -154,6 +168,20 @@ namespace GamePulse
             public const string GAME_START = "game_start";
             public const string GAME_END = "game_end";
             public const string BOSS_FIGHT = "boss_fight";
+            
+            private static readonly string[] ValidEvents = {
+                LEVEL_START, LEVEL_END, LEVEL_UP, GAME_START, GAME_END, BOSS_FIGHT
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for gameplay events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         /// <summary>
@@ -167,6 +195,20 @@ namespace GamePulse
             public const string ITEM_PURCHASED = "item_purchased";
             public const string ITEM_SOLD = "item_sold";
             public const string SHOP_VIEWED = "shop_viewed";
+            
+            private static readonly string[] ValidEvents = {
+                CURRENCY_EARNED, CURRENCY_SPENT, ITEM_PURCHASED, ITEM_SOLD, SHOP_VIEWED
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for economy events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         /// <summary>
@@ -179,6 +221,20 @@ namespace GamePulse
             public const string ACHIEVEMENT_UNLOCKED = "achievement_unlocked";
             public const string MILESTONE_REACHED = "milestone_reached";
             public const string QUEST_COMPLETED = "quest_completed";
+            
+            private static readonly string[] ValidEvents = {
+                TUTORIAL_COMPLETE, ACHIEVEMENT_UNLOCKED, MILESTONE_REACHED, QUEST_COMPLETED
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for progression events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         /// <summary>
@@ -191,6 +247,20 @@ namespace GamePulse
             public const string AD_CLICKED = "ad_clicked";
             public const string AD_REWARDED = "ad_rewarded";
             public const string AD_FAILED = "ad_failed";
+            
+            private static readonly string[] ValidEvents = {
+                AD_VIEWED, AD_CLICKED, AD_REWARDED, AD_FAILED
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for ad events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         /// <summary>
@@ -204,6 +274,20 @@ namespace GamePulse
             public const string PURCHASE_RESTORED = "purchase_restored";
             public const string SUBSCRIPTION_STARTED = "subscription_started";
             public const string SUBSCRIPTION_CANCELLED = "subscription_cancelled";
+            
+            private static readonly string[] ValidEvents = {
+                PURCHASE, PURCHASE_FAILED, PURCHASE_RESTORED, SUBSCRIPTION_STARTED, SUBSCRIPTION_CANCELLED
+            };
+            
+            /// <summary>
+            /// Check if event type is valid for IAP events
+            /// </summary>
+            /// <param name="eventType">Event type to validate</param>
+            /// <returns>True if valid, false otherwise</returns>
+            public static bool IsValidEvent(string eventType)
+            {
+                return Array.Exists(ValidEvents, e => e.Equals(eventType));
+            }
         }
         
         #endregion
@@ -254,6 +338,18 @@ namespace GamePulse
         public CustomEventBuilder CustomEvent()
         {
             return new CustomEventBuilder();
+        }
+        
+        /// <summary>
+        /// Create a custom event builder with type and category (Android-style API)
+        /// </summary>
+        /// <param name="type">Event type</param>
+        /// <param name="category">Event category</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder CustomEvent(string type, string category)
+        {
+            CheckInitialized();
+            return new EventBuilder(type, category, true);
         }
 
         #endregion
@@ -345,6 +441,100 @@ namespace GamePulse
             this.isInitialized = true;
             
             Debug.Log($"Gamepulse initialized successfully for {environment} environment");
+        }
+
+        #endregion
+
+        #region Category-Specific Event Methods (Android-Style API)
+        
+        /// <summary>
+        /// Create a user event builder with validation
+        /// </summary>
+        /// <param name="eventType">User event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder UserEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!UserEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid user event type: {eventType}");
+            }
+            return new EventBuilder(eventType, UserEvents.CATEGORY, false);
+        }
+        
+        /// <summary>
+        /// Create a gameplay event builder with validation
+        /// </summary>
+        /// <param name="eventType">Gameplay event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder GameplayEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!GameplayEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid gameplay event type: {eventType}");
+            }
+            return new EventBuilder(eventType, GameplayEvents.CATEGORY, false);
+        }
+        
+        /// <summary>
+        /// Create an economy event builder with validation
+        /// </summary>
+        /// <param name="eventType">Economy event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder EconomyEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!EconomyEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid economy event type: {eventType}");
+            }
+            return new EventBuilder(eventType, EconomyEvents.CATEGORY, false);
+        }
+        
+        /// <summary>
+        /// Create a progression event builder with validation
+        /// </summary>
+        /// <param name="eventType">Progression event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder ProgressionEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!ProgressionEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid progression event type: {eventType}");
+            }
+            return new EventBuilder(eventType, ProgressionEvents.CATEGORY, false);
+        }
+        
+        /// <summary>
+        /// Create an ad event builder with validation
+        /// </summary>
+        /// <param name="eventType">Ad event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder AdEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!AdEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid ad event type: {eventType}");
+            }
+            return new EventBuilder(eventType, AdEvents.CATEGORY, false);
+        }
+        
+        /// <summary>
+        /// Create an IAP event builder with validation
+        /// </summary>
+        /// <param name="eventType">IAP event type</param>
+        /// <returns>EventBuilder for chaining</returns>
+        public EventBuilder IAPEvent(string eventType)
+        {
+            CheckInitialized();
+            if (!IAPEvents.IsValidEvent(eventType))
+            {
+                throw new ArgumentException($"Invalid IAP event type: {eventType}");
+            }
+            return new EventBuilder(eventType, IAPEvents.CATEGORY, false);
         }
 
         #endregion
@@ -653,6 +843,63 @@ namespace GamePulse
             if (!isInitialized)
             {
                 throw new InvalidOperationException("Gamepulse must be initialized first. Call Gamepulse.Init()");
+            }
+        }
+
+        #endregion
+
+        #region EventBuilder Class
+        
+        /// <summary>
+        /// Event builder for fluent API event tracking (Android-style API)
+        /// </summary>
+        public class EventBuilder
+        {
+            private readonly string eventType;
+            private readonly string eventCategory;
+            private readonly bool isCustom;
+            private Dictionary<string, string> properties = new Dictionary<string, string>();
+
+            internal EventBuilder(string type, string category, bool isCustom)
+            {
+                this.eventType = type;
+                this.eventCategory = category;
+                this.isCustom = isCustom;
+            }
+
+            /// <summary>
+            /// Set properties for the event
+            /// </summary>
+            /// <param name="properties">Event properties</param>
+            /// <returns>EventBuilder for chaining</returns>
+            public EventBuilder SetProperties(Dictionary<string, string> properties)
+            {
+                if (properties != null)
+                {
+                    this.properties = properties;
+                }
+                return this;
+            }
+
+            /// <summary>
+            /// Track/send the event (Android-style API)
+            /// </summary>
+            public void Track()
+            {
+                Trigger();
+            }
+
+            /// <summary>
+            /// Trigger/send the event (Unity-style API)
+            /// </summary>
+            public void Trigger()
+            {
+                if (instance == null)
+                {
+                    throw new InvalidOperationException("Gamepulse must be initialized first");
+                }
+                
+                instance.TrackEventInternal(isCustom ? "CUSTOM" : "SYSTEM", eventType, eventCategory, properties);
             }
         }
 
