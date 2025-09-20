@@ -1,5 +1,5 @@
 /**
- * Core types for GameAlytics SDK
+ * Core types for Gamepulse SDK
  */
 
 export enum Environment {
@@ -18,8 +18,8 @@ export enum Platform {
 }
 
 export const API_ENDPOINTS = {
-  [Environment.DEVELOPMENT]: 'https://client.dev.gamealytics.click/events/collect',
-  [Environment.PRODUCTION]: 'https://client.gamealytics.click/events/collect'
+  [Environment.DEVELOPMENT]: 'https://client.dev.gamepulse.studio/events/collect',
+  [Environment.PRODUCTION]: 'https://client.gamepulse.studio/events/collect'
 };
 
 // Base interface for all event categories
@@ -144,7 +144,7 @@ export interface EventBuilder {
   track(): Promise<void>;
 }
 
-export interface GameAlyticsInterface {
+export interface GamepulseInterface {
   // System Events with category validation
   userEvent(eventType: string): EventBuilder;
   gameplayEvent(eventType: string): EventBuilder;
@@ -189,7 +189,7 @@ export interface DeviceInfo {
   deviceManufacturer: string;
 }
 
-export interface GameAlyticsConfig {
+export interface GamepulseConfig {
   apiKey: string;
   environment?: Environment;
   userConfig: UserConfig;

@@ -1,23 +1,23 @@
-# GameAlytics Unity SDK
+# Gamepulse Unity SDK
 
 Cross-platform game analytics SDK for Unity with fluent builder API.
 
 ## 📱 Quick Setup
 
-1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
+1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamepulse/gamepulse-sdk/releases)
 2. Import: `Assets > Import Package > Custom Package`
-3. Add the GameAlytics prefab to your scene or initialize via script
+3. Add the Gamepulse prefab to your scene or initialize via script
 
 ## 🚀 Basic Usage
 
 ```csharp
-using GameAlytics;
+using Gamepulse;
 
 // Initialize (do this once at app start)
-GameAlytics.Initialize("your-api-key");
+Gamepulse.Initialize("your-api-key");
 
 // Track events
-GameAlytics.TrackEvent("level_completed", new Dictionary<string, object>
+Gamepulse.TrackEvent("level_completed", new Dictionary<string, object>
 {
     ["level"] = 5,
     ["score"] = 1250,
@@ -25,8 +25,8 @@ GameAlytics.TrackEvent("level_completed", new Dictionary<string, object>
 });
 
 // Track user properties
-GameAlytics.SetUserProperty("player_level", 12);
-GameAlytics.SetUserProperty("premium_user", true);
+Gamepulse.SetUserProperty("player_level", 12);
+Gamepulse.SetUserProperty("premium_user", true);
 ```
 
 ## 📊 Event Categories
@@ -38,9 +38,9 @@ GameAlytics.SetUserProperty("premium_user", true);
 
 ## 🔗 Resources
 
-- [Main Repository](https://github.com/gamealytics/gamealytics-sdk)
-- [All Platforms Guide](https://github.com/gamealytics/gamealytics-sdk#quick-setup)
-- [Issue Tracker](https://github.com/gamealytics/gamealytics-sdk/issues)
+- [Main Repository](https://github.com/gamepulse/gamepulse-sdk)
+- [All Platforms Guide](https://github.com/gamepulse/gamepulse-sdk#quick-setup)
+- [Issue Tracker](https://github.com/gamepulse/gamepulse-sdk/issues)
 
 ---
 

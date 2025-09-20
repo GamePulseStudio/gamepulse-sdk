@@ -3,7 +3,7 @@ import CoreLocation
 import UIKit
 
 /**
- * Simplified permission manager for GameAlytics iOS SDK
+ * Simplified permission manager for Gamepulse iOS SDK
  * - Internet permission: Available by default on iOS, no check needed
  * - Storage permission: App-specific storage available by default, no check needed
  * - Location permission: Optional, adds latitude/longitude to events if available
@@ -89,7 +89,7 @@ private class LocationDelegate: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("GameAlytics SDK: Location update failed: \(error.localizedDescription)")
+        print("Gamepulse SDK: Location update failed: \(error.localizedDescription)")
     }
 }
 
@@ -102,7 +102,7 @@ private class LocationDelegate: NSObject, CLLocationManagerDelegate {
     /**
      * Begin background task for event processing
      */
-    @objc public static func beginBackgroundTask(name: String = "GameAlytics Event Processing") -> UIBackgroundTaskIdentifier {
+    @objc public static func beginBackgroundTask(name: String = "Gamepulse Event Processing") -> UIBackgroundTaskIdentifier {
         backgroundTaskId = UIApplication.shared.beginBackgroundTask(withName: name) {
             endBackgroundTask()
         }

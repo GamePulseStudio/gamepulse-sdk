@@ -79,14 +79,14 @@ public class UserConfigBuilder {
 }
 
 public class EventBuilder {
-    private let gameAlytics: GameAlytics
+    private let gamepulse: Gamepulse
     private let eventType: String
     private let eventCategory: String
     private let isCustom: Bool
     private var properties: EventProperties = [:]
     
-    init(gameAlytics: GameAlytics, eventType: String, eventCategory: String, isCustom: Bool) {
-        self.gameAlytics = gameAlytics
+    init(gamepulse: Gamepulse, eventType: String, eventCategory: String, isCustom: Bool) {
+        self.gamepulse = gamepulse
         self.eventType = eventType
         self.eventCategory = eventCategory
         self.isCustom = isCustom
@@ -99,7 +99,7 @@ public class EventBuilder {
     }
     
     public func track() {
-        gameAlytics.trackEvent(
+        gamepulse.trackEvent(
             type: isCustom ? "CUSTOM" : "SYSTEM",
             eventType: eventType,
             category: eventCategory,
@@ -123,7 +123,7 @@ public class InitBuilder {
         return self
     }
     
-    public func create() -> GameAlytics {
+    public func create() -> Gamepulse {
         guard !apiKey.isEmpty else {
             fatalError("API key is required")
         }
@@ -131,14 +131,14 @@ public class InitBuilder {
             fatalError("UserConfig is required")
         }
         
-        GameAlytics.instance = GameAlytics(apiKey: apiKey, environment: environment, userConfig: userConfig)
-        return GameAlytics.instance!
+        Gamepulse.instance = Gamepulse(apiKey: apiKey, environment: environment, userConfig: userConfig)
+        return Gamepulse.instance!
     }
 }
 
-public class GameAlytics {
+public class Gamepulse {
     // MARK: - Singleton
-    static var instance: GameAlytics?
+    static var instance: Gamepulse?
     
     // MARK: - Properties
     private let apiKey: String
@@ -164,27 +164,27 @@ public class GameAlytics {
         self.apiKey = apiKey
         self.environment = environment
         self.userConfig = userConfig
-        self.deviceInfo = GameAlytics.autoFetchDeviceInfo()
+        self.deviceInfo = Gamepulse.autoFetchDeviceInfo()
         self.baseUrl = environment == .production 
-            ? "https://client.gamealytics.click" 
-            : "https://client.dev.gamealytics.click"
+            ? "https://client.gamepulse.studio" 
+            : "https://client.dev.gamepulse.studio"
         self.isInitialized = true
     }
     
     // MARK: - Public Methods
     
-    /// Initialize the GameAlytics SDK with fluent API
+    /// Initialize the Gamepulse SDK with fluent API
     /// - Parameters:
-    ///   - apiKey: Your GameAlytics API key
+    ///   - apiKey: Your Gamepulse API key
     ///   - environment: The environment (development or production)
     /// - Returns: InitBuilder for chaining
     public static func init(apiKey: String, environment: Environment) -> InitBuilder {
         return InitBuilder(apiKey: apiKey, environment: environment)
     }
     
-    public static func getInstance() -> GameAlytics {
-        guard let instance = shared else {
-            fatalError("GameAlytics must be initialized first. Call GameAlytics.init(...).create()")
+    public static func getInstance() -> Gamepulse {
+        guard let instance = instance else {
+            fatalError("Gamepulse must be initialized first. Call Gamepulse.init(...).create()")
         }
         return instance
     }
@@ -197,7 +197,7 @@ public class GameAlytics {
     public func event(_ type: EventType, category: EventCategory) -> EventBuilder {
         ensureInitialized()
         return EventBuilder(
-            gameAlytics: self,
+            gamepulse: self,
             eventType: type.rawValue,
             eventCategory: category.rawValue,
             isCustom: false
@@ -212,7 +212,7 @@ public class GameAlytics {
     public func customEvent(_ type: String, category: String) -> EventBuilder {
         ensureInitialized()
         return EventBuilder(
-            gameAlytics: self,
+            gamepulse: self,
             eventType: type,
             eventCategory: category,
             isCustom: true
@@ -311,13 +311,13 @@ public class GameAlytics {
     
     private func ensureInitialized() {
         guard isInitialized else {
-            fatalError("GameAlytics must be initialized first. Call GameAlytics.init()")
+            fatalError("Gamepulse must be initialized first. Call Gamepulse.init()")
         }
     }
 }
 
 // MARK: - Event Category Classes
-extension GameAlytics {
+extension Gamepulse {
     public struct Gameplay {
         public static let levelStart = "level_start"
         public static let levelEnd = "level_end"
@@ -379,8 +379,8 @@ public class SystemEventBuilder {
     }
     
     public func trigger() {
-        guard let instance = GameAlytics.shared else {
-            fatalError("GameAlytics must be initialized first")
+        guard let instance = Gamepulse.instance else {
+            fatalError("Gamepulse must be initialized first")
         }
         guard let category = category, let type = type else {
             fatalError("Category and type are required")
@@ -410,8 +410,8 @@ public class CustomEventBuilder {
     }
     
     public func trigger() {
-        guard let instance = GameAlytics.shared else {
-            fatalError("GameAlytics must be initialized first")
+        guard let instance = Gamepulse.instance else {
+            fatalError("Gamepulse must be initialized first")
         }
         guard let category = category, let type = type else {
             fatalError("Category and type are required")

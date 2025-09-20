@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# GameAlytics Firebase Storage Upload Script
+# Gamepulse Firebase Storage Upload Script
 # This script uploads Unity packages to Firebase Storage with proper versioning
 
 set -e
@@ -17,15 +17,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 BUILD_DIR="$ROOT_DIR/build"
 VERSION="${1:-2.0.9}"
-PACKAGE_NAME="GameAlytics-${VERSION}.unitypackage"
-INFO_NAME="GameAlytics-${VERSION}.json"
+PACKAGE_NAME="Gamepulse-${VERSION}.unitypackage"
+INFO_NAME="Gamepulse-${VERSION}.json"
 
 # Firebase configuration (these should be set as environment variables)
 FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID:-}"
 FIREBASE_STORAGE_BUCKET="${FIREBASE_STORAGE_BUCKET:-}"
 FIREBASE_SERVICE_ACCOUNT_KEY="${FIREBASE_SERVICE_ACCOUNT_KEY:-}"
 
-echo -e "${GREEN}🚀 GameAlytics Firebase Storage Upload${NC}"
+echo -e "${GREEN}🚀 Gamepulse Firebase Storage Upload${NC}"
 echo -e "${BLUE}Version:${NC} $VERSION"
 echo -e "${BLUE}Package:${NC} $PACKAGE_NAME"
 echo ""
@@ -219,8 +219,8 @@ generate_download_urls() {
     "steps": [
       "Download the .unitypackage file using the URL above",
       "In Unity: Assets > Import Package > Custom Package",
-      "Select the downloaded GameAlytics.unitypackage file",
-      "Click Import to add GameAlytics to your project"
+      "Select the downloaded Gamepulse.unitypackage file",
+      "Click Import to add Gamepulse to your project"
     ]
   }
 }
@@ -333,7 +333,7 @@ main() {
 
 # Help function
 show_help() {
-    echo "GameAlytics Firebase Storage Upload Script"
+    echo "Gamepulse Firebase Storage Upload Script"
     echo ""
     echo "Usage: $0 <VERSION>"
     echo ""
@@ -343,7 +343,7 @@ show_help() {
     echo "  FIREBASE_SERVICE_ACCOUNT_KEY  Service account JSON key (optional, for CI/CD)"
     echo ""
     echo "Examples:"
-    echo "  export FIREBASE_PROJECT_ID=gamealytics-sdk"
+    echo "  export FIREBASE_PROJECT_ID=gamepulse-sdk"
     echo "  $0 2.0.9"
     echo ""
     echo "Prerequisites:"

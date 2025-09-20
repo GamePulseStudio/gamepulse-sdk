@@ -26,8 +26,8 @@ import okhttp3.Response;
 
 public class GamePulse {
     public enum Environment {
-        DEVELOPMENT("https://client.dev.gamepulse.click/events/collect"),
-        PRODUCTION("https://client.gamepulse.click/events/collect");
+        DEVELOPMENT("https://client.dev.gamepulse.studio/events/collect"),
+        PRODUCTION("https://client.gamepulse.studio/events/collect");
         
         private final String baseUrl;
         
@@ -395,7 +395,7 @@ public class GamePulse {
 
         public void trigger() {
             if (instance == null) {
-                throw new IllegalStateException("GameAlytics must be initialized first");
+                throw new IllegalStateException("Gamepulse must be initialized first");
             }
             if (category == null || type == null) {
                 throw new IllegalArgumentException("Category and type are required");
@@ -426,7 +426,7 @@ public class GamePulse {
 
         public void trigger() {
             if (instance == null) {
-                throw new IllegalStateException("GameAlytics must be initialized first");
+                throw new IllegalStateException("Gamepulse must be initialized first");
             }
             if (category == null || type == null) {
                 throw new IllegalArgumentException("Category and type are required");
@@ -578,14 +578,14 @@ public class GamePulse {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (debug) {
-                    System.out.println("GameAlytics: Failed to send event: " + e.getMessage());
+                    System.out.println("Gamepulse: Failed to send event: " + e.getMessage());
                 }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (debug) {
-                    System.out.println("GameAlytics: Event sent successfully: " + response.code());
+                    System.out.println("Gamepulse: Event sent successfully: " + response.code());
                 }
                 response.close();
             }
@@ -717,7 +717,7 @@ public class GamePulse {
 
     private void checkInitialized() {
         if (!isInitialized) {
-            throw new IllegalStateException("GameAlytics must be initialized first. Call GameAlytics.init()");
+            throw new IllegalStateException("Gamepulse must be initialized first. Call Gamepulse.init()");
         }
     }
 }

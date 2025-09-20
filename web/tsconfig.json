@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@gameanalytics/*": ["src/*"]
+      "@gamepulse/*": ["src/*"]
     },
     "typeRoots": [
       "./node_modules/@types"

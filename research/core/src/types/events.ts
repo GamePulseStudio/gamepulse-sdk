@@ -1,5 +1,5 @@
 /**
- * Common event types for GameAlytics
+ * Common event types for Gamepulse
  */
 
 export enum EventCategory {

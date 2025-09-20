@@ -1,5 +1,5 @@
 "use strict";
-// Jest setup file for GameAlytics Web SDK tests
+// Jest setup file for Gamepulse Web SDK tests
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {

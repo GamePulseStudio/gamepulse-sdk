@@ -1,7 +1,7 @@
-import { GameAnalytics, EventCategory } from '../GameAnalytics';
+import { Gamepulse, EventCategory } from '../Gamepulse';
 
-describe('GameAnalytics', () => {
-  let ga: GameAnalytics;
+describe('Gamepulse', () => {
+  let ga: Gamepulse;
   const mockConfig = {
     gameKey: 'test-game-key',
     secretKey: 'test-secret-key',
@@ -10,7 +10,7 @@ describe('GameAnalytics', () => {
 
   beforeEach(() => {
     // Create a new instance before each test
-    ga = new GameAnalytics(mockConfig);
+    ga = new Gamepulse(mockConfig);
     
     // Mock console methods
     jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -46,7 +46,7 @@ describe('GameAnalytics', () => {
         flushInterval: 60000,
       };
       
-      const customGA = new GameAnalytics(customConfig);
+      const customGA = new Gamepulse(customConfig);
       
       try {
         // @ts-ignore - accessing private property for test
@@ -137,7 +137,7 @@ describe('GameAnalytics', () => {
 
     it('should not track event if not initialized', () => {
       // Create a new instance without initializing
-      const uninitializedGA = new GameAnalytics(mockConfig);
+      const uninitializedGA = new Gamepulse(mockConfig);
       
       // @ts-ignore - accessing private property for test
       const addToQueueSpy = jest.spyOn(uninitializedGA, 'addToQueue');

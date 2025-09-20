@@ -1,4 +1,4 @@
-package com.gamealytics.sdk.permissions;
+package com.gamepulse.sdk.permissions;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Simplified permission manager for GameAlytics SDK
+ * Simplified permission manager for Gamepulse SDK
  * - Internet permission: Required by default, logs error if missing
  * - Storage permission: Required for retries/failures, logs error if missing
  * - Location permission: Optional, adds latitude/longitude to events if available
@@ -22,7 +22,7 @@ import java.util.HashMap;
  */
 public class PermissionManager {
     
-    private static final String TAG = "GameAlytics";
+    private static final String TAG = "Gamepulse";
     private static LocationManager locationManager;
     private static Location lastKnownLocation;
     private static boolean locationInitialized = false;
@@ -35,7 +35,7 @@ public class PermissionManager {
             == PackageManager.PERMISSION_GRANTED;
         
         if (!hasInternet) {
-            Log.e(TAG, "GameAlytics SDK: INTERNET permission is missing. Add <uses-permission android:name=\"android.permission.INTERNET\" /> to AndroidManifest.xml");
+            Log.e(TAG, "Gamepulse SDK: INTERNET permission is missing. Add <uses-permission android:name=\"android.permission.INTERNET\" /> to AndroidManifest.xml");
         }
         
         return hasInternet;
@@ -57,7 +57,7 @@ public class PermissionManager {
             == PackageManager.PERMISSION_GRANTED;
         
         if (!hasWrite || !hasRead) {
-            Log.e(TAG, "GameAlytics SDK: Storage permissions missing. Event queue persistence may be limited. Add storage permissions to AndroidManifest.xml");
+            Log.e(TAG, "Gamepulse SDK: Storage permissions missing. Event queue persistence may be limited. Add storage permissions to AndroidManifest.xml");
             return false;
         }
         
@@ -117,9 +117,9 @@ public class PermissionManager {
                 
                 locationInitialized = true;
             } catch (SecurityException e) {
-                Log.w(TAG, "GameAlytics SDK: Location permission denied at runtime");
+                Log.w(TAG, "Gamepulse SDK: Location permission denied at runtime");
             } catch (Exception e) {
-                Log.w(TAG, "GameAlytics SDK: Failed to initialize location services: " + e.getMessage());
+                Log.w(TAG, "Gamepulse SDK: Failed to initialize location services: " + e.getMessage());
             }
         }
     }

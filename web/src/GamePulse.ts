@@ -145,8 +145,8 @@ class GamePulse {
     this.userConfig = userConfig;
     this.deviceInfo = this.autoFetchDeviceInfo();
     this.baseUrl = environment === Environment.PRODUCTION 
-      ? 'https://client.gamealytics.click' 
-      : 'https://client.dev.gamealytics.click';
+      ? 'https://client.gamepulse.studio' 
+      : 'https://client.dev.gamepulse.studio';
     
     // Initialize event queue with base URL and API key injection
     this.eventQueue = new EventQueue();

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to update all package versions and deploy the GameAlytics SDK
+# Script to update all package versions and deploy the Gamepulse SDK
 # Usage: ./scripts/update-version.sh <version> [options]
 # Example: ./scripts/update-version.sh 2.1.0
 # Options:
@@ -99,7 +99,7 @@ confirm() {
     done
 }
 
-echo -e "${GREEN}🚀 GameAlytics SDK Release Script${NC}"
+echo -e "${GREEN}🚀 Gamepulse SDK Release Script${NC}"
 echo -e "${BLUE}Version:${NC} $VERSION"
 echo -e "${BLUE}Tag:${NC} $TAG_NAME"
 if [ "$DRY_RUN" = true ]; then
@@ -155,7 +155,7 @@ echo -e "${GREEN}✅ Unity package updated to $VERSION${NC}"
 echo -e "${BLUE}🍎 Updating iOS Podspec...${NC}"
 run_cmd cd "$ROOT_DIR/packages/ios"
 if [ "$DRY_RUN" = false ]; then
-    sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" GameAlytics.podspec
+    sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" Gamepulse.podspec
 fi
 echo -e "${GREEN}✅ iOS Podspec updated to $VERSION${NC}"
 
@@ -214,12 +214,12 @@ echo -e "${GREEN}🎉 RELEASE COMPLETE!${NC}"
 echo -e "${BLUE}Version $VERSION has been released and tagged as $TAG_NAME${NC}"
 echo ""
 echo -e "${BLUE}🔗 Monitor the release progress:${NC}"
-echo "• GitHub Actions: https://github.com/gamealytics/gamealytics-sdk/actions"
-echo "• Releases: https://github.com/gamealytics/gamealytics-sdk/releases"
+echo "• GitHub Actions: https://github.com/gamepulse/gamepulse-sdk/actions"
+echo "• Releases: https://github.com/gamepulse/gamepulse-sdk/releases"
 echo ""
 echo -e "${BLUE}📦 Packages will be published to:${NC}"
-echo "• NPM: @gamealytics/core, @gamealytics/web-sdk, @gamealytics/unity-sdk"
-echo "• CocoaPods: GameAlytics"
+echo "• NPM: @gamepulse/core, @gamepulse/web-sdk, @gamepulse/unity-sdk"
+echo "• CocoaPods: Gamepulse"
 echo "• JitPack: Android SDK (automatic)"
 echo "• GitHub Releases: Unity package ZIP"
 echo ""

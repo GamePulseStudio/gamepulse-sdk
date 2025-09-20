@@ -18,11 +18,11 @@ afterEvaluate {
                 from components.release
 
                 groupId GROUP
-                artifactId 'gamealytics-android'
+                artifactId 'gamepulse-android'
                 version VERSION_NAME
 
                 pom {
-                    name = 'GameAlytics Android SDK'
+                    name = 'Gamepulse Android SDK'
                     description = POM_DESCRIPTION
                     url = POM_URL
                     licenses {

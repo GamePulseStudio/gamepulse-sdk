@@ -74,12 +74,12 @@ When reporting a vulnerability, please include:
 
 ## Security Best Practices
 
-When integrating the GameAlytics SDK:
+When integrating the Gamepulse SDK:
 
 ### API Key Management
 ```java
 // ✅ Good - Use environment variables or secure config
-String apiKey = System.getenv("GAMEALYTICS_API_KEY");
+String apiKey = System.getenv("GAMEPULSE_API_KEY");
 
 // ❌ Bad - Never hardcode API keys
 String apiKey = "ga_1234567890abcdef"; // Don't do this!
@@ -103,7 +103,7 @@ Environment env = BuildConfig.DEBUG ?
 
 // ✅ Good - Enable security features in production
 if (env == Environment.PRODUCTION) {
-    GameAlytics.getInstance()
+    Gamepulse.getInstance()
         .enableCertificatePinning(true)
         .enableRequestSigning(true);
 }
@@ -121,12 +121,12 @@ if (env == Environment.PRODUCTION) {
 ## Security Contacts
 
 - **Security Team**: security@gamepulse.com
-- **General Support**: support@gamealytics.com
+- **General Support**: support@gamepulse.com
 - **Bug Bounty**: We currently do not have a formal bug bounty program
 
 ## Acknowledgments
 
-We would like to thank the following security researchers who have helped improve the GameAlytics SDK:
+We would like to thank the following security researchers who have helped improve the Gamepulse SDK:
 
 - [Your name could be here] - Responsible disclosure of [vulnerability type]
 

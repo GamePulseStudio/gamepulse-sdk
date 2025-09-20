@@ -30,10 +30,10 @@ for package in "${packages[@]}"; do
         fi
         
         # Check package name format
-        if grep -q "@gamealytics" "packages/${package}/package.json"; then
-            echo "✅ Package name follows @gamealytics scope"
+        if grep -q "@gamepulse" "packages/${package}/package.json"; then
+            echo "✅ Package name follows @gamepulse scope"
         else
-            echo "❌ Package name doesn't follow @gamealytics scope"
+            echo "❌ Package name doesn't follow @gamepulse scope"
         fi
     else
         echo "❌ package.json missing"
@@ -43,8 +43,8 @@ done
 # Test npm configuration
 echo ""
 echo "🔧 Testing npm configuration..."
-if npm config get @gamealytics:registry | grep -q "npm.pkg.github.com"; then
-    echo "✅ npm registry configured for @gamealytics scope"
+if npm config get @gamepulse:registry | grep -q "npm.pkg.github.com"; then
+    echo "✅ npm registry configured for @gamepulse scope"
 else
     echo "ℹ️ npm registry not configured (will use .npmrc)"
 fi

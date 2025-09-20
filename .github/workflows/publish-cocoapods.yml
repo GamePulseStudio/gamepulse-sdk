@@ -65,20 +65,20 @@ jobs:
       - name: Update podspec version
         run: |
           VERSION="${{ steps.extract_version.outputs.version }}"
-          echo "Updating GameAlytics.podspec with version: $VERSION"
+          echo "Updating Gamepulse.podspec with version: $VERSION"
           cd research/ios
           
           # Update version in podspec
-          sed -i '' "s/spec.version.*=.*/spec.version = \"$VERSION\"/" GameAlytics.podspec
+          sed -i '' "s/spec.version.*=.*/spec.version = \"$VERSION\"/" Gamepulse.podspec
           
           echo "Updated podspec:"
-          grep "spec.version" GameAlytics.podspec
+          grep "spec.version" Gamepulse.podspec
           
       - name: Validate podspec
         run: |
           cd research/ios
           echo "Validating podspec..."
-          pod spec lint GameAlytics.podspec --quick --skip-import-validation --skip-tests --allow-warnings
+          pod spec lint Gamepulse.podspec --quick --skip-import-validation --skip-tests --allow-warnings
           
       - name: Setup CocoaPods authentication
         env:
@@ -89,7 +89,7 @@ jobs:
             echo ""
             echo "📋 CocoaPods Setup Instructions:"
             echo "1. Register your CocoaPods account:"
-            echo "   pod trunk register your-email@domain.com 'GameAlytics'"
+            echo "   pod trunk register your-email@domain.com 'Gamepulse'"
             echo "2. Check your email and click the verification link"
             echo "3. Get your session token:"
             echo "   cat ~/.netrc | grep cocoapods"
@@ -105,22 +105,22 @@ jobs:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: |
           cd research/ios
-          echo "Publishing GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods..."
+          echo "Publishing Gamepulse v${{ steps.extract_version.outputs.version }} to CocoaPods..."
           
           # Final validation
-          pod spec lint GameAlytics.podspec --quick --skip-import-validation --skip-tests --allow-warnings
+          pod spec lint Gamepulse.podspec --quick --skip-import-validation --skip-tests --allow-warnings
           
           # Publish to CocoaPods Trunk
-          pod trunk push GameAlytics.podspec --skip-import-validation --skip-tests --allow-warnings
+          pod trunk push Gamepulse.podspec --skip-import-validation --skip-tests --allow-warnings
           
-          echo "✅ Successfully published GameAlytics v${{ steps.extract_version.outputs.version }} to CocoaPods!"
+          echo "✅ Successfully published Gamepulse v${{ steps.extract_version.outputs.version }} to CocoaPods!"
           
       - name: Create publication summary
         run: |
           cat >> $GITHUB_STEP_SUMMARY << EOF
           # 🎉 CocoaPods Publication Successful
           
-          **Package**: GameAlytics iOS SDK  
+          **Package**: Gamepulse iOS SDK  
           **Version**: ${{ steps.extract_version.outputs.version }}  
           **Platform**: iOS 12.0+  
           **Language**: Swift 5.0  
@@ -128,7 +128,7 @@ jobs:
           ## 📱 Installation for Developers
           \`\`\`ruby
           # Add to your iOS project's Podfile
-          pod 'GameAlytics', '~> ${{ steps.extract_version.outputs.version }}'
+          pod 'Gamepulse', '~> ${{ steps.extract_version.outputs.version }}'
           \`\`\`
           
           Then run:
@@ -137,8 +137,8 @@ jobs:
           \`\`\`
           
           ## 🔗 Resources
-          - [CocoaPods Page](https://cocoapods.org/pods/GameAlytics)
-          - [iOS Documentation](https://github.com/gamealytics/gamealytics-sdk/blob/main/research/README.md)
-          - [Source Code](https://github.com/gamealytics/gamealytics-sdk/tree/main/research/ios)
-          - [All Platforms](https://github.com/gamealytics/gamealytics-sdk#quick-start)
+          - [CocoaPods Page](https://cocoapods.org/pods/Gamepulse)
+          - [iOS Documentation](https://github.com/gamepulse/gamepulse-sdk/blob/main/research/README.md)
+          - [Source Code](https://github.com/gamepulse/gamepulse-sdk/tree/main/research/ios)
+          - [All Platforms](https://github.com/gamepulse/gamepulse-sdk#quick-start)
           EOF

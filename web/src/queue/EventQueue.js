@@ -200,7 +200,7 @@ var EventQueue = /** @class */ (function () {
                 if (event.retryCount >= event.maxRetries) {
                     // Max retries reached, remove event
                     this.removeEvent(event.id);
-                    console.warn("GameAlytics: Event ".concat(event.id, " dropped after ").concat(event.maxRetries, " retries:"), error);
+                    console.warn("Gamepulse: Event ".concat(event.id, " dropped after ").concat(event.maxRetries, " retries:"), error);
                     return [2 /*return*/];
                 }
                 delay = this.options.retryDelays[Math.min(event.retryCount - 1, this.options.retryDelays.length - 1)];
@@ -243,11 +243,11 @@ var EventQueue = /** @class */ (function () {
         var _this = this;
         if (typeof window !== 'undefined') {
             window.addEventListener('online', function () {
-                console.log('GameAlytics: Network connection restored, processing queue');
+                console.log('Gamepulse: Network connection restored, processing queue');
                 _this.processQueue();
             });
             window.addEventListener('offline', function () {
-                console.log('GameAlytics: Network connection lost, events will be queued');
+                console.log('Gamepulse: Network connection lost, events will be queued');
             });
         }
     };
@@ -269,7 +269,7 @@ var EventQueue = /** @class */ (function () {
             }
         }
         catch (error) {
-            console.warn('GameAlytics: Failed to load queue from storage:', error);
+            console.warn('Gamepulse: Failed to load queue from storage:', error);
             this.queue = [];
         }
     };
@@ -284,7 +284,7 @@ var EventQueue = /** @class */ (function () {
             localStorage.setItem(this.options.storageKey, JSON.stringify(this.queue));
         }
         catch (error) {
-            console.warn('GameAlytics: Failed to save queue to storage:', error);
+            console.warn('Gamepulse: Failed to save queue to storage:', error);
         }
     };
     /**
@@ -294,17 +294,17 @@ var EventQueue = /** @class */ (function () {
         return "".concat(Date.now(), "-").concat(Math.random().toString(36).substr(2, 9));
     };
     /**
-     * Get base URL (placeholder - will be injected by GameAlytics instance)
+     * Get base URL (placeholder - will be injected by Gamepulse instance)
      */
     EventQueue.prototype.getBaseUrl = function () {
-        // This will be set by the GameAlytics instance
-        return window.__GA_BASE_URL__ || 'https://api.gamealytics.com';
+        // This will be set by the Gamepulse instance
+        return window.__GA_BASE_URL__ || 'https://client.dev.gamepulse.studio';
     };
     /**
-     * Get API key (placeholder - will be injected by GameAlytics instance)
+     * Get API key (placeholder - will be injected by Gamepulse instance)
      */
     EventQueue.prototype.getApiKey = function () {
-        // This will be set by the GameAlytics instance
+        // This will be set by the Gamepulse instance
         return window.__GA_API_KEY__ || '';
     };
     /**

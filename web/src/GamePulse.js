@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Environment = exports.UserConfig = exports.GameAlytics = exports.CustomEventBuilder = exports.SystemEventBuilder = exports.Ad = exports.Progression = exports.User = exports.IAP = exports.Gameplay = void 0;
+exports.Environment = exports.UserConfig = exports.Gamepulse = exports.CustomEventBuilder = exports.SystemEventBuilder = exports.Ad = exports.Progression = exports.User = exports.IAP = exports.Gameplay = void 0;
 // Core types
 var DataValidator_1 = require("./validation/DataValidator");
 var EventQueue_1 = require("./queue/EventQueue");
@@ -112,7 +112,7 @@ var EventBuilderImpl = /** @class */ (function () {
     EventBuilderImpl.prototype.track = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                GameAlytics.getInstance().trackEvent(this.isCustom ? 'CUSTOM' : 'SYSTEM', this.eventType, this.eventCategory, this.properties);
+                Gamepulse.getInstance().trackEvent(this.isCustom ? 'CUSTOM' : 'SYSTEM', this.eventType, this.eventCategory, this.properties);
                 return [2 /*return*/];
             });
         });
@@ -147,7 +147,7 @@ var GamePulse = /** @class */ (function () {
         this.environment = environment;
         this.userConfig = userConfig;
         this.deviceInfo = this.autoFetchDeviceInfo();
-        this.baseUrl = environment === 'production' ? 'https://client.gamepulse.click' : 'https://client.dev.gamepulse.click';
+        this.baseUrl = environment === 'production' ? 'https://client.gamepulse.studio' : 'https://client.dev.gamepulse.studio';
         // Initialize event queue with base URL and API key injection
         this.eventQueue = new EventQueue_1.EventQueue();
         window.__GA_BASE_URL__ = this.baseUrl;
@@ -193,7 +193,7 @@ var GamePulse = /** @class */ (function () {
             };
         }
     };
-    GameAlytics.prototype.trackEvent = function (type, eventType, category, properties) {
+    Gamepulse.prototype.trackEvent = function (type, eventType, category, properties) {
         // Validate and sanitize properties
         var validationResult = DataValidator_1.DataValidator.validateProperties(properties, {
             maxLength: 100,
@@ -202,7 +202,7 @@ var GamePulse = /** @class */ (function () {
         });
         // Log validation errors in development
         if (validationResult.errors.length > 0 && this.environment === Environment.DEVELOPMENT) {
-            console.warn('GameAlytics validation warnings:', validationResult.errors);
+            console.warn('Gamepulse validation warnings:', validationResult.errors);
         }
         var eventPayload = __assign(__assign({ type: type, value: eventType, category: category, properties: validationResult.sanitized }, this.deviceInfo), { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, localDateTime: new Date().toISOString(), userId: this.userConfig.userId || '', anonymousId: this.userConfig.anonymousId || '', sessionId: this.userConfig.sessionId });
         // Use event queue for reliable delivery
@@ -315,13 +315,13 @@ var SystemEventBuilder = /** @class */ (function () {
         return this;
     };
     SystemEventBuilder.prototype.trigger = function () {
-        if (!GameAlytics.instance) {
-            throw new Error('GameAlytics must be initialized first');
+        if (!GamePulse.instance) {
+            throw new Error('Gamepulse must be initialized first');
         }
         if (!this.category || !this.type) {
             throw new Error('Category and type are required');
         }
-        GameAlytics.instance.trackEvent('SYSTEM', this.type, this.category, this.properties);
+        GamePulse.instance.trackEvent('SYSTEM', this.type, this.category, this.properties);
     };
     return SystemEventBuilder;
 }());
@@ -343,15 +343,15 @@ var CustomEventBuilder = /** @class */ (function () {
         return this;
     };
     CustomEventBuilder.prototype.trigger = function () {
-        if (!GameAlytics.instance) {
-            throw new Error('GameAlytics must be initialized first');
+        if (!GamePulse.instance) {
+            throw new Error('Gamepulse must be initialized first');
         }
         if (!this.category || !this.type) {
             throw new Error('Category and type are required');
         }
-        GameAlytics.instance.trackEvent('CUSTOM', this.type, this.category, this.properties);
+        GamePulse.instance.trackEvent('CUSTOM', this.type, this.category, this.properties);
     };
     return CustomEventBuilder;
 }());
 exports.CustomEventBuilder = CustomEventBuilder;
-exports.default = GameAlytics;
+exports.default = GamePulse;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# GameAlytics Unity Package Builder
+# Gamepulse Unity Package Builder
 # This script creates a Unity package (.unitypackage) from the Unity package source
 
 set -e
@@ -18,7 +18,7 @@ ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 UNITY_PACKAGE_DIR="$ROOT_DIR/unity"
 BUILD_DIR="$ROOT_DIR/build"
 VERSION="${1:-2.0.18}"
-PACKAGE_NAME="GameAlytics-${VERSION}.unitypackage"
+PACKAGE_NAME="Gamepulse-${VERSION}.unitypackage"
 
 # Unity command line paths (adjust as needed for your system)
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -36,7 +36,7 @@ else
     UNITY_PATH="/opt/Unity/Editor/Unity"
 fi
 
-echo -e "${GREEN}🚀 GameAlytics Unity Package Builder${NC}"
+echo -e "${GREEN}🚀 Gamepulse Unity Package Builder${NC}"
 echo -e "${BLUE}Version:${NC} $VERSION"
 echo -e "${BLUE}Package Name:${NC} $PACKAGE_NAME"
 echo ""
@@ -115,7 +115,7 @@ build_with_unity_cli() {
         -batchmode \
         -quit \
         -projectPath "$TEMP_PROJECT" \
-        -exportPackage "Assets/GameAlytics" "$OUTPUT_PATH" \
+        -exportPackage "Assets/Gamepulse" "$OUTPUT_PATH" \
         -logFile "$BUILD_DIR/unity-build.log"
     
     if [ -f "$OUTPUT_PATH" ]; then
@@ -141,7 +141,7 @@ create_package_manually() {
     mkdir -p "$PACKAGE_TEMP"
     
     # Copy assets with proper structure
-    cp -r "$TEMP_PROJECT/Assets/GameAlytics" "$PACKAGE_TEMP/"
+    cp -r "$TEMP_PROJECT/Assets/Gamepulse" "$PACKAGE_TEMP/"
     
     # Create Unity package (simplified tar.gz with Unity structure)
     cd "$PACKAGE_TEMP"
@@ -165,11 +165,11 @@ validate_package_structure() {
     echo -e "${BLUE}✅ Validating Unity package structure...${NC}"
     
     REQUIRED_FILES=(
-        "Assets/GameAlytics/Scripts/GameAlytics.cs"
-        "Assets/GameAlytics/Examples/GameAnalyticsUsageExample.cs"
-        "Assets/GameAlytics/Editor/GameAnalyticsPackageExporter.cs"
-        "Assets/GameAlytics/Editor/ExportPackage.cs"
-        "Assets/GameAlytics/Documentation/README.md"
+        "Assets/Gamepulse/Scripts/Gamepulse.cs"
+        "Assets/Gamepulse/Examples/GamepulseUsageExample.cs"
+        "Assets/Gamepulse/Editor/GamepulsePackageExporter.cs"
+        "Assets/Gamepulse/Editor/ExportPackage.cs"
+        "Assets/Gamepulse/Documentation/README.md"
     )
     
     local all_found=true
@@ -197,15 +197,15 @@ update_version() {
     echo -e "${BLUE}📝 Updating version to $VERSION...${NC}"
     
     # Update version in Editor script
-    local editor_script="$UNITY_PACKAGE_DIR/Assets/GameAlytics/Editor/GameAnalyticsPackageExporter.cs"
+    local editor_script="$UNITY_PACKAGE_DIR/Assets/Gamepulse/Editor/GamepulsePackageExporter.cs"
     if [ -f "$editor_script" ]; then
-        sed -i.bak "s/GameAlytics Unity SDK v[0-9.]*\\\\/GameAlytics Unity SDK v$VERSION\\\\/" "$editor_script"
+        sed -i.bak "s/Gamepulse Unity SDK v[0-9.]*\\\\/Gamepulse Unity SDK v$VERSION\\\\/" "$editor_script"
         rm "$editor_script.bak" 2>/dev/null || true
         echo -e "${GREEN}✓${NC} Updated Editor script version"
     fi
     
     # Update version in README
-    local readme="$UNITY_PACKAGE_DIR/Assets/GameAlytics/Documentation/README.md"
+    local readme="$UNITY_PACKAGE_DIR/Assets/Gamepulse/Documentation/README.md"
     if [ -f "$readme" ]; then
         sed -i.bak "s/### v[0-9.]*/### v$VERSION/" "$readme"
         rm "$readme.bak" 2>/dev/null || true
@@ -219,21 +219,21 @@ update_version() {
 create_package_info() {
     echo -e "${BLUE}📋 Creating package info...${NC}"
     
-    cat > "$BUILD_DIR/GameAlytics-${VERSION}.json" << EOF
+    cat > "$BUILD_DIR/Gamepulse-${VERSION}.json" << EOF
 {
-  "name": "GameAlytics Unity SDK",
+  "name": "Gamepulse Unity SDK",
   "version": "$VERSION",
   "package_file": "$PACKAGE_NAME",
   "created_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "size_bytes": $(stat -f%z "$BUILD_DIR/$PACKAGE_NAME" 2>/dev/null || stat -c%s "$BUILD_DIR/$PACKAGE_NAME" 2>/dev/null || echo "0"),
-  "description": "Official GameAlytics Unity SDK for comprehensive game analytics",
+  "description": "Official Gamepulse Unity SDK for comprehensive game analytics",
   "installation": {
     "method": "unity_package",
     "steps": [
-      "Download GameAlytics.unitypackage",
+      "Download Gamepulse.unitypackage",
       "In Unity: Assets > Import Package > Custom Package",
       "Select the downloaded .unitypackage file",
-      "Click Import to add GameAlytics to your project"
+      "Click Import to add Gamepulse to your project"
     ]
   },
   "features": [
@@ -284,7 +284,7 @@ main() {
     echo ""
     echo -e "${GREEN}🎉 BUILD COMPLETE!${NC}"
     echo -e "${BLUE}Package Location:${NC} $BUILD_DIR/$PACKAGE_NAME"
-    echo -e "${BLUE}Package Info:${NC} $BUILD_DIR/GameAlytics-${VERSION}.json"
+    echo -e "${BLUE}Package Info:${NC} $BUILD_DIR/Gamepulse-${VERSION}.json"
     echo -e "${BLUE}Package Size:${NC} $(du -h "$BUILD_DIR/$PACKAGE_NAME" | cut -f1)"
     echo ""
     echo -e "${BLUE}📦 Ready for Firebase Storage upload!${NC}"
@@ -299,7 +299,7 @@ main() {
 
 # Help function
 show_help() {
-    echo "GameAlytics Unity Package Builder"
+    echo "Gamepulse Unity Package Builder"
     echo ""
     echo "Usage: $0 [VERSION] [OPTIONS]"
     echo ""
@@ -311,8 +311,8 @@ echo "  VERSION    Package version (default: 2.0.16)"
     echo "  $0 2.1.0             # Build with specific version"
     echo ""
     echo "Output:"
-    echo "  build/GameAlytics-VERSION.unitypackage"
-    echo "  build/GameAlytics-VERSION.json"
+    echo "  build/Gamepulse-VERSION.unitypackage"
+    echo "  build/Gamepulse-VERSION.json"
 }
 
 # Parse command line arguments

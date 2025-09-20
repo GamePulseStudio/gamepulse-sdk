@@ -2,21 +2,21 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace GameAlytics.Editor
+namespace Gamepulse.Editor
 {
     /// <summary>
-    /// Unity Editor script to export GameAlytics package
+    /// Unity Editor script to export Gamepulse package
     /// </summary>
-    public class GameAnalyticsPackageExporter : EditorWindow
+    public class GamepulsePackageExporter : EditorWindow
     {
-        private const string PACKAGE_NAME = "GameAlytics.unitypackage";
-        private const string PACKAGE_ROOT = "Assets/GameAlytics";
+        private const string PACKAGE_NAME = "Gamepulse.unitypackage";
+        private const string PACKAGE_ROOT = "Assets/GamePulse";
         
-        [MenuItem("GameAlytics/Export Package", priority = 1)]
+        [MenuItem("Gamepulse/Export Package", priority = 1)]
         public static void ExportPackage()
         {
             string exportPath = EditorUtility.SaveFilePanel(
-                "Export GameAlytics Package",
+                "Export Gamepulse Package",
                 "",
                 PACKAGE_NAME,
                 "unitypackage"
@@ -32,21 +32,21 @@ namespace GameAlytics.Editor
                     ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies
                 );
                 
-                Debug.Log($"GameAlytics package exported to: {exportPath}");
+                Debug.Log($"Gamepulse package exported to: {exportPath}");
                 EditorUtility.DisplayDialog(
                     "Export Complete",
-                    $"GameAlytics package has been exported to:\n{exportPath}",
+                    $"Gamepulse package has been exported to:\n{exportPath}",
                     "OK"
                 );
             }
         }
 
-        [MenuItem("GameAlytics/About", priority = 100)]
+        [MenuItem("Gamepulse/About", priority = 100)]
         public static void ShowAbout()
         {
             EditorUtility.DisplayDialog(
-                "GameAlytics Unity SDK",
-                "GameAlytics Unity SDK v2.0.15\\n\\n" +
+                "Gamepulse Unity SDK",
+                "Gamepulse Unity SDK v2.0.15\\n\\n" +
                 "A comprehensive analytics SDK for Unity games.\n\n" +
                 "Features:\n" +
                 "• Cross-platform support\n" +
@@ -54,7 +54,7 @@ namespace GameAlytics.Editor
                 "• Event batching and queuing\n" +
                 "• Real-time analytics\n" +
                 "• Comprehensive event categories\n\n" +
-                "For support: support@gamealytics.com",
+                "For support: support@gamepulse.com",
                 "OK"
             );
         }
@@ -63,7 +63,7 @@ namespace GameAlytics.Editor
         {
             if (!Directory.Exists(PACKAGE_ROOT))
             {
-                Debug.LogError($"GameAlytics package directory not found: {PACKAGE_ROOT}");
+                Debug.LogError($"Gamepulse package directory not found: {PACKAGE_ROOT}");
                 return new string[0];
             }
 
@@ -71,20 +71,20 @@ namespace GameAlytics.Editor
         }
 
         /// <summary>
-        /// Validate GameAlytics package structure
+        /// Validate Gamepulse package structure
         /// </summary>
-        [MenuItem("GameAlytics/Validate Package Structure", priority = 50)]
+        [MenuItem("Gamepulse/Validate Package Structure", priority = 50)]
         public static void ValidatePackageStructure()
         {
             bool isValid = true;
-            string report = "GameAlytics Package Structure Validation:\n\n";
+            string report = "Gamepulse Package Structure Validation:\n\n";
 
             // Check main directories
             string[] requiredDirectories = {
-                "Assets/GameAlytics/Scripts",
-                "Assets/GameAlytics/Examples",
-                "Assets/GameAlytics/Editor",
-                "Assets/GameAlytics/Documentation"
+                "Assets/GamePulse/Scripts",
+                "Assets/GamePulse/Examples",
+                "Assets/GamePulse/Editor",
+                "Assets/GamePulse/Documentation"
             };
 
             foreach (string dir in requiredDirectories)
@@ -101,7 +101,7 @@ namespace GameAlytics.Editor
             }
 
             // Check main script file
-            string mainScript = "Assets/GameAlytics/Scripts/GameAlytics.cs";
+            string mainScript = "Assets/GamePulse/Scripts/GamePulse.cs";
             if (File.Exists(mainScript))
             {
                 report += $"✓ {mainScript}\n";
@@ -113,7 +113,7 @@ namespace GameAlytics.Editor
             }
 
             // Check example script
-            string exampleScript = "Assets/GameAlytics/Examples/GameAnalyticsUsageExample.cs";
+            string exampleScript = "Assets/GamePulse/Examples/GamepulseUsageExample.cs";
             if (File.Exists(exampleScript))
             {
                 report += $"✓ {exampleScript}\n";

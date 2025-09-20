@@ -1,10 +1,10 @@
 import UIKit
-import GameAlytics
+import Gamepulse
 
-// Example usage of the GameAlytics iOS SDK with the new fluent API
+// Example usage of the Gamepulse iOS SDK with the new fluent API
 
 class iOSUsageExample: UIViewController {
-    private var gameAlytics: GameAlytics?
+    private var gamepulse: Gamepulse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,8 +15,8 @@ class iOSUsageExample: UIViewController {
     
     private func initializeSDK() {
         do {
-            // Initialize GameAlytics with fluent API
-            gameAlytics = try GameAlytics.init("your-api-key-here", environment: .development)
+            // Initialize Gamepulse with fluent API
+            gamepulse = try Gamepulse.init("your-api-key-here", environment: .development)
                 .userConfig(
                     UserConfig.builder()
                         .setSessionId("session-123")
@@ -25,45 +25,45 @@ class iOSUsageExample: UIViewController {
                 )
                 .create()
             
-            print("GameAlytics iOS SDK initialized successfully")
+            print("Gamepulse iOS SDK initialized successfully")
         } catch {
-            print("Failed to initialize GameAlytics: \(error)")
+            print("Failed to initialize Gamepulse: \(error)")
         }
     }
     
     private func trackEvents() {
-        guard let gameAlytics = gameAlytics else {
-            print("GameAlytics not initialized")
+        guard let gamepulse = gamepulse else {
+            print("Gamepulse not initialized")
             return
         }
         
         // Track system events using the new static API
-        GameAlytics.getInstance().systemEvent()
-            .category(GameAlytics.Gameplay.self)
-            .type(GameAlytics.Gameplay.levelStart)
+        Gamepulse.getInstance().systemEvent()
+            .category(Gamepulse.Gameplay.self)
+            .type(Gamepulse.Gameplay.levelStart)
             .setProperties(["level": "1", "difficulty": "easy"])
             .trigger()
         
-        GameAlytics.getInstance().systemEvent()
-            .category(GameAlytics.IAP.self)
-            .type(GameAlytics.IAP.purchase)
+        Gamepulse.getInstance().systemEvent()
+            .category(Gamepulse.IAP.self)
+            .type(Gamepulse.IAP.purchase)
             .setProperties(["item": "sword", "price": "4.99"])
             .trigger()
         
-        GameAlytics.getInstance().systemEvent()
-            .category(GameAlytics.User.self)
-            .type(GameAlytics.User.sessionStart)
+        Gamepulse.getInstance().systemEvent()
+            .category(Gamepulse.User.self)
+            .type(Gamepulse.User.sessionStart)
             .setProperties([:])
             .trigger()
         
         // Track custom events
-        GameAlytics.getInstance().customEvent()
+        Gamepulse.getInstance().customEvent()
             .category("combat")
             .type("boss_defeated")
             .setProperties(["boss": "dragon", "attempts": "3"])
             .trigger()
         
-        gameAlytics.event(.levelStart, category: .gameplay)
+        gamepulse.event(.levelStart, category: .gameplay)
             .setProperties([
                 "level": 1,
                 "difficulty": "easy",
@@ -71,7 +71,7 @@ class iOSUsageExample: UIViewController {
             ])
             .track()
         
-        gameAlytics.event(.purchase, category: .iap)
+        gamepulse.event(.purchase, category: .iap)
             .setProperties([
                 "item_id": "premium_upgrade",
                 "price": 9.99,
@@ -79,14 +79,14 @@ class iOSUsageExample: UIViewController {
             ])
             .track()
         
-        gameAlytics.customEvent("button_tap", category: "ui")
+        gamepulse.customEvent("button_tap", category: "ui")
             .setProperties([
                 "button_name": "start_game",
                 "screen": "main_menu"
             ])
             .track()
         
-        gameAlytics.customEvent("achievement_earned", category: "progression")
+        gamepulse.customEvent("achievement_earned", category: "progression")
             .setProperties([
                 "achievement_id": "first_win",
                 "points": 100
@@ -95,23 +95,23 @@ class iOSUsageExample: UIViewController {
     }
     
     private func sessionManagement() {
-        guard let gameAlytics = gameAlytics else { return }
+        guard let gamepulse = gamepulse else { return }
         
         // Start a new session
-        gameAlytics.startSession()
+        gamepulse.startSession()
         
         // Simulate some gameplay time
         DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
             // End the session after 1 minute
-            gameAlytics.endSession()
+            gamepulse.endSession()
         }
     }
     
     // Example of tracking user progression
     private func trackUserProgression() {
-        guard let gameAlytics = gameAlytics else { return }
+        guard let gamepulse = gamepulse else { return }
         
-        gameAlytics.event(.levelUp, category: .progression)
+        gamepulse.event(.levelUp, category: .progression)
             .setProperties([
                 "new_level": 5,
                 "experience_gained": 250,
@@ -122,9 +122,9 @@ class iOSUsageExample: UIViewController {
     
     // Example of tracking monetization events
     private func trackPurchase() {
-        guard let gameAlytics = gameAlytics else { return }
+        guard let gamepulse = gamepulse else { return }
         
-        gameAlytics.event(.purchase, category: .iap)
+        gamepulse.event(.purchase, category: .iap)
             .setProperties([
                 "product_id": "com.yourapp.coins_pack_large",
                 "price": 4.99,
@@ -136,9 +136,9 @@ class iOSUsageExample: UIViewController {
     
     // Example of tracking ad events
     private func trackAdViewed() {
-        guard let gameAlytics = gameAlytics else { return }
+        guard let gamepulse = gamepulse else { return }
         
-        gameAlytics.event(.adViewed, category: .ad)
+        gamepulse.event(.adViewed, category: .ad)
             .setProperties([
                 "ad_type": "rewarded_video",
                 "ad_network": "admob",
@@ -150,10 +150,10 @@ class iOSUsageExample: UIViewController {
 
 // Usage in AppDelegate or SceneDelegate
 extension AppDelegate {
-    func setupGameAlytics() {
+    func setupGamepulse() {
         // This would typically be called in application:didFinishLaunchingWithOptions:
         do {
-            let _ = try GameAlytics.init("your-production-api-key", environment: .production)
+            let _ = try Gamepulse.init("your-production-api-key", environment: .production)
                 .userConfig(
                     UserConfig.builder()
                         .setSessionId(UUID().uuidString)
@@ -162,7 +162,7 @@ extension AppDelegate {
                 )
                 .create()
         } catch {
-            print("Failed to initialize GameAlytics in AppDelegate: \(error)")
+            print("Failed to initialize Gamepulse in AppDelegate: \(error)")
         }
     }
 }

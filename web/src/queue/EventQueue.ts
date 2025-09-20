@@ -144,7 +144,7 @@ export class EventQueue {
     if (event.retryCount >= event.maxRetries) {
       // Max retries reached, remove event
       this.removeEvent(event.id);
-      console.warn(`GameAlytics: Event ${event.id} dropped after ${event.maxRetries} retries:`, error);
+      console.warn(`Gamepulse: Event ${event.id} dropped after ${event.maxRetries} retries:`, error);
       return;
     }
 
@@ -191,12 +191,12 @@ export class EventQueue {
   private setupNetworkListeners(): void {
     if (typeof window !== 'undefined') {
       window.addEventListener('online', () => {
-        console.log('GameAlytics: Network connection restored, processing queue');
+        console.log('Gamepulse: Network connection restored, processing queue');
         this.processQueue();
       });
 
       window.addEventListener('offline', () => {
-        console.log('GameAlytics: Network connection lost, events will be queued');
+        console.log('Gamepulse: Network connection lost, events will be queued');
       });
     }
   }
@@ -220,7 +220,7 @@ export class EventQueue {
         this.queue = this.queue.filter(event => event.timestamp > oneDayAgo);
       }
     } catch (error) {
-      console.warn('GameAlytics: Failed to load queue from storage:', error);
+      console.warn('Gamepulse: Failed to load queue from storage:', error);
       this.queue = [];
     }
   }
@@ -236,7 +236,7 @@ export class EventQueue {
     try {
       localStorage.setItem(this.options.storageKey, JSON.stringify(this.queue));
     } catch (error) {
-      console.warn('GameAlytics: Failed to save queue to storage:', error);
+      console.warn('Gamepulse: Failed to save queue to storage:', error);
     }
   }
 
@@ -248,18 +248,18 @@ export class EventQueue {
   }
 
   /**
-   * Get base URL (placeholder - will be injected by GameAlytics instance)
+   * Get base URL (placeholder - will be injected by Gamepulse instance)
    */
   private getBaseUrl(): string {
-    // This will be set by the GameAlytics instance
-    return (window as any).__GA_BASE_URL__ || 'https://api.gamealytics.com';
+    // This will be set by the Gamepulse instance
+    return (window as any).__GA_BASE_URL__ || 'https://client.dev.gamepulse.studio';
   }
 
   /**
-   * Get API key (placeholder - will be injected by GameAlytics instance)
+   * Get API key (placeholder - will be injected by Gamepulse instance)
    */
   private getApiKey(): string {
-    // This will be set by the GameAlytics instance
+    // This will be set by the Gamepulse instance
     return (window as any).__GA_API_KEY__ || '';
   }
 

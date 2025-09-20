@@ -292,8 +292,8 @@ Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ### Getting Help
 
-- 📧 Email: support@gamealytics.com
-- 💬 Discord: [GameAlytics Community](https://discord.gg/gamealytics)
+- 📧 Email: support@gamepulse.com
+- 💬 Discord: [Gamepulse Community](https://discord.gg/gamepulse)
 - 🐛 Issues: [GamePulse SDK Issues](https://github.com/gamepulse/gamepulse-sdk/issues)
 
 ### Recognition

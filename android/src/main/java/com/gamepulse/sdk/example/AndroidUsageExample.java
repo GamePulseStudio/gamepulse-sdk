@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Example usage of the GameAlytics Android SDK with the new fluent API
+ * Example usage of the Gamepulse Android SDK with the new fluent API
  */
 public class AndroidUsageExample extends Application {
 
@@ -32,7 +32,7 @@ public class AndroidUsageExample extends Application {
 
     private void initializeSDK() {
         try {
-            // Initialize GameAlytics with fluent API
+            // Initialize Gamepulse with fluent API
             gamePulse = GamePulse.init("your-api-key-here", Environment.DEVELOPMENT)
                     .userConfig(GamePulse.UserConfig.builder()
                             .setSessionId("session-123")
@@ -40,9 +40,9 @@ public class AndroidUsageExample extends Application {
                             .build())
                     .create(this);
 
-            System.out.println("GameAlytics Android SDK initialized successfully");
+            System.out.println("Gamepulse Android SDK initialized successfully");
         } catch (Exception error) {
-            System.err.println("Failed to initialize GameAlytics: " + error.getMessage());
+            System.err.println("Failed to initialize Gamepulse: " + error.getMessage());
         }
     }
 
@@ -195,7 +195,7 @@ public class AndroidUsageExample extends Application {
                             .build())
                     .create(context);
         } catch (Exception error) {
-            System.err.println("Failed to initialize GameAlytics for production: " + error.getMessage());
+            System.err.println("Failed to initialize Gamepulse for production: " + error.getMessage());
         }
     }
 

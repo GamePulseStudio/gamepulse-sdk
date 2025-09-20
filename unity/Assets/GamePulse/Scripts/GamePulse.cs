@@ -106,12 +106,12 @@ namespace GamePulse
     }
 
     /// <summary>
-    /// GameAlytics Unity SDK - Main class for analytics tracking
+    /// Gamepulse Unity SDK - Main class for analytics tracking
     /// </summary>
-    public class GameAlytics : MonoBehaviour
+    public class Gamepulse : MonoBehaviour
     {
         // Singleton instance
-        private static GameAlytics instance;
+        private static Gamepulse instance;
         
         // Configuration
         private string apiKey;
@@ -211,9 +211,9 @@ namespace GamePulse
         #region Initialization
         
         /// <summary>
-        /// Initialize GameAlytics SDK
+        /// Initialize Gamepulse SDK
         /// </summary>
-        /// <param name="apiKey">Your GameAlytics API key</param>
+        /// <param name="apiKey">Your Gamepulse API key</param>
         /// <param name="environment">Environment (Development or Production)</param>
         /// <returns>InitBuilder for fluent initialization</returns>
         public static InitBuilder Init(string apiKey, Environment environment)
@@ -222,14 +222,14 @@ namespace GamePulse
         }
 
         /// <summary>
-        /// Get the GameAlytics singleton instance
+        /// Get the Gamepulse singleton instance
         /// </summary>
-        /// <returns>GameAlytics instance</returns>
-        public static GameAlytics GetInstance()
+        /// <returns>Gamepulse instance</returns>
+        public static Gamepulse GetInstance()
         {
             if (instance == null)
             {
-                throw new InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init(...).Create()");
+                throw new InvalidOperationException("Gamepulse must be initialized first. Call Gamepulse.Init(...).Create()");
             }
             return instance;
         }
@@ -278,7 +278,7 @@ namespace GamePulse
                 return this;
             }
             
-            public GameAlytics Create()
+            public Gamepulse Create()
             {
                 if (string.IsNullOrEmpty(apiKey))
                 {
@@ -291,8 +291,8 @@ namespace GamePulse
                 
                 if (instance == null)
                 {
-                    var go = new GameObject("GameAlytics");
-                    instance = go.AddComponent<GameAlytics>();
+                    var go = new GameObject("Gamepulse");
+                    instance = go.AddComponent<Gamepulse>();
                     DontDestroyOnLoad(go);
                     instance.Initialize(apiKey, environment, userConfig);
                 }
@@ -340,11 +340,11 @@ namespace GamePulse
             this.userConfig = userConfig;
             this.deviceInfo = AutoFetchDeviceInfo();
             this.baseUrl = environment == Environment.PRODUCTION 
-                ? "https://client.gamealytics.click/events/collect" 
-                : "https://client.dev.gamealytics.click/events/collect";
+                ? "https://client.gamepulse.studio/events/collect" 
+                : "https://client.dev.gamepulse.studio/events/collect";
             this.isInitialized = true;
             
-            Debug.Log($"GameAlytics initialized successfully for {environment} environment");
+            Debug.Log($"Gamepulse initialized successfully for {environment} environment");
         }
 
         #endregion
@@ -379,7 +379,7 @@ namespace GamePulse
             {
                 if (instance == null)
                 {
-                    throw new InvalidOperationException("GameAlytics must be initialized first");
+                    throw new InvalidOperationException("Gamepulse must be initialized first");
                 }
                 if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
                 {
@@ -417,7 +417,7 @@ namespace GamePulse
             {
                 if (instance == null)
                 {
-                    throw new InvalidOperationException("GameAlytics must be initialized first");
+                    throw new InvalidOperationException("Gamepulse must be initialized first");
                 }
                 if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(type))
                 {
@@ -632,7 +632,7 @@ namespace GamePulse
                 
                 if (request.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogWarning($"GameAlytics: Failed to send events - {request.error}");
+                    Debug.LogWarning($"Gamepulse: Failed to send events - {request.error}");
                 }
             }
             
@@ -652,7 +652,7 @@ namespace GamePulse
         {
             if (!isInitialized)
             {
-                throw new InvalidOperationException("GameAlytics must be initialized first. Call GameAlytics.Init()");
+                throw new InvalidOperationException("Gamepulse must be initialized first. Call Gamepulse.Init()");
             }
         }
 

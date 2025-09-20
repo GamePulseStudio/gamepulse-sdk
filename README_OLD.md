@@ -1,9 +1,9 @@
-# 🎮 GameAlytics SDK
+# 🎮 Gamepulse SDK
 
-[![CI](https://github.com/gamealytics/gamealytics-sdk/workflows/CI/badge.svg)](https://github.com/gamealytics/gamealytics-sdk/actions)
-[![JitPack](https://jitpack.io/v/gamealytics/gamealytics-sdk.svg)](https://jitpack.io/#gamealytics/gamealytics-sdk)
-[![Web](https://img.shields.io/npm/v/@gamealytics/web-sdk)](https://www.npmjs.com/package/@gamealytics/web-sdk)
-[![Unity](https://img.shields.io/github/v/release/gamealytics/gamealytics-sdk)](https://github.com/gamealytics/gamealytics-sdk/releases)
+[![CI](https://github.com/gamepulse/gamepulse-sdk/workflows/CI/badge.svg)](https://github.com/gamepulse/gamepulse-sdk/actions)
+[![JitPack](https://jitpack.io/v/gamepulse/gamepulse-sdk.svg)](https://jitpack.io/#gamepulse/gamepulse-sdk)
+[![Web](https://img.shields.io/npm/v/@gamepulse/web-sdk)](https://www.npmjs.com/package/@gamepulse/web-sdk)
+[![Unity](https://img.shields.io/github/v/release/gamepulse/gamepulse-sdk)](https://github.com/gamepulse/gamepulse-sdk/releases)
 
 Cross-platform game analytics SDK with **fluent builder API** for Unity, Android, and Web.
 
@@ -17,28 +17,28 @@ repositories {
 }
 
 // Add to app/build.gradle
-implementation 'com.github.gamealytics:gamealytics-sdk:2.0.16'
+implementation 'com.github.gamepulse:gamepulse-sdk:2.0.16'
 ```
 [📖 Android Guide](packages/android/README.md)
 
 ### 🎮 Unity
-**Download**: [GameAlytics-2.0.16.unitypackage](https://github.com/gamealytics/gamealytics-sdk/releases/download/2.0.16/GameAlytics-2.0.16.unitypackage)
+**Download**: [Gamepulse-2.0.16.unitypackage](https://github.com/gamepulse/gamepulse-sdk/releases/download/2.0.16/Gamepulse-2.0.16.unitypackage)
 
-1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamealytics/gamealytics-sdk/releases)
+1. Download the `.unitypackage` from [GitHub Releases](https://github.com/gamepulse/gamepulse-sdk/releases)
 2. Import: `Assets > Import Package > Custom Package`
 
-[📖 Unity Guide](packages/unity-package/Assets/GameAlytics/Documentation/README.md)
+[📖 Unity Guide](packages/unity-package/Assets/GamePulse/Documentation/README.md)
 
 ### 🌐 Web/JavaScript
 ```bash
 # NPM
-npm install @gamealytics/web-sdk
+npm install @gamepulse/web-sdk
 
 # Yarn  
-yarn add @gamealytics/web-sdk
+yarn add @gamepulse/web-sdk
 ```
 ```javascript
-import GameAlytics from '@gamealytics/web-sdk';
+import Gamepulse from '@gamepulse/web-sdk';
 ```
 [📖 Web Guide](packages/web/README.md)
 
@@ -53,12 +53,12 @@ import GameAlytics from '@gamealytics/web-sdk';
 
 ```typescript
 // Initialize
-GameAlytics.init("your-api-key", Environment.PRODUCTION)
+Gamepulse.init("your-api-key", Environment.PRODUCTION)
     .userConfig(userConfig)
     .create();
 
 // Track events
-GameAlytics.getInstance().systemEvent()
+Gamepulse.getInstance().systemEvent()
     .category(GameplayEvents)
     .type(GameplayEvents.LEVEL_START)
     .setProperties({ level: "1", difficulty: "easy" })
@@ -69,11 +69,11 @@ GameAlytics.getInstance().systemEvent()
 
 | Platform | Package | Installation | Guide |
 |----------|---------|--------------|-------|
-| **Android** | `com.github.gamealytics:gamealytics-sdk` | [JitPack](https://jitpack.io/#gamealytics/gamealytics-sdk) | [📖](packages/android/README.md) |
-| **Unity** | `GameAlytics-{version}.unitypackage` | [Releases](https://github.com/gamealytics/gamealytics-sdk/releases) | [📖](packages/unity-package/Assets/GameAlytics/Documentation/README.md) |
-| **Web/JS** | `@gamealytics/web-sdk` | [NPM](https://www.npmjs.com/package/@gamealytics/web-sdk) | [📖](packages/web/README.md) |
+| **Android** | `com.github.gamepulse:gamepulse-sdk` | [JitPack](https://jitpack.io/#gamepulse/gamepulse-sdk) | [📖](packages/android/README.md) |
+| **Unity** | `Gamepulse-{version}.unitypackage` | [Releases](https://github.com/gamepulse/gamepulse-sdk/releases) | [📖](packages/unity-package/Assets/GamePulse/Documentation/README.md) |
+| **Web/JS** | `@gamepulse/web-sdk` | [NPM](https://www.npmjs.com/package/@gamepulse/web-sdk) | [📖](packages/web/README.md) |
 
 ---
 
-**Latest Release**: [v2.0.16](https://github.com/gamealytics/gamealytics-sdk/releases) • **License**: [MIT](LICENSE) • **Support**: [Issues](https://github.com/gamealytics/gamealytics-sdk/issues)
+**Latest Release**: [v2.0.16](https://github.com/gamepulse/gamepulse-sdk/releases) • **License**: [MIT](LICENSE) • **Support**: [Issues](https://github.com/gamepulse/gamepulse-sdk/issues)
 </div>

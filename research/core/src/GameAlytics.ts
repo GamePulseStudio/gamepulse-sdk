@@ -2,8 +2,8 @@ import {
   EventPayload,
   EventBuilder,
   EventProperties,
-  GameAlyticsInterface,
-  GameAlyticsConfig,
+  GamepulseInterface,
+  GamepulseConfig,
   EventType,
   EventCategory,
   UserEvents,
@@ -32,7 +32,7 @@ class EventBuilderImpl implements EventBuilder {
   }
 
   async track(): Promise<void> {
-    await (GameAlytics.getInstance() as any).trackEvent({
+    await (Gamepulse.getInstance() as any).trackEvent({
       type: this.isCustom ? 'CUSTOM' : 'SYSTEM',
       value: this.eventType,
       category: this.eventCategory,
@@ -41,9 +41,9 @@ class EventBuilderImpl implements EventBuilder {
   }
 }
 
-export class GameAlytics implements GameAlyticsInterface {
-  private static instance: GameAlytics;
-  private config!: GameAlyticsConfig;
+export class Gamepulse implements GamepulseInterface {
+  private static instance: Gamepulse;
+  private config!: GamepulseConfig;
   private isInitialized = false;
   private userId: string | null = null;
   private sessionId: string | null = null;
@@ -54,22 +54,22 @@ export class GameAlytics implements GameAlyticsInterface {
     this.anonymousId = this.generateUUID();
   }
 
-  public static getInstance(): GameAlytics {
-    if (!GameAlytics.instance) {
-      GameAlytics.instance = new GameAlytics();
+  public static getInstance(): Gamepulse {
+    if (!Gamepulse.instance) {
+      Gamepulse.instance = new Gamepulse();
     }
-    return GameAlytics.instance;
+    return Gamepulse.instance;
   }
 
-  public static init(config: GameAlyticsConfig): GameAlytics {
-    const instance = GameAlytics.getInstance();
+  public static init(config: GamepulseConfig): Gamepulse {
+    const instance = Gamepulse.getInstance();
     instance.initialize(config);
     return instance;
   }
 
-  private initialize(config: GameAlyticsConfig): void {
+  private initialize(config: GamepulseConfig): void {
     if (this.isInitialized) {
-      console.warn('GameAlytics is already initialized');
+      console.warn('Gamepulse is already initialized');
       return;
     }
 
@@ -85,7 +85,7 @@ export class GameAlytics implements GameAlyticsInterface {
     this.isInitialized = true;
     
     if (this.config.debug) {
-      console.log('GameAlytics initialized with config:', this.config);
+      console.log('Gamepulse initialized with config:', this.config);
     }
   }
 
@@ -168,7 +168,7 @@ export class GameAlytics implements GameAlyticsInterface {
     };
   }
 
-  public async trackEvent(payload: Omit<EventPayload, keyof ReturnType<GameAlytics['getDeviceInfo']> | 'timezone' | 'localDateTime' | 'userId' | 'anonymousId' | 'sessionId'>) {
+  public async trackEvent(payload: Omit<EventPayload, keyof ReturnType<Gamepulse['getDeviceInfo']> | 'timezone' | 'localDateTime' | 'userId' | 'anonymousId' | 'sessionId'>) {
     const deviceInfo = this.getDeviceInfo();
     const now = new Date();
     
@@ -187,7 +187,7 @@ export class GameAlytics implements GameAlyticsInterface {
     }
 
     try {
-      const response = await fetch('https://client.dev.gamealytics.click/events/collect', {
+      const response = await fetch('https://client.dev.gamepulse.studio/events/collect', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ export class GameAlytics implements GameAlyticsInterface {
 
   private ensureInitialized(): void {
     if (!this.isInitialized) {
-      throw new Error('GameAlytics must be initialized first. Call GameAlytics.init()');
+      throw new Error('Gamepulse must be initialized first. Call Gamepulse.init()');
     }
   }
 
@@ -245,7 +245,7 @@ export class GameAlytics implements GameAlyticsInterface {
 }
 
 // Export a singleton instance
-export default GameAlytics.getInstance();
+export default Gamepulse.getInstance();
 
 // Export types
 export * from './types';

@@ -9,7 +9,7 @@
         <false/>
         <key>NSExceptionDomains</key>
         <dict>
-            <key>gamealytics.click</key>
+            <key>gamepulse.studio</key>
             <dict>
                 <key>NSExceptionAllowsInsecureHTTPLoads</key>
                 <false/>
@@ -38,7 +38,7 @@
     <!-- Background task identifier -->
     <key>BGTaskSchedulerPermittedIdentifiers</key>
     <array>
-        <string>com.gamealytics.sdk.event-processing</string>
+        <string>studio.gamepulse.sdk.event-processing</string>
     </array>
 </dict>
 </plist>

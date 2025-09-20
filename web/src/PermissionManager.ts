@@ -1,5 +1,5 @@
 /**
- * Simplified permission manager for GameAlytics Web SDK
+ * Simplified permission manager for Gamepulse Web SDK
  * - Internet permission: Available by default in browsers, no check needed
  * - Storage permission: localStorage/sessionStorage available by default, no check needed  
  * - Location permission: Optional, adds latitude/longitude to events if available
@@ -27,7 +27,7 @@ export class PermissionManager {
                 },
                 (error) => {
                     // Silent failure - location is optional
-                    console.debug('GameAlytics SDK: Location access denied or unavailable');
+                    console.debug('Gamepulse SDK: Location access denied or unavailable');
                 },
                 {
                     enableHighAccuracy: false,

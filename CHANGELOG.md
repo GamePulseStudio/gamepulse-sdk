@@ -68,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - 🔧 **Unity Package Structure**: Migrated from NPM to authentic Unity package format
-- 🔧 **Package Location**: Moved Unity SDK to `packages/unity-package/Assets/GameAlytics/`
+- 🔧 **Package Location**: Moved Unity SDK to `packages/unity-package/Assets/GamePulse/`
 - 🔧 **Documentation**: Comprehensive README files for all platforms
 
 ## [2.0.0] - 2024-09-15

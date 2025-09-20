@@ -36,52 +36,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var GameAlytics_1 = require("../src/GameAlytics");
-// Example usage of the GameAlytics Web SDK with the new fluent API
+var Gamepulse_1 = require("../src/Gamepulse");
+// Example usage of the Gamepulse Web SDK with the new fluent API
 var WebUsageExample = /** @class */ (function () {
     function WebUsageExample() {
-        this.gameAlytics = null;
+        this.gamepulse = null;
     }
     WebUsageExample.prototype.initializeSDK = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 try {
-                    // Initialize GameAlytics with fluent API
-                    this.gameAlytics = GameAlytics_1.default.init("your-api-key-here", GameAlytics_1.Environment.DEVELOPMENT)
-                        .userConfig(GameAlytics_1.UserConfig.builder()
+                    // Initialize Gamepulse with fluent API
+                    this.gamepulse = Gamepulse_1.default.init("your-api-key-here", Gamepulse_1.Environment.DEVELOPMENT)
+                        .userConfig(Gamepulse_1.UserConfig.builder()
                         .setSessionId("session-123")
                         .setUserId("user-456")
                         .build())
                         .create();
-                    console.log("GameAlytics Web SDK initialized successfully");
+                    console.log("Gamepulse Web SDK initialized successfully");
                 }
                 catch (error) {
-                    console.error("Failed to initialize GameAlytics:", error);
+                    console.error("Failed to initialize Gamepulse:", error);
                 }
                 return [2 /*return*/];
             });
         });
     };
     WebUsageExample.prototype.trackEvents = function () {
-        if (!this.gameAlytics) {
-            console.error("GameAlytics not initialized");
+        if (!this.gamepulse) {
+            console.error("Gamepulse not initialized");
             return;
         }
         // Use instance-based API for better performance (avoids singleton lookups)
         // This approach is more efficient as it reuses the initialized instance
         // Track system events using instance API (preferred for performance)
-        this.gameAlytics.systemEvent()
-            .categoryClass(GameAlytics_1.Gameplay)
-            .eventType(GameAlytics_1.Gameplay.LEVEL_START)
+        this.gamepulse.systemEvent()
+            .categoryClass(Gamepulse_1.Gameplay)
+            .eventType(Gamepulse_1.Gameplay.LEVEL_START)
             .setProperties({
             level: '1',
             difficulty: 'easy',
             timestamp: Date.now().toString()
         })
             .trigger();
-        this.gameAlytics.systemEvent()
-            .categoryClass(GameAlytics_1.IAP)
-            .eventType(GameAlytics_1.IAP.PURCHASE)
+        this.gamepulse.systemEvent()
+            .categoryClass(Gamepulse_1.IAP)
+            .eventType(Gamepulse_1.IAP.PURCHASE)
             .setProperties({
             item_id: 'premium_upgrade',
             price: '9.99',
@@ -89,7 +89,7 @@ var WebUsageExample = /** @class */ (function () {
         })
             .trigger();
         // Track custom events using instance API
-        this.gameAlytics.customEvent()
+        this.gamepulse.customEvent()
             .categoryName('ui')
             .eventType('button_tap')
             .setProperties({
@@ -98,7 +98,7 @@ var WebUsageExample = /** @class */ (function () {
         })
             .trigger();
         // Alternative: Direct method call (most efficient for simple events)
-        this.gameAlytics.customEvent("feature_used", "engagement")
+        this.gamepulse.customEvent("feature_used", "engagement")
             .setProperties({
             feature: "tutorial",
             completion_rate: 0.8
@@ -111,10 +111,10 @@ var WebUsageExample = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.gameAlytics)
+                        if (!this.gamepulse)
                             return [2 /*return*/];
                         // Start a new session
-                        return [4 /*yield*/, this.gameAlytics.startSession()];
+                        return [4 /*yield*/, this.gamepulse.startSession()];
                     case 1:
                         // Start a new session
                         _a.sent();
@@ -124,7 +124,7 @@ var WebUsageExample = /** @class */ (function () {
                                 switch (_a.label) {
                                     case 0: 
                                     // End the session
-                                    return [4 /*yield*/, this.gameAlytics.endSession()];
+                                    return [4 /*yield*/, this.gamepulse.endSession()];
                                     case 1:
                                         // End the session
                                         _a.sent();

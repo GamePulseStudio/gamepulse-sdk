@@ -1,29 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
-using GameAlytics;
+using Gamepulse;
 
 /// <summary>
-/// Example usage of the GameAlytics Unity SDK
-/// This script demonstrates how to initialize and use GameAlytics for tracking various game events
+/// Example usage of the Gamepulse Unity SDK
+/// This script demonstrates how to initialize and use Gamepulse for tracking various game events
 /// </summary>
-public class GameAnalyticsUsageExample : MonoBehaviour
+public class GamepulseUsageExample : MonoBehaviour
 {
-    [Header("GameAlytics Configuration")]
+    [Header("Gamepulse Configuration")]
     [SerializeField] private string apiKey = "your-api-key-here";
     [SerializeField] private Environment environment = Environment.DEVELOPMENT;
     
-    private GameAlytics.GameAlytics gameAlytics;
+    private Gamepulse.Gamepulse gamepulse;
 
     void Start()
     {
-        InitializeGameAlytics();
+        InitializeGamepulse();
         StartCoroutine(RunExampleEvents());
     }
 
     /// <summary>
-    /// Initialize GameAlytics SDK
+    /// Initialize Gamepulse SDK
     /// </summary>
-    private void InitializeGameAlytics()
+    private void InitializeGamepulse()
     {
         try
         {
@@ -33,16 +33,16 @@ public class GameAnalyticsUsageExample : MonoBehaviour
                 .SetUserId("player_" + SystemInfo.deviceUniqueIdentifier)
                 .Build();
 
-            // Initialize GameAlytics with fluent API
-            gameAlytics = GameAlytics.GameAlytics.Init(apiKey, environment)
+            // Initialize Gamepulse with fluent API
+            gamepulse = Gamepulse.Gamepulse.Init(apiKey, environment)
                 .UserConfig(userConfig)
                 .Create();
 
-            Debug.Log("GameAlytics Unity SDK initialized successfully");
+            Debug.Log("Gamepulse Unity SDK initialized successfully");
         }
         catch (System.Exception error)
         {
-            Debug.LogError($"Failed to initialize GameAlytics: {error.Message}");
+            Debug.LogError($"Failed to initialize Gamepulse: {error.Message}");
         }
     }
 
@@ -53,9 +53,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        if (gameAlytics == null)
+        if (gamepulse == null)
         {
-            Debug.LogError("GameAlytics not initialized, skipping examples");
+            Debug.LogError("Gamepulse not initialized, skipping examples");
             yield break;
         }
 
@@ -90,9 +90,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     {
         Debug.Log("Tracking session start event");
         
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.UserEvents))
-            .Type(GameAlytics.GameAlytics.UserEvents.SESSION_START)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.UserEvents))
+            .Type(Gamepulse.Gamepulse.UserEvents.SESSION_START)
             .SetProperties(new Dictionary<string, string>
             {
                 { "platform", Application.platform.ToString() },
@@ -110,9 +110,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
         Debug.Log("Tracking gameplay events");
 
         // Track level start
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.GameplayEvents))
-            .Type(GameAlytics.GameAlytics.GameplayEvents.LEVEL_START)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.GameplayEvents))
+            .Type(Gamepulse.Gamepulse.GameplayEvents.LEVEL_START)
             .SetProperties(new Dictionary<string, string>
             {
                 { "level", "1" },
@@ -122,9 +122,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
             .Trigger();
 
         // Track level completion
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.GameplayEvents))
-            .Type(GameAlytics.GameAlytics.GameplayEvents.LEVEL_END)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.GameplayEvents))
+            .Type(Gamepulse.Gamepulse.GameplayEvents.LEVEL_END)
             .SetProperties(new Dictionary<string, string>
             {
                 { "level", "1" },
@@ -143,9 +143,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
         Debug.Log("Tracking user progression events");
 
         // Track level up
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.ProgressionEvents))
-            .Type(GameAlytics.GameAlytics.ProgressionEvents.ACHIEVEMENT_UNLOCKED)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.ProgressionEvents))
+            .Type(Gamepulse.Gamepulse.ProgressionEvents.ACHIEVEMENT_UNLOCKED)
             .SetProperties(new Dictionary<string, string>
             {
                 { "achievement_id", "first_victory" },
@@ -156,9 +156,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
             .Trigger();
 
         // Track tutorial completion
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.ProgressionEvents))
-            .Type(GameAlytics.GameAlytics.ProgressionEvents.TUTORIAL_COMPLETE)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.ProgressionEvents))
+            .Type(Gamepulse.Gamepulse.ProgressionEvents.TUTORIAL_COMPLETE)
             .SetProperties(new Dictionary<string, string>
             {
                 { "tutorial_steps", "5" },
@@ -176,9 +176,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
         Debug.Log("Tracking monetization events");
 
         // Track IAP purchase
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.IAPEvents))
-            .Type(GameAlytics.GameAlytics.IAPEvents.PURCHASE)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.IAPEvents))
+            .Type(Gamepulse.Gamepulse.IAPEvents.PURCHASE)
             .SetProperties(new Dictionary<string, string>
             {
                 { "product_id", "premium_upgrade" },
@@ -189,9 +189,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
             .Trigger();
 
         // Track ad viewing
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.AdEvents))
-            .Type(GameAlytics.GameAlytics.AdEvents.AD_VIEWED)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.AdEvents))
+            .Type(Gamepulse.Gamepulse.AdEvents.AD_VIEWED)
             .SetProperties(new Dictionary<string, string>
             {
                 { "ad_type", "rewarded_video" },
@@ -210,7 +210,7 @@ public class GameAnalyticsUsageExample : MonoBehaviour
         Debug.Log("Tracking custom events");
 
         // Track player death
-        GameAlytics.GameAlytics.GetInstance().CustomEvent()
+        Gamepulse.Gamepulse.GetInstance().CustomEvent()
             .Category("player_death")
             .Type("enemy_collision")
             .SetProperties(new Dictionary<string, string>
@@ -223,7 +223,7 @@ public class GameAnalyticsUsageExample : MonoBehaviour
             .Trigger();
 
         // Track item usage
-        GameAlytics.GameAlytics.GetInstance().CustomEvent()
+        Gamepulse.Gamepulse.GetInstance().CustomEvent()
             .Category("item_usage")
             .Type("potion_consumed")
             .SetProperties(new Dictionary<string, string>
@@ -236,7 +236,7 @@ public class GameAnalyticsUsageExample : MonoBehaviour
             .Trigger();
 
         // Track UI interactions
-        GameAlytics.GameAlytics.GetInstance().CustomEvent()
+        Gamepulse.Gamepulse.GetInstance().CustomEvent()
             .Category("ui_interaction")
             .Type("button_click")
             .SetProperties(new Dictionary<string, string>
@@ -253,11 +253,11 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     /// </summary>
     public void OnLevelComplete(int level, bool success, float score, float timeSpent)
     {
-        if (gameAlytics == null) return;
+        if (gamepulse == null) return;
 
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.GameplayEvents))
-            .Type(success ? GameAlytics.GameAlytics.GameplayEvents.LEVEL_END : "level_failed")
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.GameplayEvents))
+            .Type(success ? Gamepulse.Gamepulse.GameplayEvents.LEVEL_END : "level_failed")
             .SetProperties(new Dictionary<string, string>
             {
                 { "level", level.ToString() },
@@ -274,11 +274,11 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     /// </summary>
     public void OnPurchaseComplete(string productId, float price, string currency)
     {
-        if (gameAlytics == null) return;
+        if (gamepulse == null) return;
 
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.IAPEvents))
-            .Type(GameAlytics.GameAlytics.IAPEvents.PURCHASE)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.IAPEvents))
+            .Type(Gamepulse.Gamepulse.IAPEvents.PURCHASE)
             .SetProperties(new Dictionary<string, string>
             {
                 { "product_id", productId },
@@ -295,11 +295,11 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     /// </summary>
     public void OnAchievementUnlocked(string achievementId, string achievementName)
     {
-        if (gameAlytics == null) return;
+        if (gamepulse == null) return;
 
-        GameAlytics.GameAlytics.GetInstance().SystemEvent()
-            .Category(typeof(GameAlytics.GameAlytics.ProgressionEvents))
-            .Type(GameAlytics.GameAlytics.ProgressionEvents.ACHIEVEMENT_UNLOCKED)
+        Gamepulse.Gamepulse.GetInstance().SystemEvent()
+            .Category(typeof(Gamepulse.Gamepulse.ProgressionEvents))
+            .Type(Gamepulse.Gamepulse.ProgressionEvents.ACHIEVEMENT_UNLOCKED)
             .SetProperties(new Dictionary<string, string>
             {
                 { "achievement_id", achievementId },
@@ -311,11 +311,11 @@ public class GameAnalyticsUsageExample : MonoBehaviour
 
     void OnApplicationPause(bool pauseStatus)
     {
-        if (gameAlytics == null) return;
+        if (gamepulse == null) return;
 
         string eventType = pauseStatus ? "app_paused" : "app_resumed";
         
-        GameAlytics.GameAlytics.GetInstance().CustomEvent()
+        Gamepulse.Gamepulse.GetInstance().CustomEvent()
             .Category("app_lifecycle")
             .Type(eventType)
             .SetProperties(new Dictionary<string, string>
@@ -329,9 +329,9 @@ public class GameAnalyticsUsageExample : MonoBehaviour
     void OnDestroy()
     {
         // End session when this component is destroyed
-        if (gameAlytics != null)
+        if (gamepulse != null)
         {
-            gameAlytics.EndSession();
+            gamepulse.EndSession();
         }
     }
 }

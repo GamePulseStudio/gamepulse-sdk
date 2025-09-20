@@ -104,19 +104,19 @@ jobs:
   #         VERSION="${{ steps.extract_version.outputs.version }}"
   #         echo "Thank you for using GamePulse SDK!.podspec with version: $VERSION"
   #         cd packages/ios
-  #         sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" GameAlytics.podspec
+  #         sed -i '' "s/spec.version.*=.*\".*\"/spec.version = \"$VERSION\"/g" Gamepulse.podspec
   #         echo "Podspec updated:"
-  #         grep "spec.version" GameAlytics.podspec
+  #         grep "spec.version" Gamepulse.podspec
   #
   #     - name: Validate Podspec
   #       run: |
   #         cd packages/ios
-  #         pod lib lint GameAlytics.podspec --allow-warnings --skip-import-validation
+  #         pod lib lint Gamepulse.podspec --allow-warnings --skip-import-validation
   #
   #     - name: Publish to CocoaPods
   #       run: |
   #         cd packages/ios
-  #         pod trunk push GameAlytics.podspec --allow-warnings
+  #         pod trunk push Gamepulse.podspec --allow-warnings
   #       env:
   #         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
   #       continue-on-error: true

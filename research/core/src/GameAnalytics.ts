@@ -1,9 +1,9 @@
 import { AnalyticsEvent, EventCategory } from './types/events';
 
 /**
- * Configuration options for the GameAnalytics client
+ * Configuration options for the Gamepulse client
  */
-export interface GameAnalyticsConfig {
+export interface GamepulseConfig {
   // Required configuration
   gameKey: string;
   secretKey: string;
@@ -23,8 +23,8 @@ export interface GameAnalyticsConfig {
 /**
  * Default configuration values
  */
-const DEFAULT_CONFIG: Partial<GameAnalyticsConfig> = {
-  endpoint: 'https://api.gamealytics.com/v2',
+const DEFAULT_CONFIG: Partial<GamepulseConfig> = {
+  endpoint: 'https://client.dev.gamepulse.studio',
   maxQueueSize: 1000,
   batchSize: 10,
   flushInterval: 30000, // 30 seconds
@@ -33,19 +33,19 @@ const DEFAULT_CONFIG: Partial<GameAnalyticsConfig> = {
 };
 
 /**
- * Main GameAnalytics client class
+ * Main Gamepulse client class
  */
-export class GameAnalytics {
-  private config: GameAnalyticsConfig;
+export class Gamepulse {
+  private config: GamepulseConfig;
   private queue: AnalyticsEvent[] = [];
   private flushTimer: NodeJS.Timeout | null = null;
   private isInitialized = false;
   private sessionStartTime: number = 0;
   
   /**
-   * Create a new GameAnalytics instance
+   * Create a new Gamepulse instance
    */
-  constructor(config: GameAnalyticsConfig) {
+  constructor(config: GamepulseConfig) {
     // Merge provided config with defaults
     this.config = {
       ...DEFAULT_CONFIG,
@@ -70,7 +70,7 @@ export class GameAnalytics {
    */
   public initialize(userId?: string): void {
     if (this.isInitialized) {
-      this.log('GameAnalytics already initialized');
+      this.log('Gamepulse already initialized');
       return;
     }
     
@@ -89,7 +89,7 @@ export class GameAnalytics {
     this.trackSessionStart();
     
     this.isInitialized = true;
-    this.log('GameAnalytics initialized');
+    this.log('Gamepulse initialized');
     if (this.config.debug) {
       this.log('Config details', 'debug', {
         userId: this.config.userId,
@@ -104,7 +104,7 @@ export class GameAnalytics {
    */
   public trackEvent(event: Omit<AnalyticsEvent, 'event_id' | 'timestamp' | 'session_id' | 'user_id' | 'platform' | 'device_id' | 'app_version' | 'sdk_version'>): void {
     if (!this.isInitialized) {
-      this.log('GameAnalytics not initialized. Call initialize() first.', 'warn');
+      this.log('Gamepulse not initialized. Call initialize() first.', 'warn');
       return;
     }
     
@@ -277,7 +277,7 @@ export class GameAnalytics {
    * Send events to the server
    */
   private async sendEvents(events: AnalyticsEvent[]): Promise<void> {
-    // In a real implementation, this would make an HTTP request to the GameAlytics API
+    // In a real implementation, this would make an HTTP request to the Gamepulse API
     // For now, we'll just log the events
     this.log(`Sending ${events.length} events to ${this.config.endpoint}`, 'debug');
     
@@ -382,7 +382,7 @@ export class GameAnalytics {
     }
     
     const timestamp = new Date().toISOString();
-    const prefix = `[GameAnalytics][${timestamp}]`;
+    const prefix = `[Gamepulse][${timestamp}]`;
     
     if (data) {
       console[level](`${prefix} ${message}`, data);
@@ -393,7 +393,7 @@ export class GameAnalytics {
 }
 
 // Export a singleton instance
-export const gameAnalytics = new GameAnalytics({
+export const gamepulse = new Gamepulse({
   gameKey: '',
   secretKey: '',
   debug: process.env.NODE_ENV === 'development',

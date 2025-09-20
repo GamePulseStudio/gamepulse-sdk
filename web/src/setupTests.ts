@@ -1,4 +1,4 @@
-// Jest setup file for GameAlytics Web SDK tests
+// Jest setup file for Gamepulse Web SDK tests
 
 // Mock fetch for testing
 global.fetch = jest.fn();
