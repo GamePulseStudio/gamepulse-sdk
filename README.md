@@ -1,6 +1,6 @@
 # GamePulse SDK
 
-**Version: 2.0.18**
+**Version: 2.0.26**
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/release/gamepulse/gamepulse-sdk.svg)](https://github.com/gamepulse/gamepulse-sdk/releases)
@@ -55,7 +55,7 @@ gamepulse-sdk/
 ### Android (JitPack)
 ```gradle
 dependencies {
-    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.22'
+    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.26'
 }
 ```
 
@@ -66,7 +66,7 @@ https://github.com/gamepulse/gamepulse-sdk.git?path=unity
 
 ### Web (npm)
 ```bash
-npm install @gamepulse-studio/web-sdk@2.0.22
+npm install @gamepulse-studio/web-sdk@2.0.26
 ```
 
 ## 📊 Usage Examples
@@ -163,7 +163,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🗺️ Roadmap
 
-### Current Version (2.0.18)
+### Current Version (2.0.26)
 - ✅ Android SDK with JitPack distribution
 - ✅ Unity Package Manager support
 - ✅ Web SDK with TypeScript

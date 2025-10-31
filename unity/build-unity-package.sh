@@ -15,9 +15,9 @@ NC='\033[0m' # No Color
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-UNITY_PACKAGE_DIR="$ROOT_DIR/packages/unity-package"
+UNITY_PACKAGE_DIR="$ROOT_DIR/unity"
 BUILD_DIR="$ROOT_DIR/build"
-VERSION="${1:-2.0.16}"
+VERSION="${1:-2.0.26}"
 PACKAGE_NAME="Gamepulse-${VERSION}.unitypackage"
 
 # Unity command line paths (adjust as needed for your system)
@@ -110,12 +110,12 @@ build_with_unity_cli() {
     TEMP_PROJECT="$BUILD_DIR/TempUnityProject"
     OUTPUT_PATH="$BUILD_DIR/$PACKAGE_NAME"
     
-    # Unity command to export package
+    # Unity command to export package (must use correct case: Assets/GamePulse)
     "$UNITY_PATH" \
         -batchmode \
         -quit \
         -projectPath "$TEMP_PROJECT" \
-        -exportPackage "Assets/Gamepulse" "$OUTPUT_PATH" \
+        -exportPackage "Assets/GamePulse" "$OUTPUT_PATH" \
         -logFile "$BUILD_DIR/unity-build.log"
     
     if [ -f "$OUTPUT_PATH" ]; then
@@ -130,45 +130,20 @@ build_with_unity_cli() {
 
 # Function to create package manually (fallback)
 create_package_manually() {
-    echo -e "${BLUE}📦 Creating Unity package manually...${NC}"
-    
-    TEMP_PROJECT="$BUILD_DIR/TempUnityProject"
-    OUTPUT_PATH="$BUILD_DIR/$PACKAGE_NAME"
-    
-    # Create Unity package structure
-    PACKAGE_TEMP="$BUILD_DIR/package_temp"
-    rm -rf "$PACKAGE_TEMP"
-    mkdir -p "$PACKAGE_TEMP"
-    
-    # Copy assets with proper structure
-    cp -r "$TEMP_PROJECT/Assets/Gamepulse" "$PACKAGE_TEMP/"
-    
-    # Create Unity package (simplified tar.gz with Unity structure)
-    cd "$PACKAGE_TEMP"
-    tar -czf "$OUTPUT_PATH" *
-    cd - > /dev/null
-    
-    # Clean up temp
-    rm -rf "$PACKAGE_TEMP"
-    
-    if [ -f "$OUTPUT_PATH" ]; then
-        echo -e "${GREEN}✅ Unity package created manually: $OUTPUT_PATH${NC}"
-        return 0
-    else
-        echo -e "${RED}❌ Failed to create Unity package manually${NC}"
-        return 1
-    fi
+    echo -e "${RED}❌ Manual .unitypackage creation is disabled${NC}"
+    echo -e "${YELLOW}Unity packages must be exported via the Unity Editor CLI to produce a valid format.${NC}"
+    return 1
 }
 
 # Function to validate package structure
 validate_package_structure() {
     echo -e "${BLUE}✅ Validating Unity package structure...${NC}"
     
-    REQUIRED_FILES=(
-        "Assets/Gamepulse/Scripts/Gamepulse.cs"
-        "Assets/Gamepulse/Examples/GamepulseUsageExample.cs"
-        "Assets/Gamepulse/Editor/GamepulsePackageExporter.cs"
-        "Assets/Gamepulse/Documentation/README.md"
+REQUIRED_FILES=(
+        "Assets/GamePulse/Scripts/GamePulse.cs"
+        "Assets/GamePulse/Examples/GameAnalyticsUsageExample.cs"
+        "Assets/GamePulse/Editor/GameAnalyticsPackageExporter.cs"
+        "Assets/GamePulse/Documentation/README.md"
     )
     
     local all_found=true
@@ -303,7 +278,7 @@ show_help() {
     echo "Usage: $0 [VERSION] [OPTIONS]"
     echo ""
     echo "Arguments:"
-echo "  VERSION    Package version (default: 2.0.16)"
+echo "  VERSION    Package version (default: 2.0.26)"
     echo ""
     echo "Examples:"
     echo "  $0                    # Build with default version"

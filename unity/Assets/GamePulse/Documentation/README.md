@@ -44,4 +44,4 @@ Gamepulse.SetUserProperty("premium_user", true);
 
 ---
 
-**Version**: 2.0.16 • **License**: MIT
+**License**: MIT

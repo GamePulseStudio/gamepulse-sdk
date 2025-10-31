@@ -1,6 +1,6 @@
 {
   "name": "@gamepulse-studio/sdk-monorepo",
-  "version": "2.0.22",
+  "version": "2.0.26",
   "description": "GamePulse SDK - Cross-platform analytics for game developers",
   "private": true,
   "workspaces": [

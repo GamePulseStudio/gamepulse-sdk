@@ -25,16 +25,15 @@ jobs:
           echo "🔄 Syncing versions from version.json..."
           node scripts/sync-versions.js
           
-      - name: Create Unity Package
-        run: |
-          cd unity
-          
-          # Create the .unitypackage using Unity's packaging
-          # For now, we'll create a zip file as a .unitypackage (they're the same format)
-          zip -r "Gamepulse-${GITHUB_REF_NAME}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
-          
-          # Move to root for release upload
-          mv "Gamepulse-${GITHUB_REF_NAME}.unitypackage" ../
+      - name: Export Unity Package (.unitypackage)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          projectPath: unity
+          unityVersion: 2021.3.0f1
+          targetPlatform: StandaloneLinux64
+          customParameters: -quit -batchmode -nographics -exportPackage "Assets/GamePulse" "../Gamepulse-${GITHUB_REF_NAME}.unitypackage"
           
       - name: Create Release
         uses: softprops/action-gh-release@v1

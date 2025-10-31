@@ -1,6 +1,6 @@
 # GamePulse Android SDK
 
-Version: **2.0.22**
+Version: **2.0.26**
 
 Cross-platform analytics SDK for Android game developers.
 
@@ -24,7 +24,7 @@ Add the dependency to your app's `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.22'
+implementation 'com.github.gamepulse:gamepulse-sdk:v2.0.26'
 }
 ```
 
@@ -34,12 +34,17 @@ dependencies {
 
 ```java
 import com.gamepulse.sdk.GamePulse;
+import java.util.UUID;
 
 // Initialize in your Application or MainActivity
-GamePulse.init("your-api-key")
-    .withEnvironment(GamePulse.Environment.SANDBOX) // or PRODUCTION
-    .withUserId("unique-user-id")
+GamePulse.UserConfig userConfig = GamePulse.UserConfig.builder()
+    .setSessionId(UUID.randomUUID().toString())
+    .setAnonymous("anon-123") // or .setUserId("unique-user-id")
     .build();
+
+GamePulse.init("your-api-key", GamePulse.Environment.DEVELOPMENT)
+    .userConfig(userConfig)
+    .create(getApplicationContext());
 ```
 
 ### Track Events

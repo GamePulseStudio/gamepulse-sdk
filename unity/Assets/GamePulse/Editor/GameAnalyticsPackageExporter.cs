@@ -46,7 +46,7 @@ namespace Gamepulse.Editor
         {
             EditorUtility.DisplayDialog(
                 "Gamepulse Unity SDK",
-                "Gamepulse Unity SDK v2.0.15\\n\\n" +
+Gamepulse Unity SDK v2.0.26
                 "A comprehensive analytics SDK for Unity games.\n\n" +
                 "Features:\n" +
                 "• Cross-platform support\n" +
@@ -113,7 +113,7 @@ namespace Gamepulse.Editor
             }
 
             // Check example script
-            string exampleScript = "Assets/GamePulse/Examples/GamepulseUsageExample.cs";
+            string exampleScript = "Assets/GamePulse/Examples/GameAnalyticsUsageExample.cs";
             if (File.Exists(exampleScript))
             {
                 report += $"✓ {exampleScript}\n";

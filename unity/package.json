@@ -1,6 +1,6 @@
 {
   "name": "com.gamepulse.unity",
-  "version": "2.0.22",
+  "version": "2.0.26",
   "displayName": "GamePulse SDK",
   "description": "GamePulse SDK for Unity - Cross-platform analytics for game developers",
   "unity": "2020.3",

@@ -6,7 +6,7 @@ This folder contains experimental and in-development features of the GamePulse S
 
 ### iOS SDK (`ios/`)
 - **Status**: Research/Development
-- **Version**: 2.0.18 (experimental)
+- **Version**: 2.0.26 (experimental)
 - **Description**: iOS SDK implementation currently under development
 - **Not ready for**: Production deployment or public distribution
 

@@ -1,6 +1,6 @@
 {
   "name": "@gamepulse-studio/android-sdk",
-  "version": "0.1.0",
+  "version": "2.0.26",
   "description": "GamePulse SDK for Android - Cross-platform analytics for game developers",
   "main": "index.js",
   "scripts": {

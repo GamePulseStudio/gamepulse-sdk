@@ -1,6 +1,6 @@
 # GamePulse Web SDK
 
-Version: **2.0.22**
+Version: **2.0.26**
 
 Cross-platform analytics SDK for web-based games and applications.
 
@@ -15,7 +15,7 @@ npm install @gamepulse-studio/web-sdk
 ### Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@gamepulse-studio/web-sdk@2.0.22/dist/gamepulse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gamepulse-studio/web-sdk@2.0.26/dist/gamepulse.min.js"></script>
 ```
 
 ### Using GitHub Releases

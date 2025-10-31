@@ -54,6 +54,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools: "34.0.0"
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
@@ -170,21 +176,15 @@ jobs:
           echo "🔄 Syncing versions from version.json..."
           node scripts/sync-versions.js
           
-      - name: Create GamePulse Unity Package (.unitypackage)
-        run: |
-          echo "📦 Building GamePulse Unity package from unity/ folder..."
-          cd unity
-          
-          # Verify files exist
-          echo "Checking Unity package structure:"
-          ls -la Assets/GamePulse/
-          find Assets/GamePulse -name "*.cs" -o -name "*.md" | head -10
-          
-          # Create Unity package
-          zip -r "../GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage" Assets/ -x "*.meta~" "*.tmp"
-          
-          # Verify package was created
-          ls -la ../GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage
+      - name: Export Unity Package (.unitypackage)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          projectPath: unity
+          unityVersion: 2021.3.0f1
+          targetPlatform: StandaloneLinux64
+          customParameters: -quit -batchmode -nographics -exportPackage "Assets/GamePulse" "../build/Gamepulse-${{ steps.extract_version.outputs.version }}.unitypackage"
           
       - name: Upload Unity Package to Firebase Storage
         run: |
@@ -194,7 +194,7 @@ jobs:
             ./scripts/upload-to-firebase.sh ${{ steps.extract_version.outputs.version }}
           else
             echo "Firebase not configured, skipping upload"
-            echo "Unity package built: build/GamePulse-${{ steps.extract_version.outputs.version }}.unitypackage"
+            echo "Unity package built: build/Gamepulse-${{ steps.extract_version.outputs.version }}.unitypackage"
           fi
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
@@ -205,7 +205,7 @@ jobs:
         with:
           name: unity-package-artifacts
           path: |
-            GamePulse-*.unitypackage
+            build/Gamepulse-*.unitypackage
 
   publish-npm:
     runs-on: ubuntu-latest
@@ -317,8 +317,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./artifacts/GamePulse-*.unitypackage
-            ./artifacts/GamePulse-*.json
+            ./artifacts/Gamepulse-*.unitypackage
+            ./artifacts/Gamepulse-*.json
           tag_name: ${{ steps.extract_version.outputs.tag_name }}
           name: Release ${{ steps.extract_version.outputs.version }}
           draft: false
